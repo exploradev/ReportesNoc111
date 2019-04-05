@@ -1,0 +1,40 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel='stylesheet' href='../bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet' href='../styles/index.css')
+        link(rel='icon' href='../assets/favicon.ico')
+        title TMK Explora | Login
+    body
+        #containerLogin
+            #brand
+                #logo
+                    img(src="../assets/logo_exp.png", alt="Logotipo Explora Comunicaciones")
+                    #brandname
+                        p EXPLORA
+                        p COMUNICACIONES
+                p T E L E M A R K E T I N G
+            #form             
+                form(class='form' id='form_index' role='form')
+                    .form-group
+                        label Usuario
+                        input(type='text' class='form-control input-sm' id='user' placeholder='john.doe')
+                    .form-group
+                        label Password
+                        input(type='password' class='form-control input-sm' id='password' placeholder='* * * * * *')
+
+                    button.col-md-6(type='button' class='btn btn-default btn-sm' id='submit') Iniciar sesión 
+                    label#loginerr Usuario o contraseña incorrecta
+        #particles-js    
+               
+                
+    
+    script(src='../jquery/dist/jquery.min.js')
+    script(src='../javascripts/md5.js')
+    //script(src='../javascripts/particles.min.js')
+    script(src='../javascripts/index.js')
+    script(src='../bootstrap/dist/js/bootstrap.min.js')
+    
+    

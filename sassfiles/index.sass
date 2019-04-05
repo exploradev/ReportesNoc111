@@ -1,0 +1,109 @@
+//index.sass
+@import _reset
+@import _fonts
+    
+$blackbg: #262626
+$buttonbg: #008B8B
+$buttonbghover: #008080
+$rederror: #CB7171
+
+
+
+body
+    align-items: center
+    background-color: $blackbg
+    background-image: url('../assets/bodybg.png')
+    color: white
+    display: flex
+    font-family: Helvetica
+    height: 100vh
+    justify-content: center
+
+
+input[type=text], input[type=password]
+    border-radius: 3px
+    border: none
+    font-size: 90%
+    height: 27px  
+    padding-top: 7px
+    padding-bottom: 3px
+
+input[type=text]:focus, input[type=password]:focus
+    border: 1px solid $buttonbg
+       
+
+label
+    font-size: 95%
+    
+#brand
+    border-right: 1px solid white
+    display: flex
+    flex-direction: column
+    height: 100%
+    padding-right: 50px
+    text-align: right
+    width: 280px
+    
+
+
+#brand > p
+    font-size: 120%
+    margin-top: 10px    
+
+#brandname
+    font-size: 88%
+    margin-left: 10px
+    text-align: left
+
+#containerLogin
+    display: flex
+    flex-direction: row
+    height: 250px
+    align-items: center
+
+#form
+    margin-left: 50px
+    width: 210px  
+
+#logo 
+    align-items: center
+    display: flex
+    flex-direction: row
+    margin-top: 20%
+    
+
+#logo > img
+    height: 64px
+    width: 87px     
+
+#loginerr
+    color: $rederror
+    font-size: 80%
+    margin-top: 10px    
+    visibility: hidden
+
+#particles-js
+    width: 100%
+    height: 100%
+    overflow: hidden
+    top: 0                      
+    bottom: 0
+    left: 0
+    right: 0
+    position: absolute
+    z-index: -2
+
+#submit
+    background-color: $buttonbg
+    border: none
+    color: white
+    font-size: 85%
+
+#submit:hover
+    background-color: $buttonbghover
+    
+.visible-item
+    visibility: visible !important
+
+.red-border
+    border: 2px solid $rederror !important      

@@ -1,0 +1,491 @@
+@import _reset
+@import _fonts
+
+$rederror: #CB7171
+
+%shadows-flex-containers
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    display: flex
+    justify-content: center
+    width: 100%
+
+
+a
+    color: white
+
+body
+    background-color: #2A2D34
+    display: flex
+    flex-direction: column
+    align-items: center
+    font-family: Helvetica
+    height: 150%
+
+html
+    height: 100%
+
+header
+    @extend %shadows-flex-containers
+    //background-color: black
+    height: 40px
+    font-size: 70%
+    z-index: 4
+
+footer
+    @extend %shadows-flex-containers
+    height: 40px
+    width: 100%
+    position: fixed
+    bottom: 0
+    background-color: #383C45
+    color: white
+    font-size: 70%
+
+
+
+.maincontainer
+    min-width: 1200px
+    max-width: 1200px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+    height: 100%
+
+
+#brand
+
+    display: flex
+    flex-direction: column
+    height: 100%
+    text-align: right
+    width: auto
+
+
+
+#brand > p
+    margin-top: 15px
+
+#brandname
+    color: white
+    font-size: 90%
+    margin-left: 10px
+    text-align: left
+
+#logo
+    align-items: center
+    display: flex
+    flex-direction: row
+    height: 100%
+    align-items: center
+
+
+
+#logo > img
+    height: 30px
+    width: 40px
+
+#userlogout
+
+    img
+        height: 14px
+        width: 30px
+
+
+    p
+        font-size: 100%
+
+    a
+        display: flex
+        flex-direction: row
+        align-items: center
+        &:hover
+            color: $rederror
+            text-decoration: none
+
+
+// MAIN SECTION -------------------------------------
+
+.sides
+    height: 100%
+    width: 49.5%
+    color: white
+    font-size: 85%
+    padding: 10px
+   
+
+
+#bigbody
+    
+    display: flex
+    justify-content: space-between
+    
+
+// SIDE SECTION-------------------------------------
+//
+#bigboxred
+    color: #F08787
+#bigboxgreen
+    color: #AFFFB2
+.sectiontitle
+    border: 1px solid #707070
+    background-color: #191A1E
+    height: 30px
+    display: flex
+    padding-left: 20px
+    align-items: center
+    margin-top: 15px
+
+.containercounters
+    width: 100%
+    margin-top: 15px
+    height: 130px
+    display: flex
+    justify-content: space-between
+
+.bigbox
+
+    height: 100%
+    width: 30%
+    background-color: #383C45
+    display: flex
+    flex-direction: column
+
+.boxtitle
+    width: 100%
+    background-color: #32363F
+    height: 30px !important
+    display: flex
+    align-items: center
+    padding-left: 15px
+    justify-content: space-between
+
+.bigboxbody
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 400%
+    height: 100%
+
+// LONG DASHBOARD SECTION-------------------------------------
+
+.longrect
+    background-color: #383C45
+    height: 125px
+    margin-top: 15px
+    display: flex
+    flex-direction: column
+
+
+.longrectbody
+    font-family: HelveticaNeueST
+    display: flex
+    flex-direction: row
+    height: 100%
+    justify-content: space-between
+    align-items: center
+    padding: 20px
+
+.longrectitem
+    text-align: center
+
+.lr_number
+    font-size: 200%
+
+// SMALL BOXES SECTION
+// container del mediumbox del lado izquierdo abajo
+.containermedbox_leftbottom
+    width: 100%
+    margin-top: 15px
+    height: 125px
+    display: flex
+    //se agrega margin left a los .mediumbox para evitar que se junten
+    justify-content: flex-start
+
+.mediumbox
+    height: 100%
+    width: 30%
+    background-color: #383C45
+    display: flex
+    flex-direction: column
+    //se agrega por el flex-start
+    margin-right: 20px
+
+.mediumboxbody
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 300%
+    height: 100%
+
+
+//LADO DERECHO --------------------------------------------
+//LADO DERECHO --------------------------------------------
+
+.graphsection
+    background-color: #383C45
+    margin-top: 15px
+    height: 410px
+    display: flex
+    flex-direction: column
+
+
+.containermonthgraph
+    height: 100%
+    display: flex
+   
+    flex-direction: column
+
+.childcontainermonthgraph
+    
+    height: 50%
+    padding: 10px
+
+
+//TOPS TEN
+
+.chartsectioncontainer
+    margin-top: 15px
+    height: auto
+    display: flex
+    justify-content: space-between
+
+.chartsection
+    height: auto
+    display: flex
+    flex-direction: column
+    width: 49%
+
+.chartbody
+    height: auto
+    background-color: #383C45
+
+
+//graph ids
+
+#highchart_main
+  
+    height: 100%
+#titlesblue
+    color: #5DA4E2
+    font-family: HelveticaNeueST
+#titlesred
+    color: #F08787
+    font-family: HelveticaNeueST
+
+#tbody_topactivadores, #tbody_topbajaparticipacion
+    font-size: 75%
+
+
+
+//-------------------------------------------------------------------------- 
+//---------------------CONNECTIONS SECTION----------------------------------    
+//-------------------------------------------------------------------------- 
+
+.bodytableconnections
+    background-color: #383C45
+    min-height: 100px
+    margin-bottom: 100px
+
+.containertableconnections
+    margin-top: 15px
+    
+
+.tableconnections
+    width: 100%
+    color: white
+    align-self: flex-start
+    font-size: 85%
+
+#bigbodyconnections
+    height: 100%
+    display: flex
+    justify-content: space-between
+    padding-bottom: 100px
+
+#contadorconexionestabla
+    color: #5DA4E2  
+
+#tbody_tableconnections
+    text-align: center
+    
+    font-size: 80%  
+
+    tr
+        td:first-child
+            text-align: left
+
+    
+
+#table_connections
+    text-align: center
+    
+    tr
+        td:first-child
+            text-align: left
+
+
+#updateConnectionsNow
+    height: 22px
+    width: 22px
+    margin-right: 10px
+    animation: spin 5s linear infinite
+    animation-play-state: paused
+
+    &:hover
+        cursor: pointer
+        animation-play-state: running
+
+@keyframes spin 
+    100% 
+        transform: rotate(-1turn)
+
+
+table.table-bordered2  tr > td
+    border: 1px solid #2A2D34
+
+table.table-bordered2 > thead
+    color: #5DA4E2 
+    
+//FOOTER SECTION -------------------------------------------------
+
+#contadorconexioneslinkdashboard
+    color: #AFFFB2
+#linkfooterdashboard, #linkfooterconexiones, #linkfootercorrecciones
+    &:hover
+        color: #5DA4E2
+        cursor: pointer
+        
+
+//-------------------------------------------------------------------------- 
+//---------------------CORRECTIONS SECTION----------------------------------    
+//-------------------------------------------------------------------------- 
+
+
+.rows_correcciones
+    cursor: pointer
+#contadorcorreccionestabla, #contadorcorreccioneslinkdashboard
+    color: orange
+#table_corrections
+    font-size: 70%
+    thead
+        color: orange
+
+//DISPLAY GRID DE DETALLES DE CAPTURAS
+
+p.headertitle
+    color: orange
+    font-family: Helvetica
+    font-size: 100%
+    margin-bottom: 10px
+
+    & ~ p
+        font-size: 100%
+        color: grey
+        span
+            font-size: 100%
+            color: white
+
+
+#detailscontent 
+    display: grid
+    grid-template-columns: 33% 33% 33%
+    grid-template-rows: 33% 33% 33%
+    grid-template-areas: "datosplan datospersonales domicilio" "datoslaborales referencias referencias"
+    grid-row-gap: 20px
+    width: 75%
+
+.confr1c1
+    grid-area: datosplan 
+.confr1c2
+    grid-area: datospersonales
+.confr1c3
+    grid-area: domicilio
+.confr2c1
+    grid-area: datoslaborales
+.confr2c2
+    grid-area: referencias    
+
+//PANEL DE DETALLES
+
+//panel de detallado de solicitudes ------------------------------------------------------------
+//El display: grid hereda de la pestaña de confirmar captura del modal de activaciones
+#bigbodycorrections
+    //position: relative
+
+#closePanelDetails
+    margin-top: -7px !important  
+    margin-right: 10px 
+    
+#detailscontent
+    color: white
+    margin-top: 50px
+    width: 100% !important
+    display: grid
+    justify-content: center  
+    padding-left: 50px
+    padding-right: 50px
+#details_obs
+    color: white
+    padding-left: 50px
+    padding-right: 50px
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+
+    p
+        margin-bottom: 10px
+
+
+
+
+#panelContainerDetails
+    border: 1px solid grey
+    border-radius: 5px
+    background-color: #383C45
+    height: 600px
+    width: 900px
+    position: fixed
+    top: 50%
+    left: 50%
+    z-index: 50000
+    font-size: 70%
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    transform: translate(-50%, -50%)
+
+
+#panelDetailsTitle
+    display: flex
+    flex-direction: row
+    height: 37px
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    align-items: flex-start
+    justify-content: space-between
+    padding-left: 20px
+    padding-top: 15px
+    color: white
+    
+
+.buttons-events
+    height: 18px 
+    width: 18px
+
+#closePanelDetails
+    cursor: pointer
+
+#overlay-back
+    position: fixed
+    width: 100%
+    height: 100%
+    visibility: hidden
+    top: 0
+    left: 0
+    z-index: 49000
+    background-color: rgba(0, 0, 0, 0.5)
+    filter: blur(5px) !important
+    
+
+
+
+
+//FIN PANEL DE DETALLES

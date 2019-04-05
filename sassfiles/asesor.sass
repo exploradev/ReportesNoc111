@@ -1,0 +1,940 @@
+// asesor.sass
+
+@import _reset
+@import _fonts
+
+$rederror: #CB7171
+$borderbottom: #1B99ED
+$from: #5996D3
+$to: #030641
+
+@mixin linear-gradient($from, $to) 
+    background: $from
+    background: -moz-linear-gradient(right, $from 0%, $to 100%)
+    background: -webkit-gradient(right, left top, left bottom, color-stop(0%,$from), color-stop(100%,$to))
+    background: -webkit-linear-gradient(right, $from 0%,$to 100%)
+    background: -o-linear-gradient(right, $from 0%,$to 100%)
+    background: linear-gradient(to right, $from 0%,$to 100%)
+	
+
+
+%shadows-flex-containers
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    display: flex
+    justify-content: center
+    width: 100%
+    
+a
+    color: grey
+body
+    display: flex
+    flex-direction: column
+    align-items: center
+    font-family: Helvetica
+    
+
+thead
+    font-weight: bold
+    border-bottom: 1px solid #dddddd
+
+.maincontainer
+    min-width: 1200px
+    max-width: 1200px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+    height: 100%
+    
+    
+
+//header section
+
+header, #statusbar
+    position: fixed
+    background-color: white
+header
+    @extend %shadows-flex-containers
+    height: 60px
+    font-size: 70%
+    z-index: 4
+
+.notificationicon
+    height: 18px
+    width: 18px
+
+#brand
+    border-right: 1px solid white
+    display: flex
+    flex-direction: column
+    height: 100%
+    text-align: right
+    width: auto
+    
+
+
+#brand > p
+   
+    margin-top: 10px    
+
+#brandname
+    color: gray
+    font-size: 90%
+    margin-left: 10px
+    text-align: left
+
+#buttonsection
+    display: flex
+    align-items: center
+
+#logo 
+    align-items: center
+    display: flex
+    flex-direction: row
+    height: 100%
+    align-items: center
+
+    
+
+#logo > img
+    height: 30px
+    width: 40px 
+
+#menu
+    height: 100%  
+    width: 150px
+
+#menuitems
+    display: flex
+    flex-direction: row 
+    font-size: 90%
+    height: inherit
+    align-items: center
+    justify-content: space-around
+
+%menu-styles
+    box-sizing: border-box
+    display: flex
+    height: 100%
+    align-items: center
+
+#dashboard
+    border-bottom: 2px solid #1B99ED 
+    @extend %menu-styles 
+    
+    
+
+#historico
+    border-bottom: 3px solid white
+    @extend %menu-styles
+
+#historico:hover
+    border-bottom: 2px solid #1B99ED
+    @extend %menu-styles
+
+
+
+#userlogout
+
+    img
+        height: 14px
+        width: 30px
+        
+    
+    p
+        font-size: 100%
+
+    a
+        display: flex
+        flex-direction: row
+        align-items: center
+        &:hover
+            color: $rederror
+            text-decoration: none
+            
+#sectionnotifications
+    display: flex
+    align-items: center   
+    & > img
+        margin-left: 15px
+    font-size: 80%
+    font-style: bold
+
+    & > p
+        margin-left: 3px
+
+    & > p:last-child
+        margin-right: 20px
+//statusbar section
+
+#capturanormalmodalbtn
+    margin-left: 10px
+#statusbar
+    @extend %shadows-flex-containers
+    height: 35px
+    z-index: 3
+    top: 60px
+    
+
+#sectionname
+    color: grey
+    font-size: 65%
+
+.btn-capturas, .btn-domicilio
+    color: gray
+    font-size: 70%
+    padding-top: 7px
+    width: 150px
+    
+
+
+//chartsbar section
+
+th
+    text-align: center
+    border-bottom: 1px solid #ddd
+
+#tableone, #tabletwo
+    tbody
+        tr:hover
+            color: black
+
+
+
+%config-box-inchartbar
+    color: white
+    height: 250px 
+    width: 370px
+    font-size: 80%
+    padding: 0px 20px 0px 20px
+
+
+
+#activasbar
+    background-color: #E86B3D
+    border-radius: 0px 5px 5px 0px
+    position: absolute
+    height: 28px
+    z-index: 200
+
+#bar
+    display: flex
+    align-items: center
+
+#capturasbar
+    background-color: #E6AF9B
+    border-radius: 0px 5px 5px 0px
+    position: absolute
+    height: 28px
+    z-index: 100
+    
+
+#chartsbar
+    @extend %shadows-flex-containers
+    @include linear-gradient($from, $to)
+    height: 300px
+    margin-top: 94px
+
+#caption
+    margin-top: 20px
+
+#graphicsection
+    margin-top: 60px
+
+#hexagon
+    height: 60px
+    width: 61px
+    background-image: url("../assets/hexagon.svg")
+    background-size: 57px
+    font-size: 90%
+    display: flex
+    justify-content: center
+    align-items: center
+
+#minidashboard, #tableone, #tabletwo
+    @extend %config-box-inchartbar
+
+#mainbar
+    border-radius: 0px 5px 5px 0px
+    border: 1px solid white
+    background-color: white
+    height: 30px
+    width: 300px
+
+#numbersection
+    display: flex
+    justify-content: space-between
+    border-bottom: 1px solid white
+    padding-bottom: 20px
+#lineasactivadas, #capturasrealizadas
+    font-size: 250%
+
+#tableone > table, #tabletwo > table
+    width: 100%
+
+.statistics, #graphicsection
+    text-align: center 
+
+//tables section
+
+#agenda
+    width: 49%
+    height: 400px
+    
+#borradores
+    width: 50%
+    height: 400px   
+    //overflow-y: scroll
+
+
+
+#tables-row1, #tables-row2
+    display: flex
+    justify-content: space-between
+    width: 100%
+
+#tables-row2
+    margin-bottom: 30px
+    
+
+    
+
+#tablessection 
+    background-image: url('../assets/bgbodytable2.png')
+    background-repeat: repeat
+    display: flex
+    justify-content: center
+    width: 100%
+
+
+#tablacapturas
+    width: 100%
+    height: 648px
+    //overflow-y: auto
+    //overflow-x: auto
+
+#correcciones
+    width: 100%
+    height: 648px
+    //overflow-y: scroll
+    
+    
+#tabladomicilio
+    width: 100%
+    height: 648px
+    //overflow-y: scroll
+    
+
+
+
+#parentflextables
+    display: flex
+    flex-direction: column
+    width: 100%
+
+
+%activeandhover_breadcrumbs
+    background-color: $to
+    border: 1px solid $to 
+    border-radius: 20px   
+    color: white !important
+    padding: 5px 8px 5px 8px
+    
+    
+
+.active_breadcrumb
+    @extend %activeandhover_breadcrumbs
+
+.breadcrumbs 
+    border: 1px solid white 
+    border-radius: 20px   
+    padding: 5px 8px 5px 8px
+    margin-right: 10px
+    
+.divider_breadcrumbs
+    color: $to
+    font-weight: bold
+.option_breadcrumbs
+    color: grey
+    border: 1px solid #ddd
+    &:hover
+        @extend %activeandhover_breadcrumbs
+        cursor: pointer
+.tablesection
+    background-color: white
+    border: 1px solid #95989A
+    border-radius: 3px
+    margin-top: 30px
+    position: relative
+
+.tableheader
+    display: flex
+    align-items: center
+    font-size: 70%
+    height: 35px
+    padding-left: 10px
+    position: absolute
+    width: 100%
+    
+.tabletitles
+    //border: 2px solid orange
+    height: 28px
+    
+    td
+        font-size: 80%
+    margin-top: 36px
+    
+.tabletitles1
+    height: 363px
+    overflow-y: auto
+.tabletitles2
+    height: 610px
+    overflow-y: auto
+
+.shadow-border
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+
+
+//panel de detallado de solicitudes ------------------------------------------------------------
+//El display: grid hereda de la pestaña de confirmar captura del modal de activaciones
+
+#closePanelDetails
+    margin-top: -7px !important  
+    margin-right: 10px 
+    
+#detailscontent
+    margin-top: 50px
+    width: 100% !important
+    display: flex
+    justify-content: center  
+    padding-left: 50px
+
+#details_obs
+    padding-left: 50px
+    padding-right: 50px
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+
+    #showmodalforcorrection
+        margin-top: 15px
+
+    p
+        margin-bottom: 10px
+
+#overlay-back 
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 250%
+    background: #000
+    opacity: 0.6
+    filter: alpha(opacity=60)
+    z-index: 49999
+    display: none
+
+
+#panelContainerDetails
+    //border: 1px solid black
+    border-radius: 5px
+    background-color: white
+    height: 700px
+    width: 900px
+    position: fixed
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    z-index: 50000
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+
+#panelDetailsTitle
+    display: flex
+    flex-direction: row
+    height: 37px
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    align-items: flex-start
+    justify-content: space-between
+    padding-left: 20px
+    padding-top: 15px
+
+.buttons-events
+    height: 18px 
+    width: 18px
+
+.rows_capturas, #closePanelDetails, .rows_borrador, .rows_correcciones, .rows_agenda, .rows_domicilio
+    cursor: pointer
+
+//modal domicilio ------------------------------------------------------------ --
+
+//contenedor del header del modal con background
+.headercontainer_mdom
+    background-image: url("../assets/modalheaderbg.png")
+    background-size: cover
+    padding: 15px
+    
+//contenedor del cuerpo del modal con padding
+.bodycontainer_mdom
+    padding: 0px 15px 0px 15px
+
+//contenedor GLOBAL DEL MODAL
+.container_modaldomicilio 
+    background-color: #F7F7F7
+    border-radius: 3px
+    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
+    position: fixed
+    //padding: 15px
+    overflow-y: scroll
+    top: 50%
+    left: 50%
+    width: 800px
+    min-height: 650px
+    max-height: 90vh
+    z-index: 50000
+    transform: translate(-50%, -50%)
+    
+.mdom_header
+    color: white
+    width: 100%
+    height: 60px
+    font-size: 80%
+    
+.mdom_titlesec
+    
+    height: 20px
+    margin-top: 20px
+    font-size: 80%
+    font-weight: bold
+
+.mdom_datacontainer
+    background-color: white
+    border-radius: 3px
+    height: auto
+    grid-row-gap: 15px
+    padding: 10px
+
+    p
+        font-size: 75%
+
+
+.value_mdom
+    font-weight: bold
+
+
+
+#mdom_container_idexit
+    display: flex
+    justify-content: space-between
+//--------------
+#mdom_entrega 
+    display: grid
+    grid-template-columns: 180px 180px  180px auto auto auto
+    grid-template-rows: auto auto auto auto
+
+.item4_entrega
+    grid-column: 4 / 7
+.item6_entrega
+    grid-column: 2 / 7
+.item9_entrega
+    grid-column: 3 / 7
+//----------------------
+#mdom_tramite 
+    display: grid
+    grid-template-columns: 180px 180px 180px auto auto auto
+    grid-template-rows: auto auto auto
+
+.item9_tramite
+    grid-column: 3 / 7
+.item12_tramite
+    grid-column: 3 / 7
+.item13_tramite
+    grid-column: 1 / 3
+.item14_tramite
+    grid-column: 3 / 7
+//----------------------
+#mdom_complementarios 
+    display: grid
+    grid-template-columns: 180px 180px  180px auto auto auto
+    grid-template-rows: auto auto
+
+.item4_complementarios
+    grid-column: 4 / 7
+.item7_complementarios
+    grid-column: 3 / 7
+
+.label_grid
+    font-weight: bold
+    font-size: 75%
+
+//-------------------------------------------fin de grid system
+    //----------------------
+#mdom_observaciones
+    min-height: 100px
+    
+    margin-bottom: 50px
+    
+
+#mdom_closebutton
+    cursor: pointer
+
+
+//MENSAJES
+.comments_mdom
+    
+    padding: 5px 15px 5px 15px
+    
+.asesorlb_mdom
+    font-size: 80%
+    font-weight: bold 
+.fechalb_mdom
+    font-size: 70%
+    color: grey
+.mensajelb_mdom
+    font-size: 80%
+   
+//modal -------------------------------------------------------------------------
+
+label.col-md-4.col-xs-4
+    font-size: 70%
+%defaults-menubar-modal    
+    border: 1px solid #e5e5e5
+    color: #95989A
+    display: flex
+    font-size: 75%
+    
+    align-items: center
+    padding: 2px
+    width: 250px
+
+.addMarginSelect2
+    margin-left: 68px
+
+.body_containerform 
+    margin-left: 150px
+
+
+
+.col-md-4.col-xs-4
+    text-align: right
+    
+    
+
+input[type="radio"]
+    display: none
+
+    &:checked + .box
+        border: 2px solid #13A9E0 
+        color: black
+
+input[type=textarea]
+    width: 535px !important
+
+img.modalfooterimg
+    heigh: 20px
+    width: 20px
+
+#body-form, #body-form2
+    background-color: #F8F8F8
+    display: flex
+    justify-content: center
+    height: 550px
+    width: 100%
+    
+
+#container_linktab
+    display: grid
+    grid-template-rows: auto auto auto auto auto auto
+
+#container_linktab2
+    display: grid
+    grid-template-rows: auto auto auto
+
+//gridsystem
+#containerconfirmardatos, #detailscontent //panel de detalles en tablas
+    
+    display: grid
+    grid-template-columns: 33% 33% 33%
+    grid-template-rows: 33% 33% 33%
+    grid-template-areas: "datosplan datospersonales domicilio" "datoslaborales referencias referencias"
+    grid-row-gap: 20px
+    width: 75%
+
+#containerobservaciones, #containerobservaciones2
+    
+    p#generarcomentario
+        color: #13A9E0
+        cursor: pointer
+        font-size: 80%
+        margin-top: 20px
+
+#containerobservaciones2
+    margin-top: 50px
+
+
+#containerconfirmardatos2
+    display: grid
+    grid-template-columns: 30% 50%
+    grid-template-rows: 100%
+    grid-row-gap: 20px
+    grid-template-areas: "datosplan datospersonales"
+    
+
+#datosdelplan, #domiciliocliente, #datoslaborales, #referenciasbtn, #confirmarcaptura, #datospersonales
+    @extend %defaults-menubar-modal
+
+#datosparaentrega, #datosdeltramite, #confirmarprospecto
+    @extend %defaults-menubar-modal
+
+#form-flexcontainer, #form-flexcontainer2
+    flex-grow: 1
+
+
+#secondrow_referencias
+    margin-top: 50px
+    
+//maquetacion
+
+
+.selectplan
+    font-size: 75%
+
+.select2-selection__rendered
+    font-size: 75%
+
+.select2-has-success
+    border-color: green !important
+
+.select2-has-error
+    border-color: #a94442 !important
+
+
+
+//gridsystem modal areas
+
+.confr1c1
+    grid-area: datosplan 
+.confr1c2
+    grid-area: datospersonales
+.confr1c3
+    grid-area: domicilio
+.confr2c1
+    grid-area: datoslaborales
+.confr2c2
+    grid-area: referencias
+.box
+    background-color: white
+    border: 1px solid #BFBFBF
+    border-radius: 5px
+    color: grey
+    display: flex
+    font-size: 70%
+    margin-left: 5px
+    justify-content: center
+    align-items: center
+    width: 120px
+    height: 35px
+    
+
+.modal-body
+    display: flex
+    overflow: hidden
+    
+.modal-footer
+    display: flex
+    justify-content: flex-end
+    padding: 5px
+    button
+        display: flex
+        align-items: center
+
+  
+    
+.linktab
+    //border-bottom: 2px solid white !important
+    height: auto
+    &:hover
+        background-color: #F8F8F8
+        color: #13A9E0 !important
+        cursor: pointer
+        
+    p
+        margin-left: 35px
+
+
+.linktabactive
+    color: #13A9E0 !important
+    
+
+.labelplan
+    margin-left: 20px !important
+    font-size:  70%
+.labelplandom
+    font-size:  70%
+
+    //modal form
+
+input[type=textarea]
+    color: black !important
+    padding-left: 10px !important
+
+p.headertitle
+    color: grey
+    font-family: Helvetica
+    font-size: 75%
+    margin-bottom: 10px
+
+    & ~ p
+        font-size: 85%
+        
+        span
+            font-size: 90%
+            font-family: Helvetica
+            font-weight: bold
+
+.forcemarginrow
+    margin-left: 0px
+     
+
+.form-container
+    width: 100%
+    
+.form-group
+    //width: 800px
+    display: flex !important
+    align-items: center
+    
+.form-title
+    display: flex
+    justify-content: center
+    width: 100%
+
+    p
+        border-bottom: 1px solid black
+        margin-top: 20px
+.form-body
+    width: 100%
+    
+    margin-top: 50px
+
+.form-inline
+    margin-top: 10px
+    width: 80%
+
+
+
+.modal
+    font-family: Helvetica
+.modal-body
+    padding: 0px
+
+.modal-header
+    background-image: url("../assets/modalheaderbg.png")
+    background-size: cover
+    font-family: Helvetica
+    font-weight: bold
+    color: white
+    font-size: 90%
+    height: 70px
+
+
+.modal-dialog
+    width: 1100px
+    
+
+.form-control
+    width: 200px !important
+
+
+
+.questionmark
+    height: 12px
+    width: 12px
+    margin-left: 10px
+
+.popover-title
+    color: black
+
+.titulo_referenciaform
+    text-align: center
+    margin-bottom: 5px
+
+.well.msginmodal
+    width: 600px
+    margin-left: 124px
+    margin-top: 50px
+    font-size: 80%
+    display: flex
+    
+    p
+        margin-left: 10px
+        color: #9C9C9C
+
+//problemas con la maquetacion del select2 corregidos con los siguientes estilos
+#select2-selectplan-container
+    width: 200px
+   
+//PANEL DETAILS
+//AGENDA
+
+#date_agenda, #cac_agenda, #save_agenda
+    margin-left: 5px
+    height: 30px
+    width: 125px
+
+.datetimepicker
+    cursor: pointer
+.xdsoft_datetimepicker
+    z-index: 60000 !important
+
+//ESTILOS PARA EL RECORDATORIO
+#recordatorio
+    position: absolute
+    top: 80px
+    left: 730px
+    width: 325px
+    display: flex
+    align-items: center
+    flex-direction: column
+
+    p
+        align-self: flex-start
+        font-size: 80%
+        margin-top: 8px
+    
+#recordatorio_titulo
+    display: flex
+    align-content: center
+    color: $rederror
+    img
+        height: 15px
+
+#resetall_domicilio
+    width: 90px
+    //border: 1px solid red
+    color: red
+    &:hover
+        color: $rederror
+        cursor: pointer
+
+.parent_searchfield
+    justify-self: flex-end !important
+    
+.searchfield_tablasrow2
+    height: 25px
+    border-radius: 5px
+    border: 1px solid #dddddd
+    appearance: none
+    padding-left: 8px
+
+.has-success > .successimage
+    display: block !important
+    
+
+.has-error > .errorimage
+    display: block !important
+
+.errorimage, .successimage
+    height: 15px 
+    margin-left: 5px
+    img
+        margin-top: -5px

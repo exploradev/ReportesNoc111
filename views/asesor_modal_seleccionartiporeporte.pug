@@ -1,0 +1,31 @@
+#asesor_modal_seleccionartiporeporte
+    .container_modal
+        .header_modal
+            span NUEVO REPORTE
+            span X
+        
+        .body_modal#bodymodal_seleccionartiporeporte
+            label Número Telefónico
+            input#input_numerotiporeporte(type="text", name="input_numerotiporeporte" placeholder='Número telefónico')
+            #contenedor_tablaopciones
+                .tiporeporte_opcion#opcion_uno
+                    p ACLARACIONES
+                .tiporeporte_opcion#opcion_dos
+                    p AFECTACIÓN GENERAL 
+                .tiporeporte_opcion#opcion_tres
+                    p CALIDAD EN EL SERVICIO / COBERTURA
+                .tiporeporte_opcion#opcion_cuatro
+                    p CAMBIO DE ICCID
+                .tiporeporte_opcion#opcion_cinco
+                    p LLAMADAS / SMS
+                .tiporeporte_opcion#opcion_seis
+                    p FALLA EN NAVEGACIÓN
+                .tiporeporte_opcion#opcion_siete
+                    p FALLA EN RECARGAS
+                .tiporeporte_opcion#opcion_ocho
+                    p PROMOCIONES
+                .tiporeporte_opcion#opcion_nueve    
+                    p ALTAS O BAJAS DE SERVICIOS
+            #mensajeerror_tiporeporte(style='visibility:hidden')
+                p YA EXISTE UN REPORTE DE ESTE NÚMERO
+            button#btn_cancelartiporeporte CANCELAR

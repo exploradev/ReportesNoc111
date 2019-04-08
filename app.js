@@ -12,8 +12,8 @@ app.use(function (req, res, next) {
 });
 //FIN DE NO CACHE
 
-var server = app.listen(4040, function(){
-  console.log('TMK running port 4040');
+var server = app.listen(2264, function(){
+  console.log('Explora264 running port 2264');
 });
 
 var io = require('socket.io').listen(server);
@@ -35,11 +35,10 @@ app.use(session({
   }
 }));
 
-require('./modules/custom_routes_analista')(app, io);
-require('./modules/custom_routes_supervisor')(app, io);
-require('./modules/custom_routes_cerrador')(app, io);
+require('./modules/custom_routes_coordinador')(app, io);
+require('./modules/custom_routes_super')(app, io);
+require('./modules/custom_routes_noc')(app, io);
 require('./modules/custom_routes_dashboard')(app, io);
-require('./modules/custom_routes_domicilio')(app, io);
 require('./modules/custom_routes_sesiones')(app, io);
 require('./modules/custom_routes_websockets')(app, io);
 require('./modules/custom_routes_asesor')(app,io);

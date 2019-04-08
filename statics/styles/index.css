@@ -51,30 +51,47 @@ table {
   src: url(../assets/HelveticaNeueBold.otf); }
 body {
   align-items: center;
-  background-color: #262626;
-  background-image: url("../assets/bodybg.png");
-  color: white;
+  color: #3F4658;
   display: flex;
   font-family: Helvetica;
   height: 100vh;
-  justify-content: center; }
+  justify-content: center;
+  position: relative; }
+
+body::after {
+  content: "";
+  background-color: rgba(243, 244, 249, 0.9);
+  background-image: url("../assets/bodybg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; }
 
 input[type=text], input[type=password] {
   border-radius: 3px;
-  border: none;
+  border: 1px solid #3F4658;
   font-size: 90%;
   height: 27px;
   padding-top: 7px;
   padding-bottom: 3px; }
 
+input[type=text] {
+  padding-top: 3px; }
+
 input[type=text]:focus, input[type=password]:focus {
-  border: 1px solid #008B8B; }
+  border: 1px solid #3F4658; }
 
 label {
   font-size: 95%; }
 
 #brand {
-  border-right: 1px solid white;
+  border-right: 1px solid #3F4658;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -129,13 +146,13 @@ label {
   z-index: -2; }
 
 #submit {
-  background-color: #008B8B;
+  background-color: #3F4658;
   border: none;
   color: white;
   font-size: 85%; }
 
 #submit:hover {
-  background-color: #008080; }
+  background-color: #3F4658; }
 
 .visible-item {
   visibility: visible !important; }

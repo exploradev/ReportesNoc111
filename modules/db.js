@@ -6,9 +6,9 @@ function connectDatabase() {
         db = mysql.createPool({
             connectionLimit: 1000,
             host: 'localhost',
-            user: 'exploratmk', password: '3.1415927',
+            user: 'explora264', password: '3.1415927',
             //user: 'root', password: 'root',
-            database: 'exploratmk'
+            database: 'Explora264'
         });
     }
     return db;

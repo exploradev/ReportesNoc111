@@ -6,7 +6,7 @@ $(document).ready(function(){
     //-------------------------------WEBSOCKETS------------------------------
     //-----------------------------------------------------------------------
 
-    socket = io.connect('http://192.168.3.62');
+    //socket = io.connect('http://192.168.3.62');
     //var socket = io.connect('http://10.162.45.20:4040');
     //var socket = io.connect('http://localhost:4040');
     //var socket = io.connect('http://192.168.1.69:4040');

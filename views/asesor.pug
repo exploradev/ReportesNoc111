@@ -1,0 +1,68 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel='stylesheet' href='../bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet' href='../styles/asesor.css')
+        // link(rel="stylesheet", href="../styles/animate.css")
+        link(rel="stylesheet", href="../styles/select2.css")
+        link(rel="stylesheet", href="../styles/datetimepicker.css")
+        link(rel='icon' href='../assets/favicon.ico')
+        
+        title= "*264 | " + name
+    body.modal-open(data-rol=rol)
+
+        
+        
+
+        header
+            .maincontainer
+                    #brand
+                        #logo
+                            img(src="../assets/logo_exp.png", alt="Logotipo Explora Comunicaciones")
+                            #brandname
+                                p EXPLORA
+                                p COMUNICACIONES
+                    
+                    #userlogout
+                        a(href="/logout") 
+                            p#asesorname(data-name=name)= name
+                            img(src="../assets/logoff.png", alt="")
+                            
+        #statusbar
+            .maincontainer  
+                    #sectionname
+                        p ASESOR *264  
+
+        #containersearchbox
+             .maincontainer
+                #container_buscador       
+                    #titulo_buscador BUSCAR REPORTE POR NUMERO O FOLIO
+                    input#input_buscador(type='text' placeholder='Número o folio')
+                    button#btn_buscador Buscar
+                    .divider
+                    button#btn_nuevoreporte Nuevo Reporte
+        
+        include asesor_modal_reportesdisponibles
+        include asesor_modal_seleccionartiporeporte
+        
+        
+       
+            
+        #overlay-back       
+    
+    script(src='../jquery/dist/jquery.min.js')
+    script(src='../javascripts/datetimepicker.js')
+    script(src='../javascripts/socket.io.js')
+    script(src='../javascripts/asesor_helpers.js')
+    script(src='../javascripts/asesor_tablas.js')
+    script(src='../javascripts/asesor_validacion.js')
+    script(src='../javascripts/asesor_ajax.js')
+    script(src='../javascripts/asesor.js')
+    script(src='../bootstrap/dist/js/bootstrap.min.js')
+    script(src='../javascripts/select2.js')
+    script(src='../javascripts/clipboard.min.js')
+    
+    
+    

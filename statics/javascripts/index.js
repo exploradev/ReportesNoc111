@@ -39,17 +39,13 @@ $(document).ready(function(){
         $.post('/login', { user: user, password: password }, function (response) {
             if (response == 'asesor') {
                 location.href = '/asesor';
-            } else if (response == 'analista') {
-                location.href = '/analista';
+            } else if (response == 'noc') {
+                location.href = '/noc';
             } else if (response == 'supervisor') {
                 location.href = '/supervisor';
-            } else if (response == 'cerrador') {
-                location.href = '/cerrador';
-            } else if (response == 'dashboard') {
-                location.href = '/dashboard';
-            } else if (response == 'domicilio') {
-                location.href = '/domicilio';
-            } 
+            } else if (response == 'coordinador') {
+                location.href = '/coordinador';
+            }
         
         else {
                 $('#loginerr').addClass('visible-item').fadeOut('fast').fadeIn('fast');

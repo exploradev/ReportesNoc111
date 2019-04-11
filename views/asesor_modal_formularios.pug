@@ -1,0 +1,16 @@
+#asesor_modal_formularios
+    .container_modal
+        .header_modal
+            span NUEVO REPORTE
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
+        .subheader_modal
+            p#captura_tipo Aclaraciones
+        .body_modal#body_modalformularios
+            #container_modalformularios_cobertura
+                include body_modal_capturacobertura
+                include body_modal_capturaaclaraciones
+        .footer_modal#footer_modal_capturas
+            #container_footermodal_captura_cobertura
+                include botones_footer_cobertura
+                include botones_footer_aclaraciones

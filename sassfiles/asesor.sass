@@ -128,8 +128,6 @@ header
     border-bottom: 2px solid #1B99ED 
     @extend %menu-styles 
     
-    
-
 #historico
     border-bottom: 3px solid white
     @extend %menu-styles
@@ -305,6 +303,10 @@ header
         z-index: 50000
         transform: translate(-50%, -50%)
 
+.closebuttonn
+    height: 10px
+    cursor: pointer
+
 .header_modal
     background-color: #BAC3D4
     width: 100%
@@ -313,7 +315,7 @@ header
     justify-content: space-between
     align-items: center
     padding: 0 20px 0 20px
-    font-size: 85%
+    font-size: 75%
     color: #3F4658
     font-weight: bold
 
@@ -394,6 +396,7 @@ $var_altoancho: 125px
 
     #contenedor_tablaopciones
         color: white
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
         display: grid
         grid-template-columns: $var_altoancho $var_altoancho $var_altoancho
         grid-template-rows: $var_altoancho $var_altoancho $var_altoancho
@@ -419,13 +422,247 @@ $var_altoancho: 125px
         
 .tiporeporte_opcion
     border: 1px solid #F3F4F9
-    background-color: #3F4658
     cursor: pointer
     height: $var_altoancho
     width: $var_altoancho
-
     display: flex
     justify-content: center
     align-items: flex-end
     text-align: center
+    padding: 2px
+    
+    
+//mixin para hacer hover
+//los cuadros de seleccion
+//de tipo de dato
+=hoverthis($rutaimagen)
+    position: relative
+    &:hover
+        color: black
+        align-items: center
+        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white
+    &::before 
+        content: ""
+        position: absolute
+        top: 0 
+        left: 0
+        width: 100% 
+        height: 100%
+        background-image: $rutaimagen
+        background-repeat: no-repeat
+        filter: grayscale(.6)
+        z-index: -1
 
+    &:hover::before 
+        content: ""
+        position: absolute
+        top: 0 
+        left: 0
+        width: 100% 
+        height: 100%
+        background-image: $rutaimagen
+        background-repeat: no-repeat
+        filter: blur(1px)
+        z-index: -1
+        
+//fin del mixin
+
+#opcion_uno
+    +hoverthis(url('../assets/aclaraciones.png'))
+#opcion_dos
+    +hoverthis(url('../assets/afectaciongeneral.png'))
+#opcion_tres
+    +hoverthis(url('../assets/cobertura.png'))
+#opcion_cuatro
+    +hoverthis(url('../assets/iccid.png'))
+#opcion_cinco
+    +hoverthis(url('../assets/llamadassms.png'))
+#opcion_seis
+    +hoverthis(url('../assets/fallainternet.png'))
+#opcion_siete
+    +hoverthis(url('../assets/recargas.png'))
+#opcion_ocho
+    +hoverthis(url('../assets/promociones.png'))
+#opcion_nueve
+    +hoverthis(url('../assets/servicioss.png'))
+
+//FIN DE ESTILOS DE MODAL DE SELECCION DE TIPO DE REPORTE
+
+
+//ESTILO DE BASE DE MODAL DE DETALLES
+
+//estilos para error individual: solo agregar clase .has-error o .has-success 
+.successimage, .errorimage
+    margin-left: 3px
+.has-success > .successimage
+    display: inline !important
+.has-error > .errorimage
+    display: inline !important
+.has-error > textarea ,.has-error > select, .has-error > input, .has-error .select2-container--default .select2-selection--single, .has-error .select2-container--default .select2-selection--single .select2-selection__rendered, .has-error .select2-container--default .select2-selection--single .select2-selection__placeholder
+    border-color: #DE4C43 !important
+    color: red
+//fin de los estilos para validacion individual
+
+#subheader_modaldetalles
+    flex-direction: column
+    justify-content: flex-start
+    align-items: flex-start
+    height: 70px
+    font-size: 70%
+    
+    
+    p
+        margin-top: 5px
+        font-size: 80%
+        span
+            font-size: 120%
+
+#body_modaldetallescaptura
+    height: 320px
+    position: relative
+
+#body_modaldetallescaptura::before
+    content: ""
+    background-image: url('../assets/wave.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: bottom center
+    opacity: 0.1
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    position: absolute
+    z-index: -1
+
+.footer_modal
+    height: 230px
+    background-color: #E4E8F3
+    padding: 15px
+    
+    p
+        color: #3F4658
+        font-size: 80%
+        font-weight: bold
+
+    table
+        width: 100%
+        margin-top: 5px
+        
+    td,tr,th
+        border: 1px solid #C2CAD9
+        
+        height: 25px
+        font-size: 95%
+        padding-left: 5px
+        width: 50px
+    tbody
+        tr
+            cursor: pointer
+        font-size: 80%
+        height: 150px   
+        overflow-y: auto 
+        overflow-x: hidden
+        margin-top: -1px
+    thead
+        background-color: #BAC3D4
+        color: #3F4658
+        font-size: 80%
+        
+    thead, tbody
+        display: block
+    thead th, tbody td
+        width: 218px
+
+
+
+//ESTILOS PARA MODAL DONDE SE REALIZARAN LAS CAPTURAS
+
+.inputsasesor
+    border-radius: 3px
+    border: 1px solid #C2CAD9
+    font-size: 90%
+    height: 27px
+    width: 235px
+    padding-top: 3px
+    padding-left: 3px
+
+.btn_cancelarcaptura, .btn_guardarcaptura
+    height: 30px
+    width: 120px
+    color: white
+    border-radius: 3px
+    font-size: 80%
+    margin-left: 10px
+.btn_cancelarcaptura
+    background-color: #BAC3D4
+    border: 1px solid #BAC3D4
+.btn_guardarcaptura
+    background-color: #4B5367
+    border: 1px solid #4B5367
+#body_modalformularios
+    height: 520px
+    position: relative
+
+#body_modalformularios::before
+    content: ""
+    background-image: url('../assets/wave.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: bottom center
+    opacity: 0.1
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    position: absolute
+    z-index: -1
+
+#footer_modal_capturas
+    height: 60px
+    display: flex
+    justify-content: flex-end
+
+
+.gridsystem_cobertura
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: auto auto auto
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: auto auto auto
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+    
+
+.gridsystem_aclaraciones
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: auto auto auto
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: auto auto auto
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 

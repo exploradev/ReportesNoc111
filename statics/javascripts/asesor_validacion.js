@@ -26,7 +26,7 @@ $(document).ready(function(){
     var regex_fecha = /^\d{4}[\-\/\s]?((((0[13578])|(1[02]))[\-\/\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\-\/\s]?(([0-2][0-9])|(30)))|(02[\-\/\s]?[0-2][0-9]))$/;
 
     //fecha y hora
-    var regex_fechayhora = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])(2[0-3]|[01][0-9]):[0-5][0-9]$/;
+    var regex_fechayhora = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s(2[0-3]|[01][0-9]):[0-5][0-9]/;
 
     //iccid
     var regex_iccid = /^\d{18}$/;
@@ -151,6 +151,33 @@ $(document).ready(function(){
             selector_actualmente_siendo_tecleado.closest('.class_for_validation').addClass('has-error');
         }
     });
+
+
+    //PARA QUE LA VALIDACION POR SELECT FUNCIONE TODOS ESTOS DEBEN SER INICIALIZADOS CON LA CLASE .SELECT2
+    $('.tipodato_select').on('change', function () {
+        var valor_selector = $(this).val();
+        selector_actualmente_siendo_tecleado = $(this).next().find('.select2-selection.select2-selection--single');
+        
+        if (valor_selector != '' && valor_selector != null) {
+            selector_actualmente_siendo_tecleado.closest('.class_for_validation').removeClass('has-error');
+            selector_actualmente_siendo_tecleado.closest('.class_for_validation').addClass('has-success');
+            $('.tipodato_select').each(function (index) {
+                var valor_selector = $(this).val();
+                selector_actualmente_siendo_tecleado = $(this).next().find('.select2-selection.select2-selection--single');
+                if (valor_selector != '' && valor_selector != null) {
+                    selector_actualmente_siendo_tecleado.closest('.class_for_validation').removeClass('has-error');
+                    selector_actualmente_siendo_tecleado.closest('.class_for_validation').addClass('has-success');
+                } else if (valor_selector == '' || valor_selector == null) {
+                    selector_actualmente_siendo_tecleado.closest('.class_for_validation').removeClass('has-success');
+                }
+            });
+        }
+    });
+
+
+    
+
+
 
     
 

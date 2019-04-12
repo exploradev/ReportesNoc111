@@ -3,6 +3,27 @@ $(document).ready(function () {
     //select2 de cobertura
     //ajax para refresco de selects dec obertura
 
+    //HELPER PARA DATETIMEPICKERS
+    $('.datetimepicker_notime').datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        validateOnBlur: false,
+        onChangeDateTime: function(ct,inputt){
+            inputt.trigger('input');
+        }
+    });
+
+    $('.datetimepicker_withtime').datetimepicker({
+        timepicker: true,
+        format: 'Y-m-d H:m',
+        validateOnBlur: false,
+        step: 1,
+        onChangeDateTime: function (ct, inputt) {
+            inputt.trigger('input');
+        }
+        
+    });
+
     //HELPER PARA SELECT2 COBERTURA -------------------------------------------
     $('#cobertura_estado').select2({
         dropdownParent: $("#body_modal_capturacobertura"),
@@ -40,7 +61,7 @@ $(document).ready(function () {
     //OBTENER VALOR DEL CAMPO DE ESTADO
     $('#cobertura_estado').change(function(){
         var estado = $(this).val();
-        
+        $('#cobertura_municipio').html('');
         $.post('/getMunicipio',{estado:estado},function(response){
             var injectThisHTML = '<option></option>';
             for(i = 0; i<response.length;i++){
@@ -57,7 +78,7 @@ $(document).ready(function () {
     $('#cobertura_municipio').change(function () {
         var municipio = $(this).val();
         var estado = $('#cobertura_estado').val();
-
+        $('#cobertura_colonia').html('');
         $.post('/getColonia', { municipio: municipio, estado:estado }, function (response) {
             var injectThisHTML = '<option></option>';
             for (i = 0; i < response.length; i++) {
@@ -74,6 +95,7 @@ $(document).ready(function () {
         var colonia = $(this).val();
         var estado = $('#cobertura_estado').val();
         var municipio = $('#cobertura_municipio').val();
+        $('#cobertura_cp').html('');
         $.post('/getCP', { colonia: colonia, estado: estado, municipio: municipio }, function (response) {
             var injectThisHTML = '<option></option>';
             for (i = 0; i < response.length; i++) {

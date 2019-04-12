@@ -1,7 +1,7 @@
-.gridsystem_cobertura#body_modal_capturacobertura
+.gridsystem_cobertura#body_modal_capturacobertura(style='display:none')
     .campodetalle_cobertura.uno
         p.titulocampo NÚMERO TELEFONICO
-        p.valorcampo#cobertura_telefono 9999000000
+        p.valorcampo#telefono_afectado_cobertura 9999000000
             
     .campodetalle_cobertura.class_for_validation
         p.titulocampo NÚMERO DE CONTACTO
@@ -21,7 +21,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo FECHA DE NACIMIENTO
-        input.inputsasesor.inputs_cobertura.tipodato_fecha#cobertura_fechanacimiento(type="text" placeholder='1991-04-22')
+        input.inputsasesor.inputs_cobertura.tipodato_fecha.datetimepicker_notime#cobertura_fechanacimiento(type="text" placeholder='1991-04-22')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
@@ -37,7 +37,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo ESTADO
-        select.inputsasesor.inputs_cobertura#cobertura_estado
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_estado
             option(disabled selected) SELECCIONAR ESTADO
             option(value='CAMPECHE') CAMPECHE
             option(value='CHIAPAS') CHIAPAS
@@ -51,7 +51,7 @@
             
     .campodetalle_cobertura.class_for_validation
         p.titulocampo MUNICIPIO
-        select.inputsasesor.inputs_cobertura#cobertura_municipio
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_municipio
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
@@ -59,7 +59,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo COLONIA
-        select.inputsasesor.inputs_cobertura#cobertura_colonia
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_colonia
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
@@ -67,7 +67,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo CÓDIGO POSTAL
-        select.inputsasesor.inputs_cobertura#cobertura_cp
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_cp
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
@@ -107,7 +107,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo FECHA DEL INICIO DE LA FALLA
-        input.inputsasesor.inputs_cobertura.tipodato_fecha#cobertura_fechainiciofalla(type="text" placeholder='2020-04-23')
+        input.inputsasesor.inputs_cobertura.tipodato_fechayhora.datetimepicker_withtime#cobertura_fechainiciofalla(type="text" placeholder='2020-04-23')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
@@ -115,10 +115,10 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo FALLA
-        select.inputsasesor.inputs_cobertura#cobertura_falla
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_falla
             option(disabled selected)
-            option(value="Cobertura") Cobertura
-            option(value="Calidad en el servicio") Calidad en el servicio
+            option(value="Cobertura") COBERTURA
+            option(value="Calidad en el servicio") CALIDAD EN EL SERVICIO
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

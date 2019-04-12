@@ -11,7 +11,7 @@ html(lang="en")
         link(rel='icon' href='../assets/favicon.ico')
         
         title= "*264 | " + name
-    body.modal-open(data-rol=rol)
+    body.modal-open(data-iduser=iduser)
 
         
         
@@ -46,8 +46,8 @@ html(lang="en")
         
         include asesor_modal_reportesdisponibles
         include asesor_modal_seleccionartiporeporte
-        include asesor_modal_detallesdecaptura
-        include asesor_modal_formularios
+        include ./modaldetalles/asesor_modal_detallesdecaptura
+        include ./modalformulario/asesor_modal_formularios
         
        
             

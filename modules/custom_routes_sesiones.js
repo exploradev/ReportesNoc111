@@ -37,7 +37,7 @@ module.exports = function (app, io) {
 
     app.get('/coordinador', middleware.requireLogin, function (req, res) {
         if (req.session.profile === 'coordinador') {
-            res.render('coordinador', {
+            res.render('coordinador/coordinador', {
                 name: req.session.name,
                 iduser: req.session.iduser
             });
@@ -48,7 +48,7 @@ module.exports = function (app, io) {
 
     app.get('/supervisor', middleware.requireLogin, function (req, res) {
         if (req.session.profile === 'supervisor') {
-            res.render('supervisor', {
+            res.render('supervisor/supervisor', {
                 name: req.session.name,
                 iduser: req.session.iduser
             });
@@ -59,7 +59,7 @@ module.exports = function (app, io) {
 
     app.get('/noc', middleware.requireLogin, function (req, res) {
         if (req.session.profile === 'noc') {
-            res.render('noc', {
+            res.render('noc/noc', {
                 name: req.session.name,
                 iduser: req.session.iduser
             });
@@ -70,7 +70,7 @@ module.exports = function (app, io) {
 
     app.get('/asesor', middleware.requireLogin, function (req, res) {
         if (req.session.profile === 'asesor') {
-            res.render('asesor', {
+            res.render('asesor/asesor', {
                 name: req.session.name,
                 iduser: req.session.iduser
             });

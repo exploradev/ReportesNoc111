@@ -24,7 +24,7 @@ $(document).ready(function () {
         
     });
 
-    //HELPER PARA SELECT2 COBERTURA -------------------------------------------
+    //HELPER PARA SELECT2 -------------------------------------------
     $('#cobertura_estado').select2({
         dropdownParent: $("#body_modal_capturacobertura"),
         placeholder: "SELECCIONAR ESTADO",
@@ -52,6 +52,42 @@ $(document).ready(function () {
     $('#cobertura_falla').select2({
         dropdownParent: $("#body_modal_capturacobertura"),
         placeholder: "SELECCIONAR TIPO FALLA",
+        allowClear: false
+    });
+
+    $('#iccid_cac').select2({
+        dropdownParent: $("#body_modal_capturaiccid"),
+        placeholder: "SELECCIONAR CAC",
+        allowClear: false
+    });
+
+    $('#callback_motivo').select2({
+        dropdownParent: $("#body_modal_capturacallback"),
+        placeholder: "SELECCIONAR MOTIVO",
+        allowClear: false
+    });
+
+    $('#llamadas_afectacion').select2({
+        dropdownParent: $("#body_modal_capturallamadas"),
+        placeholder: "SELECCIONAR AFECTACIÓN",
+        allowClear: false
+    });
+
+    $('#llamadas_tipored').select2({
+        dropdownParent: $("#body_modal_capturallamadas"),
+        placeholder: "SELECCIONAR TIPO DE RED",
+        allowClear: false
+    });
+
+    $('#navegacion_tipored').select2({
+        dropdownParent: $("#body_modal_capturanavegacion"),
+        placeholder: "SELECCIONAR TIPO DE RED",
+        allowClear: false
+    });
+
+    $('#servicios_servicio').select2({
+        dropdownParent: $("#body_modal_capturaservicios"),
+        placeholder: "SELECCIONAR SERVICIO",
         allowClear: false
     });
 

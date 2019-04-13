@@ -1,35 +1,51 @@
-.gridsystem_aclaraciones#body_modal_capturaaclaraciones
-    .campodetalle_aclaraciones.uno
+.gridsystem_recargas#body_modal_capturarecargas(style='display:none')
+    .campodetalle_recargas.uno
         p.titulocampo NÚMERO TELEFONICO
-        p.valorcampo#telefono_afectado_aclaraciones 9999000000
+        p.valorcampo#telefono_afectado_recargas --
     
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_recargas.class_for_validation
         p.titulocampo NOMBRE DEL USUARIO
-        input.inputsasesor.inputs_aclaraciones.tipodato_libreestandar#aclaraciones_telefono(type="text" placeholder='Daenerys Targaryen')
+        input.inputsasesor.inputs_recargas.tipodato_libreestandar#recargas_nombreusuario(type="text" placeholder='Daenerys Targaryen')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
-        p.titulocampo NÚMERO DE CONTACTO
-        input.inputsasesor.inputs_aclaraciones.tipodato_telefono#aclaraciones_telefono(type="text" placeholder='9999000000')
+    .campodetalle_recargas.class_for_validation.tres
+        p.titulocampo MENSAJE DE ERROR
+        input.inputsasesor.inputs_recargas.tipodato_libreestandar#recargas_mensajerror(type="text" placeholder='Error xxxx')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
-        p.titulocampo FECHA DEL INICIO DE LA FALLA
-        input.inputsasesor.inputs_aclaraciones.tipodato_fecha.datetimepicker_notime#aclaraciones_telefono(type="text" placeholder='9999000000')
+    .campodetalle_recargas.class_for_validation
+        p.titulocampo IMPORTE
+        input.inputsasesor.inputs_recargas.tipodato_importe#recargas_importe(type="text" placeholder='2000.00')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_recargas.class_for_validation
+        p.titulocampo LUGAR O MÉTODO DE COMPRA
+        input.inputsasesor.inputs_recargas.tipodato_libreestandar#recargas_metodocompra(type="text" placeholder='OXXO / TC')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_recargas.class_for_validation
+        p.titulocampo FECHA Y HORA
+        input.inputsasesor.inputs_recargas.tipodato_fechayhora.datetimepicker_withtime#recargas_fechayhora(type="text" placeholder='2020-04-22 14:04')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_recargas.class_for_validation
         p.titulocampo DESCRIPCION DE LA SITUACIÓN
-        textarea.inputsasesor.inputs_aclaraciones.tipodato_librelargo#aclaraciones_telefono(type="text")
+        textarea.inputsasesor.inputs_recargas.tipodato_librelargo#recargas_descripcionsituacion(type="text")
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

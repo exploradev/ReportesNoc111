@@ -2,30 +2,51 @@
     .container_modal
         .header_modal
             span NUEVO REPORTE
-            span X
-        
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
         .body_modal#bodymodal_seleccionartiporeporte
             label Número Telefónico
             input#input_numerotiporeporte(type="text", name="input_numerotiporeporte" placeholder='Número telefónico')
             #contenedor_tablaopciones
-                .tiporeporte_opcion#opcion_uno
+                
+                .tiporeporte_opcion#opcion_uno(data-eleccion='aclaraciones')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/aclaraciones.svg", alt="")
                     p ACLARACIONES
-                .tiporeporte_opcion#opcion_dos
+                .tiporeporte_opcion#opcion_dos(data-eleccion='general')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/general.svg", alt="")
                     p AFECTACIÓN GENERAL 
-                .tiporeporte_opcion#opcion_tres
+                .tiporeporte_opcion#opcion_tres(data-eleccion='cobertura')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/cobertura.svg", alt="")
                     p CALIDAD EN EL SERVICIO / COBERTURA
-                .tiporeporte_opcion#opcion_cuatro
+                .tiporeporte_opcion#opcion_cuatro(data-eleccion='iccid')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/iccid.svg", alt="")
                     p CAMBIO DE ICCID
-                .tiporeporte_opcion#opcion_cinco
+                .tiporeporte_opcion#opcion_cinco(data-eleccion='llamadas')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/llamadas.svg", alt="")
                     p LLAMADAS / SMS
-                .tiporeporte_opcion#opcion_seis
+                .tiporeporte_opcion#opcion_seis(data-eleccion='navegacion')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/navegacion.svg", alt="")
                     p FALLA EN NAVEGACIÓN
-                .tiporeporte_opcion#opcion_siete
+                .tiporeporte_opcion#opcion_siete(data-eleccion='recargas')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/recargas.svg", alt="")
                     p FALLA EN RECARGAS
-                .tiporeporte_opcion#opcion_ocho
+                .tiporeporte_opcion#opcion_ocho(data-eleccion='promociones')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/promociones.svg", alt="")
                     p PROMOCIONES
-                .tiporeporte_opcion#opcion_nueve    
+                .tiporeporte_opcion#opcion_nueve(data-eleccion='servicios')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/servicios.svg", alt="") 
                     p ALTAS O BAJAS DE SERVICIOS
+                span#loader_seleccion(style="display:none")
+                    img(src="../../../assets/loader1.gif" )
             #mensajeerror_tiporeporte(style='visibility:hidden')
-                p YA EXISTE UN REPORTE DE ESTE NÚMERO
-            button#btn_cancelartiporeporte CANCELAR
+                p YA EXISTE UN REPORTE SIMILAR PARA ÉSTE NÚMERO
+            button#btn_cancelartiporeporte.closebuttonn CANCELAR

@@ -1,16 +1,33 @@
-#asesor_modal_formularios
+#asesor_modal_formularios(style='display:none')
     .container_modal
         .header_modal
             span NUEVO REPORTE
             span 
                 img.closebuttonn(src="../assets/closebuttonn.png")
         .subheader_modal
-            p#captura_tipo Aclaraciones
+            p#captura_tipo --
         .body_modal#body_modalformularios
-            #container_modalformularios_cobertura
-                include body_modal_capturacobertura
+            #container_modalformularios
                 include body_modal_capturaaclaraciones
+                include body_modal_capturacallback
+                include body_modal_capturacobertura
+                include body_modal_capturageneral
+                include body_modal_capturaiccid
+                include body_modal_capturallamadas
+                include body_modal_capturanavegacion
+                include body_modal_capturapromociones
+                include body_modal_capturarecargas
+                include body_modal_capturaservicios
         .footer_modal#footer_modal_capturas
-            #container_footermodal_captura_cobertura
-                include botones_footer_cobertura
+            #container_footermodal
                 include botones_footer_aclaraciones
+                include botones_footer_callback
+                include botones_footer_cobertura
+                include botones_footer_general
+                include botones_footer_iccid
+                include botones_footer_llamadas
+                include botones_footer_navegacion
+                include botones_footer_promociones
+                include botones_footer_recargas
+                include botones_footer_servicios
+                

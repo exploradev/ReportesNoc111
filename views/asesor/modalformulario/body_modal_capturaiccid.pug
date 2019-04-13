@@ -1,35 +1,97 @@
-.gridsystem_aclaraciones#body_modal_capturaaclaraciones
-    .campodetalle_aclaraciones.uno
-        p.titulocampo NÚMERO TELEFONICO
-        p.valorcampo#telefono_afectado_aclaraciones 9999000000
+.gridsystem_iccid#body_modal_capturaiccid(style='display:none')
+    .campodetalle_iccid.uno
+        p.titulocampo NÚMERO PORTADO
+        p.valorcampo#telefono_afectado_iccid 9999000000
     
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_iccid.class_for_validation
         p.titulocampo NOMBRE DEL USUARIO
-        input.inputsasesor.inputs_aclaraciones.tipodato_libreestandar#aclaraciones_telefono(type="text" placeholder='Daenerys Targaryen')
+        input.inputsasesor.inputs_iccid.tipodato_libreestandar#iccid_nombreusuario(type="text" placeholder='Daenerys Targaryen')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_iccid.class_for_validation.tres
         p.titulocampo NÚMERO DE CONTACTO
-        input.inputsasesor.inputs_aclaraciones.tipodato_telefono#aclaraciones_telefono(type="text" placeholder='9999000000')
+        input.inputsasesor.inputs_iccid.tipodato_telefono#iccid_contacto(type="text" placeholder='9999000000')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
-        p.titulocampo FECHA DEL INICIO DE LA FALLA
-        input.inputsasesor.inputs_aclaraciones.tipodato_fecha.datetimepicker_notime#aclaraciones_telefono(type="text" placeholder='9999000000')
+    .campodetalle_iccid.class_for_validation
+        p.titulocampo ICCID VIRTUAL
+        input.inputsasesor.inputs_iccid.tipodato_iccid#iccid_iccidvirtual(type="text" placeholder='XXXXXXXXXXXXXXXXXX')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_iccid.class_for_validation
+        p.titulocampo ICCID FÍSICA
+        input.inputsasesor.inputs_iccid.tipodato_iccidfisica#iccid_iccidficia(type="text" placeholder='XXXXXXXXXXXXXXXXXXX')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_iccid.class_for_validation
+        p.titulocampo CAC
+        select.inputsasesor.inputs_iccid.tipodato_select#iccid_cac
+            option(disabled selected)
+            option(value='Mérida 1. Gran Plaza') Mérida 1. Gran Plaza
+            option(value='Mérida 2. Itzáes') Mérida 2. Itzáes
+            option(value='Mérida 3. Las Américas') Mérida 3. Las Américas
+            option(value='Mérida 4. Oriente') Mérida 4. Oriente
+            option(value='Mérida 5. Altabrisa') Mérida 5. Altabrisa
+            option(value='Mérida 6. Centro') Mérida 6. Centro
+            option(value='Mérida 7. Montejo') Mérida 7. Montejo
+            option(value='Cancun 1. Tulum') Cancun 1. Tulum
+            option(value='Cancun 2. Flamingo (Isla)') Cancun 2. Flamingo (Isla)
+            option(value='Cancun 3. Chichen') Cancun 3. Chichen
+            option(value='Cancun 4. Gran Plaza') Cancun 4. Gran Plaza
+            option(value='Cancun 5. Malecón con STT') Cancun 5. Malecón con STT
+            option(value='Playa del Carmen I') Playa del Carmen I
+            option(value='Playa del Carmen II') Playa del Carmen II
+            option(value='Cozumen') Cozumen
+            option(value='Chetumal I') Chetumal I
+            option(value='Chetumal II') Chetumal II
+            option(value='Campeche I ') Campeche I 
+            option(value='Campeche II') Campeche II
+            option(value='Cd. del Carmen') Cd. del Carmen
+            option(value='Cd. del Carmen II') Cd. del Carmen II
+            option(value='Villa 1. San Luis') Villa 1. San Luis
+            option(value='Villa 2. Calinda') Villa 2. Calinda
+            option(value='Villa 3. Las Américas') Villa 3. Las Américas
+            option(value='Villa 4. Centro') Villa 4. Centro
+            option(value='Villa 5.  Altabrisa') Villa 5.  Altabrisa
+            option(value='Villa 6.  Carrizal con STT') Villa 6.  Carrizal con STT
+            option(value='Villa 7. Sendero') Villa 7. Sendero
+            option(value='Villa 8. Express') Villa 8. Express
+            option(value='Comalcalco') Comalcalco
+            option(value='Cárdenas') Cárdenas
+            option(value='Tuxtla 1. Las Palmas') Tuxtla 1. Las Palmas
+            option(value='Tuxtla 2. Galerías') Tuxtla 2. Galerías
+            option(value='Tuxtla 3 Norte') Tuxtla 3 Norte
+            option(value='Tuxtla 4 Centro') Tuxtla 4 Centro
+            option(value='Palenque') Palenque
+            option(value='Comitán') Comitán
+            option(value='San Cristóbal') San Cristóbal
+            option(value='San Cristóbal II Express.') San Cristóbal II Express.
+            option(value='Ocosingo ') Ocosingo 
+            option(value='Tapachula 1 PONIENTE') Tapachula 1 PONIENTE
+            option(value='Tapachula 2. Centro') Tapachula 2. Centro
+            option(value='Tapachula 3 BOULEVARD') Tapachula 3 BOULEVARD
+            option(value='Cambaceo') Cambaceo
+            option(value='Otra Región') Otra Región
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+    
+    //.campodetalle_iccid.class_for_validation
         p.titulocampo DESCRIPCION DE LA SITUACIÓN
-        textarea.inputsasesor.inputs_aclaraciones.tipodato_librelargo#aclaraciones_telefono(type="text")
+        textarea.inputsasesor.inputs_iccid.tipodato_librelargo#iccid_telefono(type="text")
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

@@ -1,35 +1,48 @@
-.gridsystem_aclaraciones#body_modal_capturaaclaraciones
-    .campodetalle_aclaraciones.uno
+.gridsystem_servicios#body_modal_capturaservicios(style='display:none')
+    .campodetalle_servicios.uno
         p.titulocampo NÚMERO TELEFONICO
-        p.valorcampo#telefono_afectado_aclaraciones 9999000000
+        p.valorcampo#telefono_afectado_servicios --
     
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_servicios.class_for_validation
         p.titulocampo NOMBRE DEL USUARIO
-        input.inputsasesor.inputs_aclaraciones.tipodato_libreestandar#aclaraciones_telefono(type="text" placeholder='Daenerys Targaryen')
+        input.inputsasesor.inputs_servicios.tipodato_libreestandar#servicios_nombreusuario(type="text" placeholder='Daenerys Targaryen')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_servicios.class_for_validation.tres
         p.titulocampo NÚMERO DE CONTACTO
-        input.inputsasesor.inputs_aclaraciones.tipodato_telefono#aclaraciones_telefono(type="text" placeholder='9999000000')
+        input.inputsasesor.inputs_servicios.tipodato_telefono#servicios_contacto(type="text" placeholder='9999000000')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
-        p.titulocampo FECHA DEL INICIO DE LA FALLA
-        input.inputsasesor.inputs_aclaraciones.tipodato_fecha.datetimepicker_notime#aclaraciones_telefono(type="text" placeholder='9999000000')
+    .campodetalle_servicios.class_for_validation
+        p.titulocampo MENSAJE DE ERROR
+        input.inputsasesor.inputs_servicios.tipodato_libreestandar#servicios_mensajerror(type="text" placeholder='Error xxxx')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_servicios.class_for_validation
+        p.titulocampo SERVICIO SOLICITADO
+        select.inputsasesor.inputs_servicios.tipodato_select#servicios_servicio
+            option(disabled selected)
+            option(value="Baja de adelanta saldo") Baja de adelanta saldo
+            option(value="Paquete pegado") Paquete pegado 
+            option(value="Baja de recurrencia") Baja de recurrencia
+            option(value="Alta de paquete SL") Alta de paquete SL
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+   
+    .campodetalle_servicios.class_for_validation
         p.titulocampo DESCRIPCION DE LA SITUACIÓN
-        textarea.inputsasesor.inputs_aclaraciones.tipodato_librelargo#aclaraciones_telefono(type="text")
+        textarea.inputsasesor.inputs_servicios.tipodato_librelargo#servicios_descripcionsituacion(type="text")
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

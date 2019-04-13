@@ -70,6 +70,36 @@ module.exports = function(app,io){
         });
     });
 
+
+    //------------------------------------------------------------
+    //SE CONSULTA EXISTENCIA DE REPORTE ANTES DE LEVANTAR OTRO
+    app.post('/consultaexistencia', middleware.requireLogin, function (req, res) {
+        var telefono = req.body.telefono;
+        var tiporeporte = req.body.tiporeporte;
+       
+        query = "SELECT telefono,falla FROM metadatos WHERE telefono = ? and falla = ? and estatus NOT IN('Cerrado')";
+        inserts = [telefono, tiporeporte];
+        query = mysql.format(query, inserts);
+        response = [];
+        console.log(query);
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            var numRows = results.length;
+            if(numRows > 0){
+                res.send('existe');
+            }else{
+                res.send('no existe');
+            }
+            res.send(numRows);
+        });
+    });
+
+
+
+
+
+
+
     //------------------------------------------------------------
     //SE AGREGA A BASE DE DATOS LOS DATOS DE LOS FORMULARIOS
 
@@ -113,8 +143,8 @@ module.exports = function(app,io){
         connection.getConnection(function (err, pool) {
             pool.beginTransaction(function (err) {
                 if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla) VALUES(?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada];
+                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                var inserts = [estatus, iduser, tipodefallareportada,telefono_afectado];
                 query = mysql.format(query, inserts);
 
                 pool.query(query, function (err, result) {
@@ -190,8 +220,8 @@ module.exports = function(app,io){
         connection.getConnection(function (err, pool) {
             pool.beginTransaction(function (err) {
                 if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla) VALUES(?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada];
+                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                var inserts = [estatus, iduser, tipodefallareportada,telefono_afectado];
                 query = mysql.format(query, inserts);
 
                 pool.query(query, function (err, result) {

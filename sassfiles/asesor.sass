@@ -290,7 +290,7 @@ header
     opacity: 0.6
     filter: alpha(opacity=60)
     z-index: 49999
-    display: block
+    display: none
 
 .container_modal
         background-color: #F3F4F9
@@ -399,8 +399,7 @@ $var_altoancho: 125px
         padding-left: 5px
 
     #contenedor_tablaopciones
-        color: white
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+        color: black
         display: grid
         grid-template-columns: $var_altoancho $var_altoancho $var_altoancho
         grid-template-rows: $var_altoancho $var_altoancho $var_altoancho
@@ -426,72 +425,30 @@ $var_altoancho: 125px
         
 .tiporeporte_opcion
     border: 1px solid #F3F4F9
+    border-radius: 5px
+    background-color: #E4E8F3
     cursor: pointer
     height: $var_altoancho
     width: $var_altoancho
     display: flex
-    justify-content: center
-    align-items: flex-end
+    flex-direction: column
+    justify-content: space-around
+    align-items: center
     text-align: center
     padding: 2px
     
-    
-//mixin para hacer hover
-//los cuadros de seleccion
-//de tipo de dato
-=hoverthis($rutaimagen)
-    position: relative
     &:hover
-        color: black
-        align-items: center
-        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white
-    &::before 
-        content: ""
-        position: absolute
-        top: 0 
-        left: 0
-        width: 100% 
-        height: 100%
-        background-image: $rutaimagen
-        background-repeat: no-repeat
-        filter: grayscale(.6)
-        z-index: -1
+        background-color: #DEE1ED
 
-    &:hover::before 
-        content: ""
-        position: absolute
-        top: 0 
-        left: 0
-        width: 100% 
-        height: 100%
-        background-image: $rutaimagen
-        background-repeat: no-repeat
-        filter: blur(1px)
-        z-index: -1
-        
-//fin del mixin
+.icon_svg_opciones
+    height: 50px
+    
+    -moz-transition: all .2s ease
 
-#opcion_uno
-    +hoverthis(url('../assets/aclaraciones.png'))
-#opcion_dos
-    +hoverthis(url('../assets/afectaciongeneral.png'))
-#opcion_tres
-    +hoverthis(url('../assets/cobertura.png'))
-#opcion_cuatro
-    +hoverthis(url('../assets/iccid.png'))
-#opcion_cinco
-    +hoverthis(url('../assets/llamadassms.png'))
-#opcion_seis
-    +hoverthis(url('../assets/fallainternet.png'))
-#opcion_siete
-    +hoverthis(url('../assets/recargas.png'))
-#opcion_ocho
-    +hoverthis(url('../assets/promociones.png'))
-#opcion_nueve
-    +hoverthis(url('../assets/servicioss.png'))
+.tiporeporte_opcion:hover .icon_svg_opciones
+    height: 70px
 
 //FIN DE ESTILOS DE MODAL DE SELECCION DE TIPO DE REPORTE
-
 
 //ESTILO DE BASE DE MODAL DE DETALLES
 
@@ -505,6 +462,8 @@ $var_altoancho: 125px
 .has-error > textarea ,.has-error > select, .has-error > input, .has-error .select2-container--default .select2-selection--single, .has-error .select2-container--default .select2-selection--single .select2-selection__rendered, .has-error .select2-container--default .select2-selection--single .select2-selection__placeholder
     border-color: #DE4C43 !important
     color: red
+
+
 //fin de los estilos para validacion individual
 
 #subheader_modaldetalles
@@ -635,9 +594,9 @@ $var_altoancho: 125px
     .valorcampo
         color: #3F4658
     display: grid
-    //grid-template-columns: auto auto auto
+    //grid-template-columns: repeat(3,278px)
     //grid-template-rows: auto auto auto auto auto auto auto
-    grid-template-columns: auto auto auto
+    grid-template-columns: repeat(3,278px)
     grid-gap: 20px
     grid-auto-rows: minmax(15px, auto)
     .uno
@@ -657,9 +616,9 @@ $var_altoancho: 125px
     .valorcampo
         color: #3F4658
     display: grid
-    //grid-template-columns: auto auto auto
+    //grid-template-columns: repeat(3,278px)
     //grid-template-rows: auto auto auto auto auto auto auto
-    grid-template-columns: auto auto auto
+    grid-template-columns: repeat(3,278px)
     grid-gap: 20px
     grid-auto-rows: minmax(15px, auto)
     .uno
@@ -670,3 +629,193 @@ $var_altoancho: 125px
         grid-column: 2/4 
     .trece
         grid-column: 2/4 
+
+
+.gridsystem_callback
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_general
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_iccid
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_llamadas
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_navegacion
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_promociones
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_recargas
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+.gridsystem_servicios
+    p.titulocampo
+        font-size: 80%
+        color: #7985A2
+    .valorcampo
+        color: #3F4658
+    display: grid
+    //grid-template-columns: repeat(3,278px)
+    //grid-template-rows: auto auto auto auto auto auto auto
+    grid-template-columns: repeat(3,278px)
+    grid-gap: 20px
+    grid-auto-rows: minmax(15px, auto)
+    .uno
+        grid-column: 1/4
+    .tres
+        grid-column: 2/4 
+    .cinco
+        grid-column: 2/4 
+    .trece
+        grid-column: 2/4 
+
+
+//-------------------------------
+
+//estilos del loader en modal de seleccion
+#contenedor_tablaopciones
+    position: relative
+
+    #loader_seleccion
+        text-align: center
+        
+        background: rgba(0, 0, 0, 0.1)
+        width: 100%
+        height: 100%
+        position: absolute
+        top: 0px
+        left: 0px
+        z-index: 70000
+
+        img
+            height: 200px

@@ -1,35 +1,86 @@
-.gridsystem_aclaraciones#body_modal_capturaaclaraciones
-    .campodetalle_aclaraciones.uno
+.gridsystem_llamadas#body_modal_capturallamadas(style='display:none')
+    .campodetalle_llamadas.uno
         p.titulocampo NÚMERO TELEFONICO
-        p.valorcampo#telefono_afectado_aclaraciones 9999000000
+        p.valorcampo#telefono_afectado_llamadas 9999000000
     
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_llamadas.class_for_validation
         p.titulocampo NOMBRE DEL USUARIO
-        input.inputsasesor.inputs_aclaraciones.tipodato_libreestandar#aclaraciones_telefono(type="text" placeholder='Daenerys Targaryen')
+        input.inputsasesor.inputs_llamadas.tipodato_libreestandar#llamadas_nombreusuario(type="text" placeholder='Daenerys Targaryen')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_llamadas.class_for_validation.tres
         p.titulocampo NÚMERO DE CONTACTO
-        input.inputsasesor.inputs_aclaraciones.tipodato_telefono#aclaraciones_telefono(type="text" placeholder='9999000000')
+        input.inputsasesor.inputs_llamadas.tipodato_telefono#llamadas_contacto(type="text" placeholder='9999000000')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
-        p.titulocampo FECHA DEL INICIO DE LA FALLA
-        input.inputsasesor.inputs_aclaraciones.tipodato_fecha.datetimepicker_notime#aclaraciones_telefono(type="text" placeholder='9999000000')
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo MENSAJE DE ERROR
+        input.inputsasesor.inputs_llamadas.tipodato_libreestandar#llamadas_mensajerror(type="text" placeholder='Error xxxx')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
 
-    .campodetalle_aclaraciones.class_for_validation
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo AFECTACIÓN
+        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_afectacion
+            option(disabled selected)
+            option(value="SMS") SMS
+            option(value="Llamadas salientes") Llamadas salientes
+            option(value="Llamadas entrantes") Llamadas entrantes
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo TIPO DE RED
+        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_tipored
+            option(disabled selected)
+            option(value="Volte") Volte
+            option(value="4.5G") 4.5G
+            option(value="4G") 4G
+            option(value="3G") 3G
+            option(value="2G") 2G
+            option(value="Edge") Edge
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo NÚMERO ORIGEN O DESTINO 1
+        input.inputsasesor.inputs_llamadas.tipodato_telefono#llamadas_origen1(type="text" placeholder='9999000000')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo NÚMERO ORIGEN O DESTINO 2
+        input.inputsasesor.inputs_llamadas.tipodato_telefono#llamadas_origen2(type="text" placeholder='9999000000')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_llamadas.class_for_validation
+        p.titulocampo NÚMERO ORIGEN O DESTINO 3
+        input.inputsasesor.inputs_llamadas.tipodato_telefono#llamadas_origen3(type="text" placeholder='9999000000')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_llamadas.class_for_validation
         p.titulocampo DESCRIPCION DE LA SITUACIÓN
-        textarea.inputsasesor.inputs_aclaraciones.tipodato_librelargo#aclaraciones_telefono(type="text")
+        textarea.inputsasesor.inputs_llamadas.tipodato_librelargo#llamadas_descripcionsituacion(type="text")
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

@@ -27,6 +27,9 @@ $(document).ready(function(){
 
         //RETIRO DE CLASES DE VALIDACION
         $('.class_for_validation').removeClass('has-error has-success');
+
+        //se resetea input de numero a buscar
+        $('#input_buscador').val('');
     }
 
     //--------------------------------------------------------------
@@ -227,6 +230,8 @@ $(document).ready(function(){
             },function(response){
                 if(response=='Correcto'){
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -304,6 +309,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -381,6 +388,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -457,6 +466,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -535,6 +546,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -617,6 +630,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -697,6 +712,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -776,6 +793,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -854,6 +873,8 @@ $(document).ready(function(){
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -925,13 +946,15 @@ $(document).ready(function(){
 
                 nombreusuario: parametro_ajax[0],
                 contacto: parametro_ajax[1],
-                promocion: parametro_ajax[2],
-                fechainiciofalla: parametro_ajax[3],
+                mensajeerror: parametro_ajax[2],
+                servicio: parametro_ajax[3],
                 descripcionsituacion: parametro_ajax[4]
 
             }, function (response) {
                 if (response == 'Correcto') {
                     alert("Todo correcto");
+                    $('.closebuttonn').trigger('click');
+                    reset_all();
                 }
             });
         }
@@ -942,5 +965,117 @@ $(document).ready(function(){
 
 
     });
+
+
+    //-----------------------------------------------
+    //SCRIPTS PARA BUSQUEDA DE NUMERO
+
+    //Al clickear el boton de busqueda
+    //se capturan los datos y se hace ajax para validar si existe el numero o el folio (id)
+    $('#btn_buscador').click(function(){
+        var numeroofolio = $('#input_buscador').val();
+        $.post('/buscar_numeroofolio',{numeroofolio:numeroofolio},function(response){
+            if(response == 'no existe'){
+                //en caso de que no exista se muestra mensaje de error 
+                $('#errorbusqueda').css('visibility','visible');
+            }else{
+                //en caso de que si exista entonces se resetea la tabla de resultados tbody
+                //y se muestra modal de reportes disponibles
+                //con la opcion de que al darle click se muestre el detalle en el modal de detalles
+                $('#errorbusqueda').css('visibility', 'hidden');
+                var table_body = [];
+                for (i = 0; i < response.length; i++) {
+                    table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] +"'>";
+
+                    table_body += '<td>';
+                    table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["asesor"];
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    if (response[i]["falla"] == 'aclaraciones') {
+                        table_body += "Aclaraciones";
+                    } else if (response[i]["falla"] == 'callback') {
+                        table_body += "Callback";
+                    } else if (response[i]["falla"] == 'general') {
+                        table_body += "Afectación general";
+                    } else if (response[i]["falla"] == 'cobertura') {
+                        table_body += "Calidad en el servicio/Cobertura";
+                    } else if (response[i]["falla"] == 'iccid') {
+                        table_body += "Cambio de ICCID";
+                    }else if (response[i]["falla"] == 'llamadas') {
+                        table_body += "Falla en llamadas/SMS";
+                    }else if (response[i]["falla"] == 'navegacion') {
+                        table_body += "Falla en navegación";
+                    } else if (response[i]["falla"] == 'recargas') {
+                        table_body += "Recargas";
+                    } else if (response[i]["falla"] == 'promociones') {
+                        table_body += "Promociones";
+                    } else if (response[i]["falla"] == 'servicios') {
+                        table_body += "Alta o baja de servicios";
+                    } else {
+                        table_body += "N/A"
+                    }
+                    table_body += '</td>';
+
+                    if (response[i]["ultseguimiento"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                        table_body += '</td>';
+                    }
+
+                    if (response[i]["propietario"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += response[i]["propietario"];
+                        table_body += '</td>';
+                    }
+
+                    if (response[i]["cerrado"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += moment(response[i]["cerrado"]).format('DD/MM/YYYY HH:mm');
+                        table_body += '</td>';
+                    }
+
+                    table_body += '<td>';
+                    table_body += response[i]["estatus"];
+                    table_body += '</td>';
+                  
+
+                    table_body += '</tr>';
+                }
+                $('#tbody_reportesexistentes').html(table_body);
+
+                //Despues de escribir se muestra el modal
+                var valor_numfolio = $('#input_buscador').val()
+                $('#numeroofolioenmodal').html(valor_numfolio);
+                $('#overlay-back').css('display', 'block');
+                $('#asesor_modal_reportesdisponibles').css('display','block');
+            }
+        });
+    });
+    
+    
+    
+    
+    //se esconde modal actual y se muestra el modal de detalles
+    //se hace ajax para llenar los datos de detalle del reporte clickeado
+    //habilitar boton de atras para mostrar el modal anterior en caso de que se desee ver detalles de otro reporte
+    //al dar click al boton de atras se deben resetear los campos del modal de detalle
+    //al dar esc se cierran todos los modales y se resetea todo
 
 });

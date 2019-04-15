@@ -41,6 +41,8 @@ html(lang="en")
                     #titulo_buscador BUSCAR REPORTE POR NUMERO O FOLIO
                     input#input_buscador(type='text' placeholder='Número o folio')
                     button#btn_buscador Buscar
+                    p#errorbusqueda(style='visibility:hidden') No se encontraron reportes para este número / folio
+                        
                     .divider
                     button#btn_nuevoreporte Nuevo Reporte
         
@@ -56,6 +58,7 @@ html(lang="en")
     script(src='../jquery/dist/jquery.min.js')
     script(src='../javascripts/datetimepicker.js')
     script(src='../javascripts/socket.io.js')
+    script(src='../javascripts/moment.js')
     script(src='../javascripts/asesor_helpers.js')
     script(src='../javascripts/asesor_tablas.js')
     script(src='../javascripts/asesor_validacion.js')

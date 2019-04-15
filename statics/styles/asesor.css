@@ -381,11 +381,11 @@ header {
   .body_modal#bodymodal_seleccionartiporeporte #contenedor_tablaopciones {
     color: black;
     display: grid;
-    grid-template-columns: 125px 125px 125px;
+    grid-template-columns: 125px 125px 125px 125px;
     grid-template-rows: 125px 125px 125px;
     margin-top: 25px;
     font-size: 90%; }
-  .body_modal#bodymodal_seleccionartiporeporte #mensajeerror_tiporeporte {
+  .body_modal#bodymodal_seleccionartiporeporte #mensajeerror_tiporeporte, .body_modal#bodymodal_seleccionartiporeporte #errorbusqueda {
     color: #AD3232;
     margin-top: 15px; }
   .body_modal#bodymodal_seleccionartiporeporte #btn_cancelartiporeporte {
@@ -438,15 +438,37 @@ header {
   color: red; }
 
 #subheader_modaldetalles {
+  justify-content: space-between;
+  height: 80px;
+  align-content: center; }
+
+#subheader_modaldetalles_content {
+  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  align-items: flex-end;
   height: 70px;
-  font-size: 70%; }
-  #subheader_modaldetalles p {
+  font-size: 90%;
+  justify-content: space-evenly; }
+
+#regresar_modaldetalles {
+  display: flex;
+  align-items: center;
+  border: 1px solid #BAC3D4;
+  border-radius: 5px;
+  padding: 5px 12px 5px 12px;
+  background-color: #F1F2F6;
+  color: #3F4658; }
+  #regresar_modaldetalles img {
+    height: 15px;
+    margin-right: 5px; }
+  #regresar_modaldetalles:hover {
+    background-color: #BAC3D4;
+    color: #F1F2F6;
+    cursor: pointer; }
+  #regresar_modaldetalles p {
     margin-top: 5px;
     font-size: 80%; }
-    #subheader_modaldetalles p span {
+    #regresar_modaldetalles p span {
       font-size: 120%; }
 
 #body_modaldetallescaptura {
@@ -752,5 +774,13 @@ header {
     z-index: 70000; }
     #contenedor_tablaopciones #loader_seleccion img {
       height: 200px; }
+
+#errorbusqueda {
+  color: #AD3232;
+  margin-top: 15px;
+  align-self: center; }
+
+#tbody_reportesexistentes > tr:hover {
+  background-color: #E4E8F3; }
 
 /*# sourceMappingURL=asesor.css.map */

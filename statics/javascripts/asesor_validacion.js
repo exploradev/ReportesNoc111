@@ -17,10 +17,10 @@ $(document).ready(function(){
     var regex_telefono = /^(\d{10})$/;
 
     //campo libre estandar
-    var regex_libreestandar = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s\d\.\-_\/\\\']{1,80}$/;
+    var regex_libreestandar = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ&,\s\d\.\-_\/\\\']{1,80}$/;
 
     //campo libre de comentario largo
-    var regex_librelargo = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s\d\.\-_\/\\\']{1,250}$/;
+    var regex_librelargo = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ&,\s\d\.\-_\/\\\']{1,250}$/;
 
     //fecha
     var regex_fecha = /^\d{4}[\-\/\s]?((((0[13578])|(1[02]))[\-\/\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\-\/\s]?(([0-2][0-9])|(30)))|(02[\-\/\s]?[0-2][0-9]))$/;

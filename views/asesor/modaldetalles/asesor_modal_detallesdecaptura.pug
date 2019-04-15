@@ -2,19 +2,34 @@
     .container_modal
         .header_modal
             span DETALLES DE REPORTE
-            span X
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
         .subheader_modal#subheader_modaldetalles
-            p FOLIO:
-                span 1234
-            p TIPO DE REPORTE:
-                span Calidad en el servicio/Cobertura
-            p ASESOR:
-                span Pacheco Jose
-            p CREADO:
-                span Abril 23, 2019
+            #regresar_modaldetalles 
+                span
+                    img(src="../assets/returnrow.png")
+                span Regresar
+            #subheader_modaldetalles_content
+                p FOLIO:
+                    span --
+                p TIPO DE REPORTE:
+                    span --
+                p ASESOR:
+                    span --
+                p CREADO:
+                    span --
         .body_modal#body_modaldetallescaptura
             #container_detalle_cobertura
+                include body_modal_detallesaclaraciones
+                include body_modal_detallescallback
                 include body_modal_detallescobertura
+                include body_modal_detallesgeneral
+                include body_modal_detallesiccid
+                include body_modal_detallesllamadas
+                include body_modal_detallesnavegacion
+                include body_modal_detallespromociones
+                include body_modal_detallesrecargas
+                include body_modal_detallesservicios
         .footer_modal
             p COMENTARIOS DE SEGUIMIENTO
             table.seguimientos_tabla
@@ -24,49 +39,5 @@
                         th NOC
                         th ESTATUS
                         th OBSERVACIÓN
-                tbody
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta indica que bla bla bla bl bla bla bla bladasdas opadjoaijsdo ijasodi jadiosj aisdj aijsd oaijo aijo
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
-                    tr
-                        td 22/04/2019
-                        td Coot David
-                        td En proceso
-                        td En espera de respuesta
+                tbody#tbody_detallescomentariosmodal
+                   

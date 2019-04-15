@@ -21,6 +21,10 @@
                     div
                         img.icon_svg_opciones(src="../../../assets/svg/cobertura.svg", alt="")
                     p CALIDAD EN EL SERVICIO / COBERTURA
+                .tiporeporte_opcion#opcion_diez(data-eleccion='callback')
+                    div
+                        img.icon_svg_opciones(src="../../../assets/svg/callback.svg", alt="") 
+                    p CALLBACK
                 .tiporeporte_opcion#opcion_cuatro(data-eleccion='iccid')
                     div
                         img.icon_svg_opciones(src="../../../assets/svg/iccid.svg", alt="")
@@ -43,9 +47,11 @@
                     p PROMOCIONES
                 .tiporeporte_opcion#opcion_nueve(data-eleccion='servicios')
                     div
-                        img.icon_svg_opciones(src="../../../assets/svg/servicios.svg", alt="") 
+                        img.icon_svg_opciones(src="../../../assets/svg/servicios.svg", alt="")
                     p ALTAS O BAJAS DE SERVICIOS
-                span#loader_seleccion(style="display:none")
+                
+                    
+                //span#loader_seleccion(style="display:none")
                     img(src="../../../assets/loader1.gif" )
             #mensajeerror_tiporeporte(style='visibility:hidden')
                 p YA EXISTE UN REPORTE SIMILAR PARA ÉSTE NÚMERO

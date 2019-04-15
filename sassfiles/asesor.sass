@@ -401,14 +401,16 @@ $var_altoancho: 125px
     #contenedor_tablaopciones
         color: black
         display: grid
-        grid-template-columns: $var_altoancho $var_altoancho $var_altoancho
+        grid-template-columns: $var_altoancho $var_altoancho $var_altoancho $var_altoancho
         grid-template-rows: $var_altoancho $var_altoancho $var_altoancho
         margin-top: 25px
         font-size: 90%
     
-    #mensajeerror_tiporeporte
+    #mensajeerror_tiporeporte, #errorbusqueda
         color: #AD3232
         margin-top: 15px
+
+    #errorbusqueda
     
     #btn_cancelartiporeporte
         color: white
@@ -467,11 +469,35 @@ $var_altoancho: 125px
 //fin de los estilos para validacion individual
 
 #subheader_modaldetalles
+    justify-content: space-between
+    height: 80px
+    align-content: center    
+
+#subheader_modaldetalles_content
+    display: flex
     flex-direction: column
-    justify-content: flex-start
-    align-items: flex-start
+    align-items: flex-end
     height: 70px
-    font-size: 70%
+    font-size: 90%
+    justify-content: space-evenly
+
+#regresar_modaldetalles
+    display: flex
+    align-items: center
+    border: 1px solid #BAC3D4
+    border-radius: 5px
+    padding: 5px 12px 5px 12px
+    background-color: #F1F2F6
+    color: #3F4658
+    img
+        height: 15px
+        margin-right: 5px
+    
+    &:hover
+        background-color: #BAC3D4
+        color: #F1F2F6
+        cursor: pointer
+    
     
     
     p
@@ -819,3 +845,14 @@ $var_altoancho: 125px
 
         img
             height: 200px
+
+
+//ESTILOS DE MODAL DE BUSQUEDA Y RELACIONADOS ---------------------------
+#errorbusqueda
+    color: #AD3232
+    margin-top: 15px
+    align-self: center
+
+#tbody_reportesexistentes > tr:hover
+    background-color: #E4E8F3
+    

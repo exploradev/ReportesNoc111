@@ -925,7 +925,7 @@ module.exports = function(app,io){
                 break;
         }
 
-        
+
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         var response = [];
@@ -935,7 +935,30 @@ module.exports = function(app,io){
         });
     });
 
+    //SE CONSULTA EL DETALLE SEGUN EL ID Y TIPO DE FALLA PASADO
+    app.post('/get_detallesmetadatos', middleware.requireLogin, function (req, res) {
+        var idmetadatos = req.body.idmetadatos;
+
+        var query = "SELECT m.idmetadatos,m.creado,u.nombre,m.falla FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
+        var inserts = [idmetadatos];
+        query = mysql.format(query, inserts);
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            res.send(results);
+        });
+    });  
     
+    app.post('/get_detallesobservaciones', middleware.requireLogin, function (req, res) {
+        var idmetadatos = req.body.idmetadatos;
+
+        var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ?"
+        var inserts = [idmetadatos];
+        query = mysql.format(query, inserts);
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            res.send(results);
+        });
+    });  
 
     
     

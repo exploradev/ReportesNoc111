@@ -1,289 +1,351 @@
-var statistics, tabla_pendientes, tabla_enespera, tabla_aceptadas, tabla_correcciones, tabla_activadas, tabla_analistaagenda;
-$(document).ready(function(){
+var llenar_conteos;
+$(document).ready(function () {
+
+    llenar_conteos_todos = function () {
+        $.get('/get_conteosmenu', function (response) {
+
+
+            $('#conteo_global').html(response[0]['conteo_global']);
+
+            $('#conteo_aclaraciones').html(response[0]['conteo_aclaraciones']);
+            $('#conteo_general').html(response[0]['conteo_general']);
+            $('#conteo_servicios').html(response[0]['conteo_servicios']);
+            $('#conteo_callback').html(response[0]['conteo_callback']);
+            $('#conteo_cobertura').html(response[0]['conteo_cobertura']);
+            $('#conteo_iccid').html(response[0]['conteo_iccid']);
+            $('#conteo_navegacion').html(response[0]['conteo_navegacion']);
+            $('#conteo_recargas').html(response[0]['conteo_recargas']);
+            $('#conteo_llamadas').html(response[0]['conteo_llamadas']);
+            $('#conteo_promociones').html(response[0]['conteo_promociones']);
+
+            $('#abiertos_aclaraciones').html(response[0]['abiertos_aclaraciones']);
+            $('#nuevos_aclaraciones').html(response[0]['nuevos_aclaraciones']);
+            $('#enproceso_aclaraciones').html(response[0]['enproceso_aclaraciones']);
+            $('#pendientes_aclaraciones').html(response[0]['pendientes_aclaraciones']);
+            $('#cerrados_aclaraciones').html(response[0]['cerrados_aclaraciones']);
+
+            $('#abiertos_general').html(response[0]['abiertos_general']);
+            $('#nuevos_general').html(response[0]['nuevos_general']);
+            $('#enproceso_general').html(response[0]['enproceso_general']);
+            $('#pendientes_general').html(response[0]['pendientes_general']);
+            $('#cerrados_general').html(response[0]['cerrados_general']);
+
+            $('#abiertos_servicios').html(response[0]['abiertos_servicios']);
+            $('#nuevos_servicios').html(response[0]['nuevos_servicios']);
+            $('#enproceso_servicios').html(response[0]['enproceso_servicios']);
+            $('#pendientes_servicios').html(response[0]['pendientes_servicios']);
+            $('#cerrados_servicios').html(response[0]['cerrados_servicios']);
+
+            $('#abiertos_callback').html(response[0]['abiertos_callback']);
+            $('#nuevos_callback').html(response[0]['nuevos_callback']);
+            $('#enproceso_callback').html(response[0]['enproceso_callback']);
+            $('#pendientes_callback').html(response[0]['pendientes_callback']);
+            $('#cerrados_callback').html(response[0]['cerrados_callback']);
+
+            $('#abiertos_cobertura').html(response[0]['abiertos_cobertura']);
+            $('#nuevos_cobertura').html(response[0]['nuevos_cobertura']);
+            $('#enproceso_cobertura').html(response[0]['enproceso_cobertura']);
+            $('#pendientes_cobertura').html(response[0]['pendientes_cobertura']);
+            $('#cerrados_cobertura').html(response[0]['cerrados_cobertura']);
+
+            $('#abiertos_iccid').html(response[0]['abiertos_iccid']);
+            $('#nuevos_iccid').html(response[0]['nuevos_iccid']);
+            $('#enproceso_iccid').html(response[0]['enproceso_iccid']);
+            $('#pendientes_iccid').html(response[0]['pendientes_iccid']);
+            $('#cerrados_iccid').html(response[0]['cerrados_iccid']);
+
+            $('#abiertos_navegacion').html(response[0]['abiertos_navegacion']);
+            $('#nuevos_navegacion').html(response[0]['nuevos_navegacion']);
+            $('#enproceso_navegacion').html(response[0]['enproceso_navegacion']);
+            $('#pendientes_navegacion').html(response[0]['pendientes_navegacion']);
+            $('#cerrados_navegacion').html(response[0]['cerrados_navegacion']);
+
+            $('#abiertos_recargas').html(response[0]['abiertos_recargas']);
+            $('#nuevos_recargas').html(response[0]['nuevos_recargas']);
+            $('#enproceso_recargas').html(response[0]['enproceso_recargas']);
+            $('#pendientes_recargas').html(response[0]['pendientes_recargas']);
+            $('#cerrados_recargas').html(response[0]['cerrados_recargas']);
+
+            $('#abiertos_llamadas').html(response[0]['abiertos_llamadas']);
+            $('#nuevos_llamadas').html(response[0]['nuevos_llamadas']);
+            $('#enproceso_llamadas').html(response[0]['enproceso_llamadas']);
+            $('#pendientes_llamadas').html(response[0]['pendientes_llamadas']);
+            $('#cerrados_llamadas').html(response[0]['cerrados_llamadas']);
+
+            $('#abiertos_promociones').html(response[0]['abiertos_promociones']);
+            $('#nuevos_promociones').html(response[0]['nuevos_promociones']);
+            $('#enproceso_promociones').html(response[0]['enproceso_promociones']);
+            $('#pendientes_promociones').html(response[0]['pendientes_promociones']);
+            $('#cerrados_promociones').html(response[0]['cerrados_promociones']);
+
+        });
+    }
+
+    llenar_conteos_propios = function () {
+        var iduser = $('body').data('iduser');
+        console.log(iduser)
+        $.post('/get_conteosmenu_propios',{iduser:iduser} ,function (response) {
+
+
+            $('#conteo_global').html(response[0]['conteo_global']);
+
+            $('#conteo_aclaraciones').html(response[0]['conteo_aclaraciones']);
+            $('#conteo_general').html(response[0]['conteo_general']);
+            $('#conteo_servicios').html(response[0]['conteo_servicios']);
+            $('#conteo_callback').html(response[0]['conteo_callback']);
+            $('#conteo_cobertura').html(response[0]['conteo_cobertura']);
+            $('#conteo_iccid').html(response[0]['conteo_iccid']);
+            $('#conteo_navegacion').html(response[0]['conteo_navegacion']);
+            $('#conteo_recargas').html(response[0]['conteo_recargas']);
+            $('#conteo_llamadas').html(response[0]['conteo_llamadas']);
+            $('#conteo_promociones').html(response[0]['conteo_promociones']);
+
+            $('#abiertos_aclaraciones').html(response[0]['abiertos_aclaraciones']);
+            $('#nuevos_aclaraciones').html(response[0]['nuevos_aclaraciones']);
+            $('#enproceso_aclaraciones').html(response[0]['enproceso_aclaraciones']);
+            $('#pendientes_aclaraciones').html(response[0]['pendientes_aclaraciones']);
+            $('#cerrados_aclaraciones').html(response[0]['cerrados_aclaraciones']);
+
+            $('#abiertos_general').html(response[0]['abiertos_general']);
+            $('#nuevos_general').html(response[0]['nuevos_general']);
+            $('#enproceso_general').html(response[0]['enproceso_general']);
+            $('#pendientes_general').html(response[0]['pendientes_general']);
+            $('#cerrados_general').html(response[0]['cerrados_general']);
+
+            $('#abiertos_servicios').html(response[0]['abiertos_servicios']);
+            $('#nuevos_servicios').html(response[0]['nuevos_servicios']);
+            $('#enproceso_servicios').html(response[0]['enproceso_servicios']);
+            $('#pendientes_servicios').html(response[0]['pendientes_servicios']);
+            $('#cerrados_servicios').html(response[0]['cerrados_servicios']);
+
+            $('#abiertos_callback').html(response[0]['abiertos_callback']);
+            $('#nuevos_callback').html(response[0]['nuevos_callback']);
+            $('#enproceso_callback').html(response[0]['enproceso_callback']);
+            $('#pendientes_callback').html(response[0]['pendientes_callback']);
+            $('#cerrados_callback').html(response[0]['cerrados_callback']);
+
+            $('#abiertos_cobertura').html(response[0]['abiertos_cobertura']);
+            $('#nuevos_cobertura').html(response[0]['nuevos_cobertura']);
+            $('#enproceso_cobertura').html(response[0]['enproceso_cobertura']);
+            $('#pendientes_cobertura').html(response[0]['pendientes_cobertura']);
+            $('#cerrados_cobertura').html(response[0]['cerrados_cobertura']);
+
+            $('#abiertos_iccid').html(response[0]['abiertos_iccid']);
+            $('#nuevos_iccid').html(response[0]['nuevos_iccid']);
+            $('#enproceso_iccid').html(response[0]['enproceso_iccid']);
+            $('#pendientes_iccid').html(response[0]['pendientes_iccid']);
+            $('#cerrados_iccid').html(response[0]['cerrados_iccid']);
+
+            $('#abiertos_navegacion').html(response[0]['abiertos_navegacion']);
+            $('#nuevos_navegacion').html(response[0]['nuevos_navegacion']);
+            $('#enproceso_navegacion').html(response[0]['enproceso_navegacion']);
+            $('#pendientes_navegacion').html(response[0]['pendientes_navegacion']);
+            $('#cerrados_navegacion').html(response[0]['cerrados_navegacion']);
+
+            $('#abiertos_recargas').html(response[0]['abiertos_recargas']);
+            $('#nuevos_recargas').html(response[0]['nuevos_recargas']);
+            $('#enproceso_recargas').html(response[0]['enproceso_recargas']);
+            $('#pendientes_recargas').html(response[0]['pendientes_recargas']);
+            $('#cerrados_recargas').html(response[0]['cerrados_recargas']);
+
+            $('#abiertos_llamadas').html(response[0]['abiertos_llamadas']);
+            $('#nuevos_llamadas').html(response[0]['nuevos_llamadas']);
+            $('#enproceso_llamadas').html(response[0]['enproceso_llamadas']);
+            $('#pendientes_llamadas').html(response[0]['pendientes_llamadas']);
+            $('#cerrados_llamadas').html(response[0]['cerrados_llamadas']);
+
+            $('#abiertos_promociones').html(response[0]['abiertos_promociones']);
+            $('#nuevos_promociones').html(response[0]['nuevos_promociones']);
+            $('#enproceso_promociones').html(response[0]['enproceso_promociones']);
+            $('#pendientes_promociones').html(response[0]['pendientes_promociones']);
+            $('#cerrados_promociones').html(response[0]['cerrados_promociones']);
+
+        });
+    }
+
+    //CLICK EN LOS DIFERENTES FILTROS LLAMAN QUERYS DISTINTAS
+    $('.clickable_filter').click(function () {
+        var filtro = $(this).data('filter');
+        var mios = $("input[name=mios]:checked").val();
+        if(mios == 'show'){
+            
+            var iduser = $('body').data('iduser');
+            
+            $.post('/get_maintabledata_propios', { filtro: filtro,iduser:iduser }, function (response) {
+                var table_body = [];
+                for (i = 0; i < response.length; i++) {
+                    table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
+
+                    table_body += '<td>';
+                    table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["idmetadatos"];
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["asesor"];
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["telefono"];
+                    table_body += '</td>';
+
+                    if (response[i]["ultseguimiento"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                        table_body += '</td>';
+                    }
+
+                    table_body += '<td>';
+                    if (response[i]["falla"] == 'aclaraciones') {
+                        table_body += "Aclaraciones";
+                    } else if (response[i]["falla"] == 'callback') {
+                        table_body += "Callback";
+                    } else if (response[i]["falla"] == 'general') {
+                        table_body += "Afectación general";
+                    } else if (response[i]["falla"] == 'cobertura') {
+                        table_body += "Calidad en el servicio/Cobertura";
+                    } else if (response[i]["falla"] == 'iccid') {
+                        table_body += "Cambio de ICCID";
+                    } else if (response[i]["falla"] == 'llamadas') {
+                        table_body += "Falla en llamadas/SMS";
+                    } else if (response[i]["falla"] == 'navegacion') {
+                        table_body += "Falla en navegación";
+                    } else if (response[i]["falla"] == 'recargas') {
+                        table_body += "Recargas";
+                    } else if (response[i]["falla"] == 'promociones') {
+                        table_body += "Promociones";
+                    } else if (response[i]["falla"] == 'servicios') {
+                        table_body += "Alta o baja de servicios";
+                    } else {
+                        table_body += "N/A"
+                    }
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["estatus"];
+                    table_body += '</td>';
+
+
+                    if (response[i]["propietario"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += response[i]["propietario"];
+                        table_body += '</td>';
+                    }
+
+                    table_body += '</tr>';
+                }
+                $('#tbody_maintable').html(table_body);
+            });
+        }else{
+            console.log(mios);
+            $.post('/get_maintabledata', { filtro: filtro }, function (response) {
+                var table_body = [];
+                for (i = 0; i < response.length; i++) {
+                    table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
+
+                    table_body += '<td>';
+                    table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["idmetadatos"];
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["asesor"];
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["telefono"];
+                    table_body += '</td>';
+
+                    if (response[i]["ultseguimiento"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                        table_body += '</td>';
+                    }
+
+                    table_body += '<td>';
+                    if (response[i]["falla"] == 'aclaraciones') {
+                        table_body += "Aclaraciones";
+                    } else if (response[i]["falla"] == 'callback') {
+                        table_body += "Callback";
+                    } else if (response[i]["falla"] == 'general') {
+                        table_body += "Afectación general";
+                    } else if (response[i]["falla"] == 'cobertura') {
+                        table_body += "Calidad en el servicio/Cobertura";
+                    } else if (response[i]["falla"] == 'iccid') {
+                        table_body += "Cambio de ICCID";
+                    } else if (response[i]["falla"] == 'llamadas') {
+                        table_body += "Falla en llamadas/SMS";
+                    } else if (response[i]["falla"] == 'navegacion') {
+                        table_body += "Falla en navegación";
+                    } else if (response[i]["falla"] == 'recargas') {
+                        table_body += "Recargas";
+                    } else if (response[i]["falla"] == 'promociones') {
+                        table_body += "Promociones";
+                    } else if (response[i]["falla"] == 'servicios') {
+                        table_body += "Alta o baja de servicios";
+                    } else {
+                        table_body += "N/A"
+                    }
+                    table_body += '</td>';
+
+                    table_body += '<td>';
+                    table_body += response[i]["estatus"];
+                    table_body += '</td>';
+
+
+                    if (response[i]["propietario"] == null) {
+                        table_body += '<td>';
+                        table_body += "N/A"
+                        table_body += '</td>';
+                    } else {
+                        table_body += '<td>';
+                        table_body += response[i]["propietario"];
+                        table_body += '</td>';
+                    }
+
+                    table_body += '</tr>';
+                }
+                $('#tbody_maintable').html(table_body);
+            });
+        }
+        
+    });
+
+    //POR DEFAULT SE LLENA LA TABLA CON TODOS LOS REPORTES
+    $('#countergroup').trigger('click');
+
+    $('input[type=checkbox]').change(function(){
+        var mios = $("input[name=mios]:checked").val();
+        if(mios == 'show'){
+            llenar_conteos_propios();
+            $('#countergroup').trigger('click');
+        }else{
+            llenar_conteos_todos();
+            $('#countergroup').trigger('click');
+        }
+    });
+        
 
     
 
-    statistics = function () { 
-        $.post('/statisticsanalista', function (response) {
-            var pendientes, enesperaderespuesta, aceptadas, correcciones, activaciones;
-            
-            pendientes = response[0]["pendientes"];
-            enesperaderespuesta = response[0]["enesperaderespuesta"];
-            aceptadas = response[0]["aceptadas"];
-            correcciones = response[0]["correcciones"];
-            activaciones = response[0]["activaciones"];
-
-            $('#pendientes').html(pendientes);
-            $('#enesperaderespuesta').html(enesperaderespuesta);
-            $('#aceptadas').html(aceptadas);
-            $('#correcciones').html(correcciones);
-            $('#activaciones').html(activaciones);
-        });
-    }
-
-    tabla_pendientes = function () {  
-        $.post('/analistapendientes', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                table_body += "<tr id='row" + response[i]["idregistro"] +"' class='rowhover' data-idregistro='" + response[i]["idregistro"]+"'>";
-
-                table_body += '<td>';
-                table_body += response[i]["fecha"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["cliente"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["turno"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["tipoactivacion"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["campania"];
-                table_body += '</td>';
-
-                //console.log(response[i]["analistaasignado"]);
-                if (response[i]["analistaasignado"]==null){
-                    table_body += "<td class='btn-asignto'><div id='asignto" + response[i]["idregistro"] + "' class='asignto'>Asignar y ver detalles<div/></td>";
-                }else{
-                    table_body += "<td class='analista_capturando' id='verrequest" + response[i]["idregistro"]+"'> Capturando ";
-                    table_body += response[i]["analistaasignado"];
-                    table_body += '</td>';
-                }
-                table_body += '</tr>';
-            }
-            $('#tbody_pendientes').html(table_body);
-        });
-    }
-
-    tabla_enespera = function () {
-        $.post('/analistaenespera', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                table_body += "<tr id='enespera" + response[i]["idregistro"] + "' class='enesperarow' data-idregistro='" + response[i]["idregistro"] + "'>";
-
-                table_body += '<td>';
-                table_body += response[i]["fecha"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["cliente"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-                
-                table_body += '<td>';
-                table_body += response[i]["campania"];
-                table_body += '</td>';
-                
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='canal" + response[i]["idregistro"] +"' data-toggle='popover'>"
-                table_body += response[i]["canal"];
-                table_body += '</span></td>';
-
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='sisact" + response[i]["idregistro"] +"' data-toggle='popover'>";
-                table_body += response[i]["sisact"];
-                table_body += '</span></td>';
-
-                table_body += "<td><div class='buttons-set-events' id='button-enespera-" + response[i]["idregistro"] + "'><span id='aceptada" + response[i]["idregistro"] + "' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/ok.png'> Aceptada </span><span id='corregir" + response[i]["idregistro"] +"' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/edit.png'> Aceptada con corrección </span><span id='rechazada" + response[i]["idregistro"] + "' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/rejected.png'> Rechazada </span></div></td>";
-
-                table_body += '</tr>';
-            }
-            $('#tbody_enespera').html(table_body);
-        });
-    }
-
-    tabla_aceptadas = function () {
-        $.post('/analistaaceptadas', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                table_body += "<tr id='aceptadas" + response[i]["idregistro"] + "' class='aceptadasrow' data-idregistro='" + response[i]["idregistro"] + "'>";
-
-                table_body += '<td>';
-                table_body += response[i]["fecha"];
-                table_body += '</td>';
-               
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-            
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='canal" + response[i]["idregistro"] + "' data-toggle='popover'>"
-                table_body += response[i]["canal"];
-                table_body += '</span></td>';
-
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='sisact" + response[i]["idregistro"] + "' data-toggle='popover'>";
-                table_body += response[i]["sisact"];
-                table_body += '</span></td>';
-
-                if (response[i]["agendada"] == null){
-                    table_body += "<td id='" + response[i]["idregistro"] + "' class='text-buttons-events '><img id='trigger-click-agenda" + response[i]["idregistro"] +"' class='buttons-events' data-toggle='popover' src='../assets/calendario.png'></td>"
-                }else{
-                    table_body += "<td>";
-                    table_body += "<span class='trigger-click-agenda' id='trigger-click-agenda" + response[i]["idregistro"] +"' >";
-                    table_body += response[i]["agendada"] + " " + response[i]["cac"];
-                    table_body += '</span>';
-                    table_body += '</td>';
-                }
-
-                table_body += '</tr>';
-            }
-            $('#tbody_aceptadas').html(table_body);
-        });
-    }
-
-    tabla_analistaagenda = function () {
-        $.post('/analistaagenda', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                table_body += "<tr id='analistaagenda" + response[i]["idregistro"] + "' class='analistaagendarow' data-idregistro='" + response[i]["idregistro"] + "'>";
-
-                if (response[i]["agendada"] == null) {
-                    table_body += "<td id='" + response[i]["idregistro"] + "' class='text-buttons-events '><img id='trigger-click-agenda" + response[i]["idregistro"] + "' class='buttons-events' data-toggle='popover' src='../assets/calendario.png'> Agendar</td>"
-                } else {
-                    table_body += "<td>";
-                    table_body += "<span class='trigger-click-agenda' id='trigger-click-agenda" + response[i]["idregistro"] + "' >";
-                    table_body += response[i]["agendada"];
-                    table_body += '</span>';
-                    table_body += '</td>';
-                }
-               
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-                
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='canal" + response[i]["idregistro"] + "' data-toggle='popover'>"
-                table_body += response[i]["canal"];
-                table_body += '</span></td>';
-
-                table_body += '<td>';
-                table_body += "<span class='trigger-click-agenda' id='sisact" + response[i]["idregistro"] + "' data-toggle='popover'>";
-                table_body += response[i]["sisact"];
-                table_body += '</span></td>';
-
-                table_body += '<td>';
-                table_body += response[i]["contacto"];
-                table_body += '</td>';
-
-                table_body += "<td> <div class='buttons-set-events' id='button-aceptadas-" + response[i]["idregistro"] + "'><span id='finalizado" + response[i]["idregistro"] + "' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/ok.png'> Activada </span><span id='nofinalizado" + response[i]["idregistro"] + "' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/rejected.png'> No activada </span><span id='comnt" + response[i]["idregistro"] + "' class='buttons-events-wrapper'><img class='buttons-events' src='../assets/comnt.png'> Obs.</span></div></td>";
-
-                table_body += '</tr>';
-            }
-            $('#tbody_agendaanalista').html(table_body);
-        });
-    }
-
-    tabla_correcciones = function () {
-        $.post('/analistacorrecciones', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                if (response[i]["corregido"] == 1){
-                    table_body += "<tr ";
-                } else if (response[i]["corregido"] == 0){
-                    table_body += "<tr class='uncorrected'";
-                }
-                table_body += "id='correcciones" + response[i]["idregistro"] + "' class='correccionesrow' data-idregistro='" + response[i]["idregistro"] + "'>";
-
-                table_body += '<td>';
-                table_body += response[i]["fecha"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["cliente"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["turno"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["tipoactivacion"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["campania"];
-                table_body += '</td>';
-
-                if (response[i]["corregido"] == 1){
-                    if (response[i]["analistaasignado"] == null) {
-                        table_body += "<td class='btn-asignto'><div id='asignto" + response[i]["idregistro"] + "' class='asignto'>Asignar y ver detalles<div/></td>";
-                    } else {
-                        table_body += "<td class='analista_capturando' id='verrequest" + response[i]["idregistro"] + "'> Capturando ";
-                        table_body += response[i]["analistaasignado"];
-                        table_body += '</td>';
-                    }
-                } else if (response[i]["corregido"] == 0){
-                    table_body += "<td class='analista_capturando'>Esperando corrección</td>";
-                }
-                
-                table_body += '</tr>';
-            }
-            $('#tbody_correcciones').html(table_body);
-        });
-    }
-
-    tabla_activadas = function () {
-        $.post('/analistaactivadas', function (response) {
-            var table_body = [];
-            for (i = 0; i < response.length; i++) {
-                table_body += "<tr>";
-
-                table_body += '<td>';
-                table_body += response[i]["fecha"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["cliente"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["vendedor"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["turno"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["campania"];
-                table_body += '</td>';
-
-                table_body += '<td>';
-                table_body += response[i]["sisact"];
-                table_body += '</td>';
-
-                
-                table_body += '</tr>';
-            }
-            $('#tbody_activadas').html(table_body);
-        });
-    }
-
-
-    statistics();
-    tabla_pendientes();
-    tabla_enespera();
-    tabla_aceptadas();
-    tabla_correcciones();
-    tabla_activadas();
-    tabla_analistaagenda();
-
+    llenar_conteos_todos();
+    //llenar_conteos_propios();
 });

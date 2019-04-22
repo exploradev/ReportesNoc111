@@ -18,6 +18,7 @@ $(document).ready(function(){
     $('#btn_nuevoreporte').click(function () {
         $('#asesor_modal_seleccionartiporeporte').css('display', 'block');
         $('#overlay-back').css('display', 'block');
+        $('body').addClass('modal-open');
         reset_all();
     });
 
@@ -30,6 +31,7 @@ $(document).ready(function(){
         $('#asesor_modal_detallesdecaptura').css('display', 'none');
         
         $('#overlay-back').css('display', 'none');
+        $('body').removeClass('modal-open');
         reset_all();
     });
 

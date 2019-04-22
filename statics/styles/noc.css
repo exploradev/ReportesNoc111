@@ -183,6 +183,70 @@ header {
   position: absolute;
   z-index: -1; }
 
+#tablaheader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px; }
+  #tablaheader #tiporeporte_header {
+    color: white;
+    font-weight: bold;
+    font-size: 90%; }
+  #tablaheader #main_searchbox {
+    border-radius: 30px;
+    border: none;
+    background-color: #4B5367;
+    color: #BAC3D4;
+    font-size: 60%;
+    font-weight: bold;
+    padding-left: 15px;
+    height: 30px;
+    width: 200px; }
+
+#tabla_principal table {
+  margin-top: -3px; }
+#tabla_principal table, #tabla_principal thead, #tabla_principal tbody, #tabla_principal tr {
+  border: 1px solid #3F4658;
+  width: 945px; }
+#tabla_principal thead {
+  background-color: #4B5367;
+  color: white;
+  font-size: 70%;
+  height: 40px;
+  display: block; }
+  #tabla_principal thead th {
+    height: 40px; }
+#tabla_principal tbody {
+  display: block;
+  height: 620px;
+  overflow-y: auto; }
+  #tabla_principal tbody tr {
+    background-color: white;
+    height: 30px;
+    font-size: 70%;
+    color: #707070; }
+    #tabla_principal tbody tr:hover {
+      background-color: #F4F8FF;
+      color: #3F4658;
+      cursor: pointer; }
+#tabla_principal th, #tabla_principal td {
+  padding-left: 5px; }
+
+tbody td, thead th {
+  width: 100px; }
+  tbody td:nth-child(2), thead th:nth-child(2) {
+    width: 50px; }
+  tbody td:nth-child(3), thead th:nth-child(3) {
+    width: 150px; }
+  tbody td:nth-child(4), thead th:nth-child(4) {
+    width: 75px; }
+  tbody td:nth-child(5), thead th:nth-child(5) {
+    width: 130px; }
+  tbody td:nth-child(6), thead th:nth-child(6) {
+    width: 180px; }
+  tbody td:nth-child(8), thead th:nth-child(8) {
+    width: 157px; }
+
 #overlay-back {
   position: absolute;
   top: 0;
@@ -326,6 +390,26 @@ header {
   right: 0;
   position: absolute;
   z-index: -1; }
+
+.footer_modal_container {
+  display: flex;
+  justify-content: space-between; }
+
+#form_seguimiento {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  font-size: 80%;
+  justify-content: space-between; }
+  #form_seguimiento #guardar_seguimiento_nuevo {
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    width: 100px;
+    background-color: #4B5367;
+    color: white; }
+    #form_seguimiento #guardar_seguimiento_nuevo:hover {
+      background-color: #3F4658; }
 
 .gridsystem_cobertura {
   display: grid;
@@ -517,6 +601,41 @@ header {
   .gridsystem_servicios .trece {
     grid-column: 2/4; }
 
+.footer_modal {
+  height: 230px;
+  background-color: #E4E8F3;
+  padding: 15px; }
+  .footer_modal p {
+    color: #3F4658;
+    font-size: 80%;
+    font-weight: bold; }
+  .footer_modal table {
+    width: 70%;
+    margin-top: 5px; }
+  .footer_modal td, .footer_modal tr, .footer_modal th {
+    border: 1px solid #C2CAD9;
+    height: 25px;
+    font-size: 95%;
+    padding-left: 5px;
+    width: 50px; }
+  .footer_modal tbody {
+    font-size: 80%;
+    height: 150px;
+    overflow-y: auto;
+    margin-top: -1px; }
+    .footer_modal tbody tr {
+      cursor: pointer; }
+  .footer_modal thead {
+    background-color: #BAC3D4;
+    color: #3F4658;
+    font-size: 80%; }
+  .footer_modal thead, .footer_modal tbody {
+    display: block; }
+  .footer_modal thead th, .footer_modal tbody td {
+    width: 120px; }
+    .footer_modal thead th:nth-child(4), .footer_modal tbody td:nth-child(4) {
+      width: 248px; }
+
 #menu_lateral {
   border: 2px solid none;
   border-radius: 5px;
@@ -593,73 +712,5 @@ header {
       cursor: pointer; }
     .submenu_item span:hover > .circulo_conteo {
       background-color: white; }
-
-#tablaheader {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px; }
-  #tablaheader #tiporeporte_header {
-    color: white;
-    font-weight: bold;
-    font-size: 90%; }
-  #tablaheader #main_searchbox {
-    border-radius: 30px;
-    border: none;
-    background-color: #4B5367;
-    color: #BAC3D4;
-    font-size: 60%;
-    font-weight: bold;
-    padding-left: 15px;
-    height: 30px;
-    width: 200px; }
-
-table {
-  margin-top: -3px; }
-
-table, thead, tbody, tr {
-  border: 1px solid #3F4658;
-  width: 945px; }
-
-thead {
-  background-color: #4B5367;
-  color: white;
-  font-size: 70%;
-  height: 40px;
-  display: block; }
-  thead th {
-    height: 40px; }
-
-tbody {
-  display: block;
-  height: 620px;
-  overflow-y: auto; }
-  tbody tr {
-    background-color: white;
-    height: 30px;
-    font-size: 70%;
-    color: #707070; }
-    tbody tr:hover {
-      background-color: #F4F8FF;
-      color: #3F4658;
-      cursor: pointer; }
-
-th, td {
-  padding-left: 5px; }
-
-tbody td, thead th {
-  width: 100px; }
-  tbody td:nth-child(2), thead th:nth-child(2) {
-    width: 50px; }
-  tbody td:nth-child(3), thead th:nth-child(3) {
-    width: 150px; }
-  tbody td:nth-child(4), thead th:nth-child(4) {
-    width: 75px; }
-  tbody td:nth-child(5), thead th:nth-child(5) {
-    width: 130px; }
-  tbody td:nth-child(6), thead th:nth-child(6) {
-    width: 180px; }
-  tbody td:nth-child(8), thead th:nth-child(8) {
-    width: 157px; }
 
 /*# sourceMappingURL=noc.css.map */

@@ -183,7 +183,74 @@ header
     position: absolute
     z-index: -1  
 
-        
+//ESTILOS TABLA GRANDE
+#tablaheader
+    align-items: center
+    display: flex
+    justify-content: space-between
+    
+    padding: 5px
+    #tiporeporte_header
+        color: white
+        font-weight: bold
+        font-size: 90%
+    #main_searchbox
+        border-radius: 30px
+        border: none
+        background-color: #4B5367
+        color: #BAC3D4
+        font-size: 60%
+        font-weight: bold
+        padding-left: 15px
+        height: 30px
+        width: 200px
+
+#tabla_principal
+    table
+        margin-top: -3px
+    table,thead,tbody,tr
+        border: 1px solid #3F4658
+        width: 945px 
+    thead
+        background-color: #4B5367
+        color: white
+        font-size: 70%
+        height: 40px
+        display: block
+        th
+            height: 40px
+    tbody
+        display: block
+        height: 620px
+        overflow-y: auto 
+        tr
+            background-color: white
+            height: 30px
+            font-size: 70%
+            color: #707070
+            &:hover
+                background-color: #F4F8FF
+                color: #3F4658
+                cursor: pointer
+    th,td
+        padding-left: 5px
+
+//anchos fijos de columnas
+tbody td, thead th
+    width: 100px
+    &:nth-child(2)
+        width: 50px
+    &:nth-child(3)
+        width: 150px
+    &:nth-child(4)
+        width: 75px
+    &:nth-child(5)
+        width: 130px
+    &:nth-child(6)
+        width: 180px
+    &:nth-child(8)
+        width: 157px
+    
 
 // MODAL DE DETALLES DE REPORTE EXISTENTE ---------------------------------------------------
 #overlay-back
@@ -355,9 +422,29 @@ header
 
 
 
-//ESTILOS GRID DEL DETALLE 
+//ESTILOS GRID DEL DETALLE  Y AL FINAL ESTILOS DE FOOTER CON TABLA
 
+//estilos de footer
+.footer_modal_container
+    display: flex
+    justify-content: space-between
 
+#form_seguimiento
+    display: flex
+    flex-direction: column
+    width: 25%
+    font-size: 80%
+    justify-content: space-between
+    #guardar_seguimiento_nuevo
+        border-radius: 5px
+        border: none 
+        height: 30px
+        width: 100px
+        background-color: #4B5367
+        color: white
+        &:hover
+            background-color: #3F4658
+            
 .gridsystem_cobertura
     p.titulocampo
         font-size: 80%
@@ -571,6 +658,49 @@ header
         grid-column: 2/4 
 
 
+.footer_modal
+    height: 230px
+    background-color: #E4E8F3
+    padding: 15px
+    
+    p
+        color: #3F4658 
+        font-size: 80% 
+        font-weight: bold 
+
+    table
+        width: 70% 
+        margin-top: 5px 
+        
+    td,tr,th
+        border: 1px solid #C2CAD9 
+        
+        height: 25px 
+        font-size: 95% 
+        padding-left: 5px 
+        width: 50px 
+    tbody
+        tr
+            cursor: pointer 
+        font-size: 80% 
+        height: 150px    
+        overflow-y: auto  
+        overflow-x:hidden
+        margin-top: -1px 
+    thead
+        background-color: #BAC3D4 
+        color: #3F4658 
+        font-size: 80% 
+        
+    thead, tbody
+        display: block 
+    thead th, tbody td
+        width: 120px 
+        &:nth-child(4)
+            width: 248px
+
+
+
 //-------------------------------
 
 //ESTILOS DE TABLA PRINCIPAL Y MENU LATERAL ---------------------------
@@ -655,73 +785,7 @@ $altura_boxes: 700px
         &:hover > .circulo_conteo
             background-color: white
 
-//ESTILOS TABLA GRANDE
-#tablaheader
-    align-items: center
-    display: flex
-    justify-content: space-between
-    
-    padding: 5px
-    #tiporeporte_header
-        color: white
-        font-weight: bold
-        font-size: 90%
-    #main_searchbox
-        border-radius: 30px
-        border: none
-        background-color: #4B5367
-        color: #BAC3D4
-        font-size: 60%
-        font-weight: bold
-        padding-left: 15px
-        height: 30px
-        width: 200px
 
-table
-    margin-top: -3px
-table,thead,tbody,tr
-    border: 1px solid #3F4658
-    width: 945px 
-thead
-    background-color: #4B5367
-    color: white
-    font-size: 70%
-    height: 40px
-    display: block
-    th
-        height: 40px
-tbody
-    display: block
-    height: 620px
-    overflow-y: auto 
-    tr
-        background-color: white
-        height: 30px
-        font-size: 70%
-        color: #707070
-        &:hover
-            background-color: #F4F8FF
-            color: #3F4658
-            cursor: pointer
-th,td
-    padding-left: 5px
-
-//anchos fijos de columnas
-tbody td, thead th
-    width: 100px
-    &:nth-child(2)
-        width: 50px
-    &:nth-child(3)
-        width: 150px
-    &:nth-child(4)
-        width: 75px
-    &:nth-child(5)
-        width: 130px
-    &:nth-child(6)
-        width: 180px
-    &:nth-child(8)
-        width: 157px
-    
 
 
 

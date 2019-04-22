@@ -775,4 +775,53 @@ module.exports = function(app,io){
         });
     });
 
+    app.post('/actualizar_estatuscaptura',middleware.requireLogin, function(req,res){
+        var nuevo_estatus = req.body.nuevo_estatus;
+        var nuevo_comentario = req.body.nuevo_comentario;
+        var iduser = req.body.iduser;
+        var idmetadatos = req.body.idmetadatos;
+
+        connection.getConnection(function (err, pool) {
+            pool.beginTransaction(function (err) {
+                if (err) throw err;
+                var query = "UPDATE metadatos SET estatus = ?, ultseguimiento = now() WHERE idmetadatos = ?";
+                var inserts = [nuevo_estatus, idmetadatos];
+                query = mysql.format(query, inserts);
+
+                pool.query(query, function (err, result) {
+                    if (err) {
+                        pool.rollback(function () {
+                            throw err;
+                        });
+                    }
+                    
+
+                    //siguiente query
+
+                    var query = "INSERT INTO observaciones(idmetadatos,observacion,noc,estatus) VALUES(?,?,?,?)";
+                    var inserts = [idmetadatos, nuevo_comentario, iduser, nuevo_estatus];
+                    query = mysql.format(query, inserts);
+                    pool.query(query, function (err, result) {
+                        if (err) {
+                            pool.rollback(function () {
+                                throw err;
+                            });
+                        }
+                        //en el ultimo insert
+                        pool.commit(function (err) {
+                            if (err) {
+                                pool.rollback(function () {
+                                    throw err;
+                                });
+                            }
+                            console.log('Nuevo comentario de seguimiento de captura ID: ' + idmetadatos);
+                            res.send("Correcto");
+
+                        });//fin del commit
+                    });//fin del query 2
+
+                });//fin de la query 1
+            }); //fin del begin transaction
+        }); //fin del get connection
+    });
 }// fin del archivo

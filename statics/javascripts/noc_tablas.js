@@ -83,7 +83,7 @@ $(document).ready(function () {
 
     llenar_conteos_propios = function () {
         var iduser = $('body').data('iduser');
-        console.log(iduser)
+        
         $.post('/get_conteosmenu_propios',{iduser:iduser} ,function (response) {
 
 
@@ -248,7 +248,7 @@ $(document).ready(function () {
                 $('#tbody_maintable').html(table_body);
             });
         }else{
-            console.log(mios);
+            
             $.post('/get_maintabledata', { filtro: filtro }, function (response) {
                 var table_body = [];
                 for (i = 0; i < response.length; i++) {

@@ -1064,6 +1064,7 @@ $(document).ready(function(){
                 var valor_numfolio = $('#input_buscador').val()
                 $('#numeroofolioenmodal').html(valor_numfolio);
                 $('#overlay-back').css('display', 'block');
+                $('body').addClass('modal-open');
                 $('#asesor_modal_reportesdisponibles').css('display','block');
             }
         });

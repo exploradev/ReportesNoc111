@@ -511,7 +511,6 @@ header {
     font-size: 80%;
     height: 150px;
     overflow-y: auto;
-    overflow-x: hidden;
     margin-top: -1px; }
     .footer_modal tbody tr {
       cursor: pointer; }

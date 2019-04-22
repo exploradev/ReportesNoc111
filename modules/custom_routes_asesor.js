@@ -951,7 +951,7 @@ module.exports = function(app,io){
     app.post('/get_detallesobservaciones', middleware.requireLogin, function (req, res) {
         var idmetadatos = req.body.idmetadatos;
 
-        var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ?"
+        var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ? order by o.creado DESC"
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         connection.query(query, function (error, results, field) {

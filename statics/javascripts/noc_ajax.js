@@ -55,7 +55,7 @@ $(document).ready(function(){
                 table_body += "<tr>";
 
                 table_body += '<td>';
-                table_body += moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm');
+                table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
                 table_body += '</td>';
 
                 table_body += '<td>';
@@ -217,7 +217,7 @@ $(document).ready(function(){
                 table_body += "<tr>";
 
                 table_body += '<td>';
-                table_body += moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm');
+                table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
                 table_body += '</td>';
 
                 table_body += '<td>';

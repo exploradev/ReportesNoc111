@@ -1,6 +1,22 @@
 
 $(document).ready(function () {
 
+//-----------------------------------------------------------------------
+//-------------------------------WEBSOCKETS------------------------------
+//-----------------------------------------------------------------------
+    socket = io.connect('http://localhost:2264');
+
+    socket.on('default_handshake', function (msg) {
+        //REPORTE A SERVER AL CARGAR
+        idasesor = $("body").data('iduser');
+        sockid = socket.id;
+        socket.emit('reportealista', { idasesor: idasesor, sockid: sockid });
+    });
+//-----------------------------------------------------------------------
+//-------------------------------WEBSOCKETS------------------------------
+//-----------------------------------------------------------------------
+
+
     //al tener abierto algun modal lo cierro con esc
     $(window).keyup(function (e) {
         if (e.keyCode === 27) $('.closebuttonn').trigger('click');

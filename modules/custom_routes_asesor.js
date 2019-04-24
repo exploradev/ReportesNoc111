@@ -95,6 +95,127 @@ module.exports = function(app,io){
 
 
     //------------------------------------------------------------
+
+
+    //SE RECIBEN IDs DE USUARIOS CONECTADOS Y EL ID DE LA ULTIMA CAPTURA
+    //PARA ASIGNARLA DEPENDIENDO DEL ALGORITMO
+    function asignacion_propietario(captura){
+
+        
+
+        //sanitizo las variables
+        if (captura == undefined || captura == null){
+            captura = 0;
+        }
+
+        //obtengo la hora
+        var d = new Date();
+        var hours = d.getHours();
+
+        //si la captura esta entre la 1 y 2pm
+        if (hours > 12 && hours < 15){
+            //buscar el id del que tenga menos registros de los noc vespertinos directo de db y asignarselo
+            //comienza la query de consulta
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' group by u.iduser order by capturas asc limit 1";
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                //console.log(results);
+                let propietario = results[0].propietario;
+                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                var inserts = [propietario, captura];
+                query = mysql.format(query, inserts);
+                connection.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                }); //fin query de asignacion
+            }); //fin query de consulta
+        }else if(hours > 19 && hours < 24){ //si la captura esta entre las 8 y 11 pm
+            //buscar el id del que tenga menos registros de los noc matutinos directo de db y asignarselo
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' group by u.iduser order by capturas asc limit 1";
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                //console.log(results);
+                let propietario = results[0].propietario;
+                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                var inserts = [propietario, captura];
+                query = mysql.format(query, inserts);
+                connection.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                }); //fin query de asignacion
+            }); //fin query de consulta
+        }else if(usuarios_conectados.length > 1){ //si hay conectados y la captura no esta entre los rangos anteriores
+            //tratamiento de ids
+            let usuarios_conectados_ids = [];
+            usuarios_conectados.forEach((index)=>{
+                usuarios_conectados_ids.push(index.idasesor);
+            });
+            //console.log(usuarios_conectados_ids);
+            
+            //comienza la query de consulta
+            //console.log(usuarios_conectados_ids);
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.iduser IN(?) group by u.iduser order by capturas asc limit 1";
+            var inserts = [usuarios_conectados_ids];
+            query = mysql.format(query,inserts);
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                //console.log(results);
+                let propietario = results[0].propietario;
+                
+                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                var inserts = [propietario,captura];
+                query = mysql.format(query, inserts);
+                connection.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: "+ captura);
+                }); //fin query de asignacion
+            }); //fin query de consulta
+            //BUSCAR EL QUE TIENE MENOS DE LOS CONECTADOS
+        }else{
+            if(hours > 1 && hours < 13){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
+                //buscar el que tiene menos del turno matutino y asignarlo
+                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' group by u.iduser order by capturas asc limit 1";
+                connection.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    //console.log(results);
+                    let propietario = results[0].propietario;
+                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var inserts = [propietario, captura];
+                    query = mysql.format(query, inserts);
+                    connection.query(query, function (error, results, field) {
+                        if (error) throw error;
+                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                    }); //fin query de asignacion
+                }); //fin query de consulta
+            }else if(hours > 14 && hours < 20){
+                //buscar el que tiene menos del turno vespertino y asignarlo
+                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' group by u.iduser order by capturas asc limit 1";
+                connection.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    //console.log(results);
+                    let propietario = results[0].propietario;
+                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var inserts = [propietario, captura];
+                    query = mysql.format(query, inserts);
+                    connection.query(query, function (error, results, field) {
+                        if (error) throw error;
+                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                    }); //fin query de asignacion
+                }); //fin query de consulta
+            }
+        }
+        console.log(usuarios_conectados);
+        console.log(captura);
+
+        //DOY LA ALERTA DE INSERCION PARA ACTUALIZAR TABLAS
+        io.emit('new', 'nueva_captura');
+    }
+
     //SE AGREGA A BASE DE DATOS LOS DATOS DE LOS FORMULARIOS
 
     //COBERTURA
@@ -168,6 +289,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de cobertura ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -245,6 +367,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de aclaracion ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -317,6 +440,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de callback ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -388,6 +512,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Afectación general ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -461,6 +586,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Cambio de ICCID ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -538,6 +664,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Llamadas / SMS ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -613,6 +740,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -687,6 +815,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -760,6 +889,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Promociones ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -833,6 +963,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo reporte de Servicios ID: ' + last_id_inserted);
+                            asignacion_propietario(last_id_inserted);
                             res.send("Correcto");
 
                         });//fin del commit
@@ -849,8 +980,7 @@ module.exports = function(app,io){
 
 
     });
-
-
+    
     //--------------------------------------------------------------------
     
     //SE CONSULTA EXISTENCIA DE REPORTES EXISTENTES POR NUMERO O FOLIO DB

@@ -4,13 +4,27 @@ $(document).ready(function () {
 //-----------------------------------------------------------------------
 //-------------------------------WEBSOCKETS------------------------------
 //-----------------------------------------------------------------------
-    socket = io.connect('http://localhost:2264');
+    socket = io.connect('http://192.168.3.62:2264');
 
     socket.on('default_handshake', function (msg) {
         //REPORTE A SERVER AL CARGAR
         idasesor = $("body").data('iduser');
         sockid = socket.id;
         socket.emit('reportealista', { idasesor: idasesor, sockid: sockid });
+    });
+
+    socket.on('new',function(msg){
+        console.log("Socket: " + msg);
+        //reload_conteos
+        var mios = $("input[name=mios]:checked").val();
+        if (mios == 'show') {
+            llenar_conteos_propios();
+        } else {
+            llenar_conteos_todos();
+        }
+        //reload tabla actual trtgger click de panel abierto
+        var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+        $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
     });
 //-----------------------------------------------------------------------
 //-------------------------------WEBSOCKETS------------------------------

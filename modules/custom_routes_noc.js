@@ -815,6 +815,7 @@ module.exports = function(app,io){
                                 });
                             }
                             console.log('Nuevo comentario de seguimiento de captura ID: ' + idmetadatos);
+                            io.emit('new', 'nuevo_seguimiento');
                             res.send("Correcto");
 
                         });//fin del commit

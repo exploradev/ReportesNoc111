@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var connection = require('./db');
 var moment = require('moment');
 
-
+module.exports = usuarios_conectados = [{ socketid: 'dummie-text', idasesor: 0 }];
 module.exports = function (app, io) {
 
 
@@ -12,11 +12,14 @@ module.exports = function (app, io) {
 //-------------------------------WEBSOCKETS------------------------------
 //-----------------------------------------------------------------------
 
-var usuarios_conectados = [{socketid: 'dummie-text', idasesor: 0}];
+//se inicializa el arreglo de conectados para poder ser recorrido
+
 io.on('connection', function (socket) {
     
-    //DEFAULT HANDSHAKE - INVOCAR EL SOCKET.ID EN EL NAVEGADOR CLIENTE FRONTEND
+    //DEFAULT HANDSHAKE - INVOCAR EL SOCKET.ID EN EL NAVEGADOR CLIENTE FRONTEND-------------------
     io.to(socket.id).emit('default_handshake', socket.id);
+
+    
 
     //RECIBE LOS HANDSHAKE DE LOS NODOS CONECTADOS PARA LISTARLOS --------------------------------
     socket.on('reportealista', function (msg) {
@@ -31,7 +34,7 @@ io.on('connection', function (socket) {
         //si no existe, se agrega unicamente ambos datos
 
         for (let index = 0; index < usuarios_conectados.length; index++) {
-            //console.log(index);
+            
             var idasesor_obj = usuarios_conectados[index].idasesor;
             if (idasesor_obj == iduser) {
                 encontrado++;
@@ -69,21 +72,22 @@ io.on('connection', function (socket) {
             usuarios_conectados.push(elemento);
         }
 
-        //console.log(iduser);
-        //console.log(socket);
-        console.log("--------------------");
-        console.log(usuarios_conectados);
+        
+        //console.log("--------------------");
+        //console.log(usuarios_conectados);
+        //tratamiento de ids
+        
     });
   
 
     //ELIMINAR ------------------------------------------------------------------------------
     socket.on('disconnect', function () {
         //console.log(socket.id)
-        console.log("Descnectado " + socket.id);
+        
         
         //REVISA LA EXISTENCIA DEL SOCKET
         for (let index = 0; index < usuarios_conectados.length; index++) {
-            //console.log(index);
+            
             var socket_obj = usuarios_conectados[index].socketid;
             if (socket_obj == socket.id) {
                 removeItemsBySocket(usuarios_conectados, socket_obj);
@@ -104,8 +108,8 @@ io.on('connection', function (socket) {
                 }
             }
         }
-        console.log("--------------------");
-        console.log(usuarios_conectados);
+        //console.log("--------------------");
+        //console.log(usuarios_conectados);
         
     });//FIN DEL SOCKET
     //---------------------------------------------------------------------------------------

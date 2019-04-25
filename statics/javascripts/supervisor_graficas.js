@@ -353,8 +353,8 @@ $(document).ready(function () {
                 },
 
                 xAxis: {
-                    categories: ['Aclaraciones', 'Afectación general', 'Calidad en el servicio/cobertura', 'Callback',
-                        'Cambio de ICCID', 'Llamadas/SMS', 'Falla en navegación', 'Falla en recargas', 'Promociones', 'Altas o bajas de servicios'],
+                    categories: ['Aclaraciones', 'Callback', 'Calidad en el servicio/cobertura', 'Afectación general', 
+                        'Cambio de ICCID', 'Llamadas/SMS', 'Promociones', 'Falla en recargas', 'Altas o bajas de servicios', 'Falla en navegación'],
                     tickmarkPlacement: 'on',
                     lineWidth: 0
                 },
@@ -509,7 +509,7 @@ $(document).ready(function () {
         tabla_productividad();
     }
 
-    reload_all();
+    //reload_all();
     
 });
 

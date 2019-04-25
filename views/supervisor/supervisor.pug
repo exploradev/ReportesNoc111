@@ -36,11 +36,13 @@ html(lang="en")
                 #sectionname
                     p SUPERVISOR *264  
                 #sectionbuttons
+                    button#show_tablas REPORTES 
                     button#show_dashboard DASHBOARD
+                    
 
         #containermainbody
              .maincontainer
-                #menu_lateral(style="display:none")
+                #menu_lateral
                     #titulo_menu 
                         #countergroup.clickable_filter(data-filter='global' onclick="setMetadataForBigTable('TODAS LAS FALLAS','global')")
                             span Fallas
@@ -203,7 +205,7 @@ html(lang="en")
                                 .circulo_conteo#cerrados_promociones 0 
                         
                         
-                #tabla_principal(style="display:none")
+                #tabla_principal
                     #tablaheader
                         span
                             span#tiporeporte_header FALLAS
@@ -224,7 +226,7 @@ html(lang="en")
                             
                             
                             
-                #dashboard
+                #dashboard(style="display:none")
                     p DASHBOARD
                     #conteo_estatus.container_grafica
                         .container_estatus
@@ -244,12 +246,12 @@ html(lang="en")
                             p.numeros_conteos#conteo_productividad 00
                                 span %
 
-                    #grafica_mayor.container_grafica
-
+                    #grafica_mayor.container_grafica.highch
+                        
                     #tablastop_container.tablas_containers
-                        #tablatop_izq.container_grafica.estadisticas_tabla
+                        #tablatop_izq.container_grafica.estadisticas_tabla.highch
                             
-                        #tablatop_der.container_grafica.estadisticas_tabla
+                        #tablatop_der.container_grafica.estadisticas_tabla.highch
 
                     
                     #tablabot.container_grafica.estadisticas_tabla
@@ -265,6 +267,7 @@ html(lang="en")
                                     th Productividad
                                     th Eficiencia
                             tbody#tbody_tablaproductividad
+                                
                                 
 
 

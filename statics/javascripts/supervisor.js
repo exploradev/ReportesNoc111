@@ -1,37 +1,55 @@
 $(document).ready(function(){
     
-    $('#dashboard').click(function(){
-        $('#statusbardashboard, #containersectiondashboard').css('display','flex');
-        $('#statusbartablaasesores, #containersectiontablaasesores').css('display', 'none');
-        $('#statusbaredituser, #contentsectionedituser').css('display', 'none');
-        $('#statusbarconfig, #contentsectionconfig').css('display', 'none');
-    });
 
-    $('#usuarios').click(function () {
-        $('#statusbardashboard, #containersectiondashboard').css('display', 'none');
-        $('#statusbartablaasesores, #containersectiontablaasesores').css('display', 'flex');
-        $('#statusbaredituser, #contentsectionedituser').css('display', 'none');
-        $('#statusbarconfig, #contentsectionconfig').css('display', 'none');
-    });
+    $(document).ready(function () {
 
-    $('#capturas').click(function () {
-        $('#statusbardashboard, #containersectiondashboard').css('display', 'none');
-        $('#statusbartablaasesores, #containersectiontablaasesores').css('display', 'none');
-        $('#statusbaredituser, #contentsectionedituser').css('display', 'none');
-        $('#statusbarconfig, #contentsectionconfig').css('display', 'flex');
+        //-----------------------------------------------------------------------
+        //-------------------------------WEBSOCKETS------------------------------
+        //-----------------------------------------------------------------------
+        socket = io.connect('http://192.168.3.62:2264');
+
         
-        //SE RELLENA EL SELECT PARA REASIGNACION 
-        $.post('/selectusers', function (response) {
-            var table_body = [];
-            var table_body = "<option value='default' selected disabled>SELECIONAR NUEVO PROPIETARIO</option>";
-            for (i = 0; i < response.length; i++) {
-                table_body += "<option value ='" + response[i]["iduser"] + "'>";
-                table_body += response[i]["asesor"];
-                table_body += "</option>";
+        socket.on('new', function (msg) {
+            console.log("Socket: " + msg);
+            
+
+            //reload_conteos
+            var mios = $("input[name=mios]:checked").val();
+            if (mios == 'show') {
+                llenar_conteos_propios();
+            } else {
+                llenar_conteos_todos();
             }
-            $('#selectmodalreasignar').html(table_body);
-            $('#selectmodalreasignar').trigger('change');
+            //reload tabla actual trtgger click de panel abierto
+            var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+            $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+
+            //reload dashboard
+            reload_all();
         });
+        //-----------------------------------------------------------------------
+        //-------------------------------WEBSOCKETS------------------------------
+        //-----------------------------------------------------------------------
+
+
+        //al tener abierto algun modal lo cierro con esc
+        $(window).keyup(function (e) {
+            if (e.keyCode === 27) $('.closebuttonn').trigger('click');
+        });
+
+        $('#input_buscador').keyup(function (e) {
+            if (e.keyCode === 13) $('#btn_buscador').trigger('click');
+        });
+        //CLICK EN BOTONES DE CIERRES DE MODAL
+        $('.closebuttonn').click(function () {
+
+            $('#asesor_modal_detallesdecaptura').css('display', 'none');
+            $('#overlay-back').css('display', 'none');
+            $('body').removeClass('modal-open');
+            //reset_all();
+        });
+
+
 
     });
 });

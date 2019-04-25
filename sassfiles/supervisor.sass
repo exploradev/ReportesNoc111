@@ -1,640 +1,144 @@
-@import _reset
-@import _fonts
+@import "noc"
 
-$rederror: #CB7171
-$borderbottom: #1B99ED
-$from: #5996D3
-$to: #030641
+//oculto las marcas de highcharts
+.highcharts-credits
+    display: none !important
 
-
-%shadows-flex-containers
-    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
-    display: flex
-    justify-content: center
-    width: 100%
-    
-a
-    color: grey
-body
-    display: flex
-    flex-direction: column
-    align-items: center
-    font-family: Helvetica
-    
-
-
-
-.maincontainer
-    min-width: 1200px
-    max-width: 1200px
-    display: flex
-    flex-direction: row
-    align-items: center
-    justify-content: space-between
-    //height: 100%
-    
-    
-
-//header section
-
-header
-    @extend %shadows-flex-containers
-    height: 60px
-    font-size: 70%
-    z-index: 4
-
-#brand
-    border-right: 1px solid white
-    display: flex
-    flex-direction: column
-    height: 100%
-    text-align: right
-    width: auto
-    
-
-
-#brand > p
-   
-    margin-top: 10px    
-
-#brandname
-    color: gray
-    font-size: 90%
-    margin-left: 10px
-    text-align: left
-
-#logo 
-    align-items: center
-    display: flex
-    flex-direction: row
-    height: 100%
-    align-items: center
-
-    
-
-#logo > img
-    height: 30px
-    width: 40px 
-
-#menu
-    height: 100%  
-    width: 150px
-
-#menuitems
-    display: flex
-    flex-direction: row 
-    font-size: 90%
-    height: inherit
-    align-items: center
-    justify-content: space-around
-
-%menu-styles
-    display: flex
-    height: 100%
-    align-items: center
-    margin-left: 10px
-    cursor: pointer
-
-#dashboard
-    //border-bottom: 2px solid #1B99ED 
-    border-bottom: 2px solid white
-    @extend %menu-styles 
-
-#dashboard:hover
-    border-bottom: 2px solid #1B99ED
-    @extend %menu-styles
-    
-#usuarios
-    border-bottom: 2px solid white
-    @extend %menu-styles
-
-#usuarios:hover
-    border-bottom: 2px solid #1B99ED
-    @extend %menu-styles
-
-#capturas
-    border-bottom: 2px solid white
-    @extend %menu-styles
-
-#capturas:hover
-    border-bottom: 2px solid #1B99ED
-    @extend %menu-styles
-
-#userlogout
-
-    img
-        height: 14px
-        width: 30px
+#sectionbuttons
+    button
+        border: 1px solid #3F4658
+        background-color: #454C5F
         
+        height: 40px
+        width: 100px
+        border-radius: 3px
+        color: white
+        font-size: 60%
+        &:hover
+            background-color: #3F4658
+            border: none
+
+.footer_modal
+    
+    height: 230px
+    background-color: #E4E8F3
+    padding: 15px
     
     p
-        font-size: 100%
-
-    a
-        display: flex
-        flex-direction: row
-        align-items: center
-        &:hover
-            color: $rederror
-            text-decoration: none
-            
-            
-
-//statusbar section
-
-.statusbar
-    @extend %shadows-flex-containers
-    height: 35px
-    z-index: 3
-
-.sectionname
-    color: grey
-    font-size: 80%
-
-.btn-capturas
-    color: gray
-    font-size: 70%
-    padding-top: 7px
-    width: 150px
-    margin-top: 2px
-    
-
-//CONTENT SECTION USUARIOS------------------------------------
-
-.content_section
-    
-    width: 100%
-    //background-color: #EDEDED  
-    display: flex
-    flex-direction: column
-    justify-content: flex-start  
-    align-items: center
-    
-    
-    #formulariodebusqueda
-        margin-top: 15px
-        display: flex
-
-    #secciondetabla
-        margin-top: -15px    
-
-#form_filter
-    width: 100%
-    display: flex
-    justify-content: flex-end
-    z-index: 2
-
-//ASESORES
-#labelbuscar
-    margin-right: 10px
-
-//tablas
-
-#parent_userstable
-    display: flex
-    flex-direction: column
-    width: 100%
-
-#row1
-    display: flex
-    justify-content: space-between
-    margin-bottom: 30px
-    width: 100%
-
-
-table
-    background-color: white
-    outline: 1px solid #95989A
-    td 
-        cursor: pointer
-
-.tablesection
-    background-color: white
-    border: 1px solid #95989A
-    border-radius: 3px
-    margin-top: 30px
-    position: relative
-
-.tableheader
-    display: flex
-    align-items: center
-    font-size: 70%
-    height: 35px
-    padding-left: 10px
-.tabletitles
-    //border: 2px solid orange
-    height: 28px
-
-    td
+        color: #3F4658
         font-size: 80%
+        font-weight: bold
 
-.shadow-border
-    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
-
-//EDITAR USUARIOS -----------------------------------------------------------------------------
-
-%paddings-gridconfig-editarusuario
-    padding-left: 80px
-    padding-top: 80px
-    display: flex
-    flex-direction: column
-
-
-
-#containerform
-    display: grid
-    grid-template-columns: auto auto
-    grid-template-rows: auto auto
-    grid-template-areas: "left right" "savezone savezone"
-    grid-column-gap: 50px
-
-#formfield_left
-    @extend %paddings-gridconfig-editarusuario
-    height: 300px
-    grid-area: left
-    
-    
-#formfield_right
-    @extend %paddings-gridconfig-editarusuario
-    grid-area: right
-
-#formfield_savezone
-    grid-area: savezone
-    display: flex
-    justify-content: flex-end
-    margin-bottom: 50px
-    margin-right: 130px
-    
-.btn_submitsup
-    width: 100px  
-
-#edit_nombres
-    margin-left: 100px
-#edit_apellidos
-    margin-left: 101px
-#edit_username
-    margin-left: 91px
-#edit_password
-    margin-left: 93px
-#edit_numempleado 
-    margin-left: 50px
-#edit_rol
-    margin-left: 140px
-    width: 185px
-#edit_turno
-    margin-left: 123px
-    width: 185px
-#edit_estatus
-    margin-left: 55px
-    width: 185px
-#edit_campania
-    margin-left: 95px
-    width: 185px
-
-.linktext
-    font-size: 80%
-
-.returnme
-    cursor: pointer
-    z-index: 2
-    &:hover
-        color: $rederror
-
-.manualstyle_input
-    border: 1px solid black
-    border-radius: 5px
-    height: 30px
-    padding-left: 5px
-    font-size: 80%
-
-//CONTENT_SECTION DASHBOARD ------------------------------------------------
-
-
-// ** CONF COLUMNA IZQ
-#container_tabsdata
-    heigth: auto
-
-#mainpaneldashboard
-    margin-top: 25px
-    width: 100%
-    height: 500px
-
-#mainflexcontainer
-    display: flex
-    flex-direction: row
-    padding: 0px
-
-#summary_day
-    height: 315px
-
-#titledailydatacount
-    font-size: 120%
-    color: #95989A
-    margin-top: 30px
-
-//gridsystem config
-$grisseparador: #CDCFD0
-$azulnumeritos: #7CB5EC
-
-#boxnoroeste
-    border-right: 1px solid $grisseparador
-    border-bottom: 1px solid $grisseparador
-#boxnoreste
-    border-left: 1px solid $grisseparador
-    border-bottom: 1px solid $grisseparador
-#boxsuroeste
-    border-right: 1px solid $grisseparador
-    border-top: 1px solid $grisseparador
-#boxsureste
-    border-left: 1px solid $grisseparador
-    border-top: 1px solid $grisseparador
-
-.countnumber
-    font-size: 200%
-    color: $azulnumeritos
-    margin-top: 5px
-.tabdata
-    border-bottom: 1px solid $grisseparador
-    border-right: 1px solid $grisseparador
-    font-size: 80%
-    height: 60px
-    width: 300px
-    padding-left: 20px
-    padding-right: 20px
-    padding-top: 12px
-    &:last-child
-        border-bottom: 1px solid white
-.rowDailyCount
-    width: 100%
-    display: grid
-    grid-template-columns: auto auto
-    grid-template-rows: auto auto
-    margin-top: 25px
-    height: 200px
-    
-    
-.dailydatacount
-    height: 100%
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-
-.countboxes
-    color: $azulnumeritos
-    font-size: 150%
-    margin-top: 10px
-.countboxesp
-    font-family: $fontHNBD
-    margin-top: 10px
-
-
-
-// ** CONF  DASHBOARD **
-
-#maindashboard
-    //border: 2px solid black
-    width: 100%
-
-#select_graph
-    margin-top: 20px
-    margin-left: 20px
-    width: 150px
-
-// ** TABLA DE STATUS ANALISTA **
-
-#dashboardanalistas
-    margin-top: 5px
-    margin-bottom: 0px
-.livedata_table
-    font-size: 70%
-    text-align: center
-.livedata_number
-    font-size: 200%
-
-#this_td
-    vertical-align: center !important    
-    text-align: left
-
-// ** TABLA DE PRODUCTIVIDAD ASESORES **
-
-#container_rowproductividad
-    display: flex
-    justify-content: space-between
-    margin-top: 0px
-    margin-bottom: 50px
-
-#left_table
-    width: 60% //temporal, luego poner al 50%
-
-#tabla_productividadasesor_wrapper
-    padding-top: 5px
-#tabla_productividadasesor
-    width: 100% !important
-
-
-  
-
-.tabletitles_datatables
-    height: 60px
-
-
-    
-.title_withfilter
-    display: flex
-    padding-right: 10px
-    justify-content: space-between
-
-// SECCION DE PANEL DE CONFIGURACIONES
-
-#contentsectionconfig
-    margin-top: 25px
-
-    .maincontainer
-        border-top: 1px solid #B2B2B2
-
-.buttons-events
-    height: 15px
-    width: 15px
-
-.contentpanel
-    //border: 2px solid grey
-    min-height: 800px
-    
-    width: 100%
-    display: flex
-
-.contentleftpanel, .contentrightpanel
-    overflow-x: scroll
-    display: flex
-    flex-direction: column
-
-.contentleftpanel
-    width: 20%
-    padding-top: 35px
-.contentrightpanel
-    width: 80%
-    border-left: 1px solid #B2B2B2
-
-.dropdown-menu.pull-left
-    left: -144px !important
-.icon_limenu
-    height: 30px
-    width: 30px
-    margin-right: 20px
-    margin-left: 20px
-
-.limenu
-    border-bottom: 1px solid #B2B2B2
-    font-size: 80%
-    height: 40px
-    display: flex
-    align-items: center
-    &:hover
-        //background-color: #E5E5E5
-        cursor: pointer
-        border-left: 8px solid $azulnumeritos
+    table
+        width: 100%
+        margin-top: 5px
         
+    td,tr,th
+        border: 1px solid #C2CAD9
+        
+        height: 25px
+        font-size: 95%
+        padding-left: 5px
+        width: 50px
+    tbody
+        tr
+            cursor: pointer
+        font-size: 80%
+        height: 150px   
+        overflow-y: auto 
+        
+        margin-top: -1px
+    thead
+        background-color: #BAC3D4
+        color: #3F4658
+        font-size: 80%
+        
+    thead, tbody
+        display: block
+    thead th, tbody td
+        width: 218px
 
-.ulmenu 
+#dashboard
+    height: auto
+    border-radius: 5px
+    width: 100%
+    background-color: #3F4658
+    padding: 15px
+    margin-bottom: 40px
+    p
+        color: white
+        font-size: 115%
+        font-weight: bold
     
-    border: 1px solid #B2B2B2
-   
-
-
-.titlecontent
-    height: 31px
-    display: flex
-    align-items: center
-    padding-left: 20px
-    margin-top: 5px
-    border-bottom: 1px solid #B2B2B2
-   
-.itemscontent
-    display: flex
-    flex-direction: column
-    padding: 20px
-
-.minicontainerform
-    font-size: 80%
-    display: flex
-    flex-direction: column
-    width: 150px
-
-#busquedacapturas, #busquedaplanes
-    display: flex
-    justify-content: flex-end
-    align-items: center
-
-    label
-        margin-right: 10px
-#formulariofiltro, #formulariofiltroplanes, #formulariofiltroreporte
-    display: flex
-    justify-content: space-between
-    margin-top: 20px
-    align-items: flex-end
-    .leftminicontainer
+    .container_grafica
+        background-color: #4B5367
+        border-radius: 3px
+        min-height: 25px
+        margin-top: 5px
+        padding: 10px
+    .tablas_containers
         display: flex
-        width: 40%
         justify-content: space-between
-        align-items: flex-end
-#tabladedatos, #tabladeplanes
-    margin-top: 20px
-    font-family: helvetica
-    font-size: 80%
-    .tabletitles
-        height: 15px
+        min-height: 400px
+        div
+            width: 49.8%
+            height: auto
+    #conteo_estatus
+        height: 70px
+    #grafica_mayor
+        height: 400px
 
-#btn_saveplan, #btn_exportar
-    height: 30px
-
-//MODAL ---------------------------------------
-
-#overlay_supervisor
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 150%
-    background: #000
-    opacity: 0.2
-    filter: alpha(opacity=20)
-    z-index: 9999
-    display: none
-
-#modalreasignar
-    position: absolute
-    top: 200px
-    left: 40%
-    color: black
-    box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
-    border-radius: 10px
-    background-color: white
-    width: 500px
-    height: 450px
+//apartado de conteo por estatus y productividad
+#conteo_estatus
+    
     display: flex
-    flex-direction: column
-    z-index: 50000 !important
-
-.actionmodal
-    display: flex
-    flex-direction: column
-    align-self: stretch
-    padding-top: 40px
-    color: black
-
-    label
-        margin-top: 10px
-
-.btnmodal
-    margin-right: 10px
-    margin-top: 10px   
-
-%headermodalglobal
-    width: 100%
-    height: 100px
-    border-radius: 10px 10px 0 0
-    display: flex
-    justify-content: center
+    justify-content: space-around
     align-items: center
-    flex-direction: column
-    color: white
+    text-align: center
+    font-size: 80%
+    .titulo_estatus
+        color: #BAC3D4
+    .numeros_conteos
+        font-size: 150%
 
+//apartado de tablas inferiores
+#tablabot
+    font-size: 80%
+    table,thead,tr,th,td
+        border: 1px solid #3F4658
+        
+    table
+        width: 100%
+        backgroun-color: #4B5367
+        th 
+            color: #BAC3D4
+            font-weight: bold
+            text-align: center
+            padding: 5px
+            
+        td
+            color: white
+            text-align: center
+            padding: 5px
+            white-space: nowrap
 
-
-.headermodalreasignar
-    @extend %headermodalglobal
-
-    background-color: #5B6390
-    
-
-    
-.titlemodal
-    font-size: 110%
-    font-family: $fontHNBD
-
-    
-
-.inputagendamodal
-    margin-top: 5px
-
-
-
-.bodymodal
-    padding: 20px
-
-.userdatamodal
-    display: flex
-    justify-content: space-between
-    width: 100%
-    color: black
-//MODAL ---------------------------------------
-
-
-
-
-
-
-//TABLA DE REPORTES
-.tablecontentreportes
-    font-size: 70%
+        thead th, tbody td
+            &:nth-child(2)
+                border-bottom: 1px solid #4B5367
+                border-right: 1px solid #4B5367
+                border-left: 1px solid #4B5367
+            &:nth-child(3)
+               
+                border-bottom: 1px solid #4B5367
+                border-right: 1px solid #4B5367
+                border-left: 1px solid #4B5367
+            &:nth-child(4)
+                
+                border-bottom: 1px solid #4B5367
+                border-right: 1px solid #4B5367
+                border-left: 1px solid #4B5367
+            &:nth-child(5)
+                
+                border-bottom: 1px solid #4B5367
+                border-right: 1px solid #4B5367
+                border-left: 1px solid #4B5367

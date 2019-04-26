@@ -146,6 +146,23 @@ $(document).ready(function () {
                                                             type: 'areaspline',
 
                                                         },
+                                                        tooltip: {
+                                                            formatter: function () {
+                                                                // The first returned item is the header, subsequent items are the
+                                                                // points
+                                                                return ['<b>' + this.x + '</b>'].concat(
+                                                                    this.points.map(function (point) {
+                                                                        if (point.y != 0) {
+                                                                            return point.series.name + ': ' + point.y + ' reportes';
+                                                                        } else {
+                                                                            return null;
+                                                                        }
+
+                                                                    })
+                                                                );
+                                                            },
+                                                            split: true
+                                                        },
                                                         title: {
                                                             text: 'REPORTES NOC *264'
                                                         },

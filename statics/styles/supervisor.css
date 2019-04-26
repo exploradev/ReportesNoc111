@@ -793,20 +793,20 @@ tbody td, thead th {
     #dashboard .tablas_containers div {
       width: 49.8%;
       height: auto; }
-  #dashboard #conteo_estatus {
+  #dashboard #conteo_estatus, #dashboard #conteo_estatus_dia {
     height: 70px; }
   #dashboard #grafica_mayor {
     height: 400px; }
 
-#conteo_estatus {
+#conteo_estatus, #conteo_estatus_dia {
   display: flex;
   justify-content: space-around;
   align-items: center;
   text-align: center;
   font-size: 80%; }
-  #conteo_estatus .titulo_estatus {
+  #conteo_estatus .titulo_estatus, #conteo_estatus_dia .titulo_estatus {
     color: #BAC3D4; }
-  #conteo_estatus .numeros_conteos {
+  #conteo_estatus .numeros_conteos, #conteo_estatus_dia .numeros_conteos {
     font-size: 150%; }
 
 #tablabot {

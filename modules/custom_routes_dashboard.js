@@ -37,6 +37,17 @@ module.exports = function(app,io){
 
 
 
+    app.post('/getEstatusActualesDia', middleware.requireLogin, function (req, res) {
+        var query = "SELECT SUM(CASE WHEN m.estatus = 'Nuevo'  AND month(m.creado) = month(now()) AND day(m.creado) = day(now()) THEN 1 ELSE 0 END) AS nuevos, SUM(CASE WHEN m.estatus = 'En proceso'  AND month(m.creado) = month(now()) AND day(m.creado) = day(now()) THEN 1 ELSE 0 END) AS enproceso, SUM(CASE WHEN m.estatus = 'Pendiente'  AND month(m.creado) = month(now()) AND day(m.creado) = day(now()) THEN 1 ELSE 0 END) AS pendientes, SUM(CASE WHEN m.estatus = 'Cerrado'  AND month(m.creado) = month(now()) AND day(m.creado) = day(now()) THEN 1 ELSE 0 END) AS cerrados, SUM(CASE WHEN m.estatus in ('Cerrado','Nuevo','En proceso','Pendiente')  AND month(m.creado) = month(now()) AND day(m.creado) = day(now()) THEN 1 ELSE 0 END) AS total FROM metadatos m ";
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            res.send(results);
+        });
+    }); //fin del /getTotalReportes
+
+
+
+
 
     //-----------------------------------------------------------
 

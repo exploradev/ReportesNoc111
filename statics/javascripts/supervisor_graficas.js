@@ -206,7 +206,7 @@ $(document).ready(function () {
                                                                 data: labels_recargas
                                                             }, {
                                                                 name: 'Promociones',
-                                                                data: labels_servicios
+                                                                data: labels_promociones
                                                             }, {
                                                                 name: 'Altas o bajas de servicios',
                                                                 data: labels_servicios
@@ -488,21 +488,42 @@ $(document).ready(function () {
     }
 
     estatus_actuales = function () {
-        $.post('/getEstatusActuales', function (response) {    
+        $.post('/getEstatusActuales', function (response) {
             $('#conteo_nuevos').html(response[0]['nuevos']);
             $('#conteo_enproceso').html(response[0]['enproceso']);
             $('#conteo_pendientes').html(response[0]['pendientes']);
             $('#conteo_cerrados').html(response[0]['cerrados']);
+            $('#conteo_total').html(response[0]['total']);
             var cerrados = response[0]['cerrados'];
             var total = response[0]['total'];
-            var num = (cerrados/total)*100;
+            var num = (cerrados / total) * 100;
             num = num.toFixed(2);
-            $('#conteo_productividad').html(num+"%");
+            $('#conteo_productividad').html(num + "%");
+        });
+    }
+
+    estatus_actuales_dia = function () {
+        $.post('/getEstatusActualesDia', function (response) {
+            $('#conteo_nuevos_dia').html(response[0]['nuevos']);
+            $('#conteo_enproceso_dia').html(response[0]['enproceso']);
+            $('#conteo_pendientes_dia').html(response[0]['pendientes']);
+            $('#conteo_cerrados_dia').html(response[0]['cerrados']);
+            $('#conteo_total_dia').html(response[0]['total']);
+            var cerrados = response[0]['cerrados'];
+            var total = response[0]['total'];
+            var num = (cerrados / total) * 100;
+            num = num.toFixed(2);
+            if (total == 0){
+                num = "00";
+            }
+            
+            $('#conteo_productividad_dia').html(num + "%");
         });
     }
     
     reload_all = function(){
         estatus_actuales();
+        estatus_actuales_dia();
         graficaHighchartMayor();
         graficaHighchartBarra();
         graficaHighchartSpider();

@@ -147,21 +147,8 @@ $(document).ready(function () {
 
                                                         },
                                                         tooltip: {
-                                                            formatter: function () {
-                                                                // The first returned item is the header, subsequent items are the
-                                                                // points
-                                                                return ['<b>' + this.x + '</b>'].concat(
-                                                                    this.points.map(function (point) {
-                                                                        if (point.y != 0) {
-                                                                            return point.series.name + ': ' + point.y + ' reportes';
-                                                                        } else {
-                                                                            return null;
-                                                                        }
-
-                                                                    })
-                                                                );
-                                                            },
-                                                            split: true
+                                                            shared: true,
+                                                            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
                                                         },
                                                         title: {
                                                             text: 'REPORTES NOC *264'

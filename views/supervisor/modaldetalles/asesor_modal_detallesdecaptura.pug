@@ -7,15 +7,20 @@
         .subheader_modal#subheader_modaldetalles
             
             #subheader_modaldetalles_content
-                p FOLIO:
+                p FOLIO:&nbsp;
                     span#detalles_metadatospanel_folio --
-                p TIPO DE REPORTE:
+                p TIPO DE REPORTE:&nbsp;
                     span#detalles_metadatospanel_tiporeporte --
-                p ASESOR:
+                p ASESOR:&nbsp;
                     span#detalles_metadatospanel_asesor --
-                p CREADO:
+                p CREADO:&nbsp;
                     span#detalles_metadatospanel_creado --
-                    
+            #reasignacion
+                label Reasignar a: 
+                    span 
+                        select#reasignacion_select
+                            
+                button#btn_reasignarreporte Reasignar
         .body_modal#body_modaldetallescaptura
             #container_detalle_cobertura
                 include body_modal_detallesaclaraciones

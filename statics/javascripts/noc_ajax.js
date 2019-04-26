@@ -84,7 +84,7 @@ $(document).ready(function(){
     $("#tbody_maintable").on('click','.rowdetallesdisponibles',function(){
         var idmetadatos = $(this).data('idmetadatos');
         var tipofalla = $(this).data('tipofalla');
-        getNocs();
+        
         //console.log(tipofalla, idmetadatos);
         
         

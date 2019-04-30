@@ -1,0 +1,51 @@
+#asesor_modal_detallesdecaptura(style='display:none')
+    .container_modal
+        .header_modal
+            span DETALLES DE REPORTE
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
+        .subheader_modal#subheader_modaldetalles
+            
+            #subheader_modaldetalles_content
+                p FOLIO:&nbsp;
+                    span#detalles_metadatospanel_folio --
+                p TIPO DE REPORTE:&nbsp;
+                    span#detalles_metadatospanel_tiporeporte --
+                p ASESOR:&nbsp;
+                    span#detalles_metadatospanel_asesor --
+                p CREADO:&nbsp;
+                    span#detalles_metadatospanel_creado --
+            #reasignacion
+                label Reasignar a: 
+                    span 
+                        select#reasignacion_select
+                            
+                button#btn_reasignarreporte Reasignar
+        .body_modal#body_modaldetallescaptura
+            #container_detalle_cobertura
+                include body_modal_detallesaclaraciones
+                include body_modal_detallescallback
+                include body_modal_detallescobertura
+                include body_modal_detallesgeneral
+                include body_modal_detallesiccid
+                include body_modal_detallesllamadas
+                include body_modal_detallesnavegacion
+                include body_modal_detallespromociones
+                include body_modal_detallesrecargas
+                include body_modal_detallesservicios
+        .footer_modal
+
+            p COMENTARIOS DE SEGUIMIENTO
+            .footer_modal_container
+                
+                table.seguimientos_tabla
+                    thead
+                        tr
+                            th FECHA
+                            th NOC
+                            th ESTATUS
+                            th OBSERVACIÓN
+                    tbody#tbody_detallescomentariosmodal
+                    
+                       
+                

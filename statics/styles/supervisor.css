@@ -790,7 +790,7 @@ tbody td, thead th {
     display: flex;
     justify-content: space-between;
     min-height: 400px; }
-    #dashboard .tablas_containers div {
+    #dashboard .tablas_containers #tablatop_izq, #dashboard .tablas_containers #tablatop_der {
       width: 49.8%;
       height: auto; }
   #dashboard #conteo_estatus, #dashboard #conteo_estatus_dia {

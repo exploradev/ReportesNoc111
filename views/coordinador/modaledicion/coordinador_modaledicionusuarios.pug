@@ -1,0 +1,41 @@
+#coordinador_modaledicionusuarios(style='display:none')
+    #header_modaledicionusuarios
+        p Actualizar usuario 
+            span#actualizar_iduser_u 00
+    #body_modaledicionusuarios
+        .input-group
+            label Nombre completo *
+            input#actualizar_nombre.form_actualizaruser(type="text")
+        .input-group
+            label Username *
+            input#actualizar_username.form_actualizaruser(type="text")
+        .input-group
+            label Password 
+            input#actualizar_password(type="password" psswd-shown="false")
+            p.showpassword#showpassword Mostrar/Ocultar Password&nbsp;
+                span
+                    img(src='../assets/eye.png')
+        .input-group
+            label Rol *
+            select#actualizar_rol.form_actualizaruser
+                
+                option(value="asesor") Asesor
+                option(value="noc") Asesor Noc
+                option(value="supervisor") Supervisor
+                option(value="coordinador") Coordinador
+        .input-group
+            label Turno *
+            select#actualizar_turno.form_actualizaruser
+                
+                option(value="Matutino") Matutino
+                option(value="Vespertino") Vespertino 
+                
+        .input-group
+            label Estatus *
+            select#actualizar_estatus.form_actualizaruser
+                
+                option(value="activo") Activo
+                option(value="inactivo") Inactivo
+        .input-group.button_section_modal
+            button#btn_actualizaruser Actualizar
+            button.closebuttonn Cancelar

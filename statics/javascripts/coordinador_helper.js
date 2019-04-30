@@ -1,116 +1,130 @@
-var modal;
+
+var getNocs;
 $(document).ready(function(){
 
-    //clipboard init
-    //datetimepicker config
+    //BUSQUEDA SEARCHBOX
+    //BUSQUEDA DE CAPTURAS EN TABLAS AL HACER KEYUP
+    $('#main_searchbox_u').keyup(function () {
+        var filterBy = this;
+        $.each($('.row_usuarios'), function (i, val) {
+            if ($(val).text().toLowerCase().indexOf($(filterBy).val().toLowerCase()) == -1) {
+                $('.row_usuarios').eq(i).hide();
+            } else {
+                $('.row_usuarios').eq(i).show();
+            }
+        });
+    });
 
+    ///////////////////////////////////////////////
+    //CLON DE SUPEVISOR_HELPERS.JS CON MODIFICACIONES
+    ///////////////////////////////////////////////
+
+    $('#nuevo_rol').select2({
+        dropdownParent: $("#altausuario_container"),
+        placeholder: "ROL",
+        allowClear: false
+    });
+
+    $('#nuevo_turno').select2({
+        dropdownParent: $("#altausuario_container"),
+        placeholder: "TURNO",
+        allowClear: false
+    });
+
+    $('#nuevo_estatus').select2({
+        dropdownParent: $("#altausuario_container"),
+        placeholder: "ESTATUS",
+        allowClear: false
+    });
+
+    $('#actualizar_rol').select2({
+        dropdownParent: $("#body_modaledicionusuarios"),
+        placeholder: "ROL",
+        allowClear: false
+    });
+
+    $('#actualizar_turno').select2({
+        dropdownParent: $("#body_modaledicionusuarios"),
+        placeholder: "TURNO",
+        allowClear: false
+    });
+
+    $('#actualizar_estatus').select2({
+        dropdownParent: $("#body_modaledicionusuarios"),
+        placeholder: "ESTATUS",
+        allowClear: false
+    });
+
+    ///////////////////////////////////////////////
+    $('#show_export').click(function () {
+        $('#dashboard').hide();
+        $('#menu_lateral, #tabla_principal').hide();
+        $('#tabla_usuarios').hide();
+        $('#tabla_exportar').css('display','initial');
+    });
+
+    $('#show_usuarios').click(function () {
+        $('#dashboard').hide();
+        $('#menu_lateral, #tabla_principal').hide();
+        $('#tabla_exportar').hide();
+        $('#tabla_usuarios').css('display', 'initial');
+    });
+
+    ////////////////////////////////////////////////
     
+    $('#show_dashboard').click(function () {
+        $('#menu_lateral, #tabla_principal').hide();
+        $('#tabla_usuarios').hide();
+        $('#tabla_exportar').hide();
+        $('#dashboard').css('display', 'initial');
+        $(".highch").html("<img src='../assets/loader1.gif'>");
+        reload_all();
 
-    //SECCION DE CONCENTRADO
-    //funcion que abre el modal correspondiente a la accion clickeada
-    modal = function(idrequest,action){
-        if(action == 'reject'){
-            $('#overlay_analista').css('display', 'block');
-            $('#modalrechazo').css('display','flex');
-            getDataModal(idrequest,action);
 
-        }else if(action == 'comnt'){
-            $('#overlay_analista').css('display', 'block');
-            $('#modalcomentario').css('display', 'flex');
-            getDataModal(idrequest,action);
+    });
 
-        } else if (action == 'agenda') {
-            $('#overlay_analista').css('display', 'block');
-            $('#modalagenda').css('display', 'flex');
-            getDataModal(idrequest, action);
-        } else if (action == 'activa') {
-            setRequestActive(idrequest);
-        }
+    $('#show_tablas').click(function () {
+        $('#dashboard').hide();
+        $('#tabla_usuarios').hide();
+        $('#tabla_exportar').hide();
+        $('#menu_lateral, #tabla_principal').show();
+    });
+
+    //REASIGNACION DE PROPIEDAD DE FOLIOS
+    $('#reasignacion_select').select2({
+        dropdownParent: $("#subheader_modaldetalles"),
+        placeholder: "Seleccionar nuevo propietario",
+        allowClear: false
+    });
+
+    getNocs = function () {
+        $.post('/getNocs', function (response) {
+            var table_body = "<option></option>";
+            for (i = 0; i < response.length; i++) {
+                table_body += "<option value='" + response[i]['iduser'] + "'>";
+                table_body += response[i]['nombre'];
+                table_body += '<option>';
+            }
+            $('#reasignacion_select').html(table_body);
+        });
     }
 
-    
-
-    //validacion de campos va en cerrador_validacion.js
-
-    //al clickear para cerrar
-    $('#close_modalrechazo,#close_modalcomentario,#close_modalagenda').click(function () {
-        $('#modalrechazo,#modalcomentario,#modalagenda').css('display', 'none');
-        $('#overlay_analista').css('display', 'none');
-        $('#textareamodalrechazo').val('');
-        $('#textareamodalcomentario').val('');
-        $('#fechaagendainput').val('');
-        $('#canalagendainput').val('');
-        $('#submitmodalrechazo').prop('disabled', true);
-        $('#submitmodalcomentario').prop('disabled', true);
-        $('#submitmodalagenda').prop('disabled', true);
+    //AL clickear reasignar folio:
+    $('#btn_reasignarreporte').click(function () {
+        var iduser = $("#reasignacion_select").val();
+        var idmetadatos = $('#detalles_metadatospanel_folio').html();
+        $.post('/reasignacion_propietario', { iduser: iduser, idmetadatos: idmetadatos }, function (responser) {
+            if (responser == 'Correcto') {
+                getNocs();
+                reload_everything();
+                alert("Reasignado correctamente");
+            } else {
+                alert("Error con la reasignación");
+            } //fin del if
+        });
     });
 
-    
-    var tbody_selected = $('#tbody_concentrado, #tbody_aceptadassin, #tbody_aceptadasdom, #tbody_agendadas, #tbody_activadas ');
-
-    tbody_selected.on('click', '.rowhover', function () {
-        var idrequest = $(this).data('idrequest');
-        
-        // POPOVER DE EDICION DE FOLIO-------------------------------------------------------------------------
-
-        var titulo_popover = "Editar SISACT de captura " + idrequest;
-        $('#sisact' + idrequest).popover({ title: titulo_popover, content: "<div class='content-popover'>SISACT:  <input id='sisactfield" + idrequest + "'type='text'><button disabled id='btn-sisact" + idrequest + "' class='btn btn-default'>Actualizar</button></div>", placement: "bottom", html: true });
-
-
-        //validando si los campos estan vacios al keyup para habilitar el boton de submit
-        $('#sisactfield' + idrequest).keyup(function () {
-            var valorsisact = $('#sisactfield' + idrequest).val();
-            // old var regexdate = /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})(\s)([0-1][0-9]|2[0-3])(:)([0-5][0-9])$/;
-            var regexsisact = /^[\d\w]{1,15}$/;
-            if (valorsisact.match(regexsisact)) {
-                $('#btn-sisact' + idrequest).prop('disabled', false);
-            } else {
-                $('#btn-sisact' + idrequest).prop('disabled', true);
-            }
-        });
-
-        $('#btn-sisact' + idrequest).click(function (e) {
-            var folio = $('#sisactfield' + idrequest).val();
-            setSisactCanal(idrequest, folio, 'sisact'); //funcion en analista_ajax.js
-
-            e.stopImmediatePropagation();
-            e.preventDefault();
-        });
-
-        //--------------- CANAL ----------------------------//
-
-        var titulo_popover = "Editar CANAL de captura " + idrequest;
-        $('#canal' + idrequest).popover({ title: titulo_popover, content: "<div class='content-popover'>CANAL:  <input id='canalfield" + idrequest + "'type='text'><button disabled id='btn-canal" + idrequest + "' class='btn btn-default'>Actualizar</button></div>", placement: "bottom", html: true });
-
-
-        //validando si los campos estan vacios al keyup para habilitar el boton de submit
-        $('#canalfield' + idrequest).keyup(function () {
-            var valorcanal = $('#canalfield' + idrequest).val();
-            // old var regexdate = /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})(\s)([0-1][0-9]|2[0-3])(:)([0-5][0-9])$/;
-            var regexcanal = /^[\d\w]{1,15}$/;
-            if (valorcanal.match(regexcanal)) {
-                $('#btn-canal' + idrequest).prop('disabled', false);
-            } else {
-                $('#btn-canal' + idrequest).prop('disabled', true);
-            }
-        });
-
-        $('#btn-canal' + idrequest).click(function (e) {
-            var folio = $('#canalfield' + idrequest).val();
-            setSisactCanal(idrequest, folio, 'canal'); //funcion en analista_ajax.js
-
-            e.stopImmediatePropagation();
-            e.preventDefault();
-        });
-
-        //FIN DE POPOVER----------------------------------------------------------------------------------------------
-
-    });
-
-    
-    
-
-
+    getNocs();
     
     
 });

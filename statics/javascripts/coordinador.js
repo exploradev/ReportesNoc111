@@ -1,63 +1,46 @@
 $(document).ready(function () {
 
-    //trigger buttons
-    var btnconcentrado = $('#btn-concentrado');
-    var btnaceptadassin = $('#btn-aceptadassin');
-    var btnaceptadasdom = $('#btn-aceptadasdom');
-    var btnagendadas = $('#btn-agendadas');
-    var btnactivaciones = $('#btn-activaciones');
-    
-
-    //sections tables
-    var tab_concentrado = $('#tab_concentrado');
-    var tab_aceptadassin = $('#tab_aceptadassin');
-    var tab_aceptadasdom = $('#tab_aceptadasdom');
-    var tab_agendadas = $('#tab_agendadas');
-    var tab_activadas = $('#tab_activadas');
-    
-
-    //eventhandlers
-    btnconcentrado.on('click', function () {
-        showSection(tab_concentrado, btnconcentrado);
+    //CONTROL DE VENTANAS
+    $(window).keyup(function (e) {
+        if (e.keyCode === 27) $('.closebuttonn').trigger('click');
     });
-    btnaceptadassin.on('click', function () {
-        showSection(tab_aceptadassin, btnaceptadassin);
+
+    //CLICK EN BOTONES DE CIERRES DE MODAL
+    $('.closebuttonn').click(function () {
+        $('#coordinador_modaledicionusuarios').css('display', 'none');
+        $('#overlay-back').css('display', 'none');
+        $('body').removeClass('modal-open');
+        //reset_form_users();
     });
-    btnaceptadasdom.on('click', function () {
-        showSection(tab_aceptadasdom, btnaceptadasdom);
+
+    //desploega panel de inputs para alta de usuarios
+    $('#opciones_tabla').click(function(){
+        $('#altausuario_container').toggle();    
     });
-    btnagendadas.on('click', function () {
-        showSection(tab_agendadas, btnagendadas);
+
+
+    $("#showpassword").click(function(){
+        if ($('#actualizar_password').attr('psswd-shown') == 'false') {
+
+            $('#actualizar_password').removeAttr('type');
+            $('#actualizar_password').attr('type', 'text');
+
+            $('#actualizar_password').removeAttr('psswd-shown');
+            $('#actualizar_password').attr('psswd-shown', 'true');
+
+            
+
+        } else {
+
+            $('#actualizar_password').removeAttr('type');
+            $('#actualizar_password').attr('type', 'password');
+
+            $('#actualizar_password').removeAttr('psswd-shown');
+            $('#actualizar_password').attr('psswd-shown', 'false');
+
+            
+
+        }
     });
-    btnactivaciones.on('click', function () {
-        showSection(tab_activadas, btnactivaciones);
-    });
-    
-
-    function showSection(section, linktab) {
-        tab_concentrado.css("display", "none");
-        btnconcentrado.removeClass("linktabactive");
-
-        tab_aceptadassin.css("display", "none");
-        btnaceptadassin.removeClass("linktabactive");
-
-        tab_aceptadasdom.css("display", "none");
-        btnaceptadasdom.removeClass("linktabactive");
-
-        tab_agendadas.css("display", "none");
-        btnagendadas.removeClass("linktabactive");
-
-        tab_activadas.css("display", "none");
-        btnactivaciones.removeClass("linktabactive");
-
-        
-
-        //----------------------------------------------
-        section.css("display", "block");
-        linktab.addClass("linktabactive");
-    }
-
-    //---------------------------------------------------------------------------------------
-
     
 });

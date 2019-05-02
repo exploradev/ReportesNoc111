@@ -299,6 +299,7 @@
             $('#detalle_iccid_contacto').html(response[0]["contacto"]);
             $('#detalle_iccid_iccidvirtual').html(response[0]["iccidvirtual"]);
             $('#detalle_iccid_iccidfisica').html(response[0]["iccidfisica"]);
+            $('#detalle_iccid_fzaventa').html(response[0]["fzaventa"]);
             $('#detalle_iccid_cac').html(response[0]["cac"]);
         }
 
@@ -332,6 +333,7 @@
             $('#detalle_promociones_contacto').html(response[0]["contacto"]);
             $('#detalle_promociones_promocion').html(response[0]["promocion"]);
             $('#detalle_promociones_fechainiciofalla').html(response[0]["fecha"]);
+            $('#detalle_promociones_tipo').html(response[0]["tipo"]);
             $('#detalle_promociones_descripcion').html(response[0]["descripcion"]);
         }
 
@@ -342,6 +344,10 @@
             $('#detalle_recargas_importe').html(response[0]["importe"]);
             $('#detalle_recargas_metodocompra').html(response[0]["metodocompra"]);
             $('#detalle_recargas_fechayhora').html(response[0]["fechahora"]);
+            $('#detalle_recargas_metodocompra2').html(response[0]["metodocompra2"]);
+            $('#detalle_recargas_fechayhora2').html(response[0]["fechahora2"]);
+            $('#detalle_recargas_metodocompra3').html(response[0]["metodocompra3"]);
+            $('#detalle_recargas_fechayhora3').html(response[0]["fechahora3"]);
             $('#detalle_recargas_descripcion').html(response[0]["descripcion"]);
         }
 

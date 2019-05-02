@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     $('.datetimepicker_withtime').datetimepicker({
         timepicker: true,
-        format: 'Y-m-d H:m',
+        format: 'Y-m-d H:i',
         validateOnBlur: false,
         step: 1,
         onChangeDateTime: function (ct, inputt) {
@@ -88,6 +88,18 @@ $(document).ready(function () {
     $('#servicios_servicio').select2({
         dropdownParent: $("#body_modal_capturaservicios"),
         placeholder: "SELECCIONAR SERVICIO",
+        allowClear: false
+    });
+
+    $('#iccid_fzaventa').select2({
+        dropdownParent: $("#body_modal_capturaiccid"),
+        placeholder: "SELECCIONAR FZA DE VENTA",
+        allowClear: false
+    });
+
+    $('#promociones_tipo').select2({
+        dropdownParent: $("#body_modal_capturapromociones"),
+        placeholder: "SELECCIONAR TIPO",
         allowClear: false
     });
 

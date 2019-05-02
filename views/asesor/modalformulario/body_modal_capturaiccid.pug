@@ -36,6 +36,20 @@
             img(src="../assets/error.png")
 
     .campodetalle_iccid.class_for_validation
+        p.titulocampo FUERZA DE VENTA
+        select.inputsasesor.inputs_iccid.tipodato_select#iccid_fzaventa
+            option(disabled selected)
+            option(value='Muévete 28') Muévete 28
+            option(value='Muévete 48') Muévete 48
+            option(value='Muévete 58') Muévete 58
+            option(value='DAT') DAT
+            option(value='Promotor') Promotor
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_iccid.class_for_validation
         p.titulocampo CAC
         select.inputsasesor.inputs_iccid.tipodato_select#iccid_cac
             option(disabled selected)

@@ -161,6 +161,19 @@ header {
   color: white;
   font-size: 80%; }
 
+#seccion_contadores {
+  display: flex;
+  font-weight: bold; }
+  #seccion_contadores .contador-group {
+    display: flex;
+    flex-direction: column;
+    font-size: 70%;
+    color: white;
+    margin-left: 10px;
+    align-items: center; }
+    #seccion_contadores .contador-group span {
+      color: orange; }
+
 #containermainbody {
   min-height: 100%;
   max-width: 100%;

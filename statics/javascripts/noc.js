@@ -25,6 +25,7 @@ $(document).ready(function () {
         //reload tabla actual trtgger click de panel abierto
         var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
         $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+        llenarContadoresSuperiores();
     });
 //-----------------------------------------------------------------------
 //-------------------------------WEBSOCKETS------------------------------

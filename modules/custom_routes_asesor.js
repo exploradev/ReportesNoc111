@@ -542,6 +542,7 @@ module.exports = function(app,io){
         var contacto = req.body.contacto;
         var iccidvirtual = req.body.iccidvirtual;
         var iccidfisica = req.body.iccidfisica;
+        var fzaventa = req.body.fzaventa;
         var cac = req.body.cac;
 
         var tipodefallareportada = 'iccid';
@@ -569,8 +570,8 @@ module.exports = function(app,io){
 
                     //siguiente query
 
-                    var query = "INSERT INTO iccid(idmetadatos,telefono,usuario,contacto,cac,iccidfisica,iccidvirtual) VALUES(?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, cac, iccidfisica, iccidvirtual];
+                    var query = "INSERT INTO iccid(idmetadatos,telefono,usuario,contacto,cac,iccidfisica,iccidvirtual,fzaventa) VALUES(?,?,?,?,?,?,?,?)";
+                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, cac, iccidfisica, iccidvirtual,fzaventa];
                     query = mysql.format(query, inserts);
                     pool.query(query, function (err, result) {
                         if (err) {
@@ -771,6 +772,10 @@ module.exports = function(app,io){
         var importe = req.body.importe;
         var metodocompra = req.body.metodocompra;
         var fechayhora = req.body.fechayhora;
+        var metodocompra2 = req.body.metodocompra2;
+        var fechayhora2 = req.body.fechayhora2;
+        var metodocompra3 = req.body.metodocompra3;
+        var fechayhora3 = req.body.fechayhora3;
         var descripcionsituacion = req.body.descripcionsituacion;
 
         var tipodefallareportada = 'recargas';
@@ -798,8 +803,8 @@ module.exports = function(app,io){
 
                     //siguiente query
 
-                    var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,descripcion) VALUES(?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, descripcionsituacion];
+                    var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,metodocompra2,fechahora2,metodocompra3,fechahora3,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, metodocompra2, fechayhora2, metodocompra3, fechayhora3, descripcionsituacion];
                     query = mysql.format(query, inserts);
                     pool.query(query, function (err, result) {
                         if (err) {
@@ -845,6 +850,7 @@ module.exports = function(app,io){
         var contacto = req.body.contacto;
         var promocion = req.body.promocion;
         var fechainiciofalla = req.body.fechainiciofalla;
+        var tipo = req.body.tipo;
         var descripcionsituacion = req.body.descripcionsituacion;
 
         var tipodefallareportada = 'promociones';
@@ -872,8 +878,8 @@ module.exports = function(app,io){
 
                     //siguiente query
 
-                    var query = "INSERT INTO promociones(idmetadatos,telefono,usuario,contacto,promocion,fecha,descripcion) VALUES(?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, promocion, fechainiciofalla, descripcionsituacion];
+                    var query = "INSERT INTO promociones(idmetadatos,telefono,usuario,contacto,promocion,fecha,descripcion,tipo) VALUES(?,?,?,?,?,?,?,?)";
+                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, promocion, fechainiciofalla, descripcionsituacion,tipo];
                     query = mysql.format(query, inserts);
                     pool.query(query, function (err, result) {
                         if (err) {

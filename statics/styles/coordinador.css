@@ -161,6 +161,19 @@ header {
   color: white;
   font-size: 80%; }
 
+#seccion_contadores {
+  display: flex;
+  font-weight: bold; }
+  #seccion_contadores .contador-group {
+    display: flex;
+    flex-direction: column;
+    font-size: 70%;
+    color: white;
+    margin-left: 10px;
+    align-items: center; }
+    #seccion_contadores .contador-group span {
+      color: orange; }
+
 #containermainbody {
   min-height: 100%;
   max-width: 100%;
@@ -882,7 +895,8 @@ tbody td, thead th {
   #tabla_usuarios tbody {
     display: block;
     height: 75vh;
-    overflow-y: auto; }
+    overflow: auto;
+    overflow-x: hidden; }
     #tabla_usuarios tbody tr {
       background-color: white;
       height: 30px;
@@ -1001,7 +1015,9 @@ tbody td, thead th {
     background-color: #3F4658;
     color: white;
     height: 35px;
-    padding: 10px; }
+    padding: 10px;
+    display: flex;
+    justify-content: space-between; }
   #coordinador_modaledicionusuarios #body_modaledicionusuarios {
     display: flex;
     flex-direction: column;

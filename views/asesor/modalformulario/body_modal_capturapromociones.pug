@@ -36,6 +36,18 @@
             img(src="../assets/error.png")
 
     .campodetalle_promociones.class_for_validation
+        p.titulocampo TIPO DE PROMOCIÓN
+        select.inputsasesor.inputs_promociones.tipodato_select#promociones_tipo
+            option(disabled selected)
+            option(value='Portabilidad') Portabilidad
+            option(value='Amigo Kit') Amigo Kit
+            option(value='Amigo Chip') Amigo Chip
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_promociones.class_for_validation
         p.titulocampo DESCRIPCION DE LA SITUACIÓN
         textarea.inputsasesor.inputs_promociones.tipodato_librelargo#promociones_descripcionsituacion(type="text")
         span.successimage(style='display: none') 

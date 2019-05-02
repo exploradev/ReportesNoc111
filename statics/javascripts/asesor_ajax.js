@@ -541,7 +541,8 @@ $(document).ready(function(){
                 contacto: parametro_ajax[1],
                 iccidvirtual: parametro_ajax[2],
                 iccidfisica: parametro_ajax[3],
-                cac: parametro_ajax[4]
+                fzaventa: parametro_ajax[4],
+                cac: parametro_ajax[5]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -788,7 +789,11 @@ $(document).ready(function(){
                 importe: parametro_ajax[2],
                 metodocompra: parametro_ajax[3],
                 fechayhora: parametro_ajax[4],
-                descripcionsituacion: parametro_ajax[5]
+                metodocompra2: parametro_ajax[5],
+                fechayhora2: parametro_ajax[6],
+                metodocompra3: parametro_ajax[7],
+                fechayhora3: parametro_ajax[8],
+                descripcionsituacion: parametro_ajax[9]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -868,7 +873,8 @@ $(document).ready(function(){
                 contacto: parametro_ajax[1],
                 promocion: parametro_ajax[2],
                 fechainiciofalla: parametro_ajax[3],
-                descripcionsituacion: parametro_ajax[4]
+                tipo: parametro_ajax[4],
+                descripcionsituacion: parametro_ajax[5]
 
             }, function (response) {
                 if (response == 'Correcto') {

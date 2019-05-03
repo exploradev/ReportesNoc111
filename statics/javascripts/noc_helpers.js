@@ -28,6 +28,11 @@ $(document).ready(function () {
         placeholder: "ELEGIR ESTATUS",
         allowClear: false
     });
+    $('#codificacion_noc').select2({
+        dropdownParent: $(".container_modal"),
+        placeholder: "ELEGIR TIPIFICACIÓN",
+        allowClear: false
+    });
 
     //BUSQUEDA SEARCHBOX
     //BUSQUEDA DE CAPTURAS EN TABLAS AL HACER KEYUP
@@ -40,6 +45,11 @@ $(document).ready(function () {
                 $('.rowdetallesdisponibles').eq(i).show();
             }
         });
+    });
+
+    //AL CLICKEAR CLOSEBUTTON DE COORDINADOR
+    $('.closebuttonn').click(function(){
+        $('#codificacion_noc').val();
     });
 
     

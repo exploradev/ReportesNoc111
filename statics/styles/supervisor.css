@@ -651,6 +651,10 @@ tbody td, thead th {
     .footer_modal thead th:nth-child(4), .footer_modal tbody td:nth-child(4) {
       width: 248px; }
 
+#select2-codificacion_noc-results {
+  max-height: 130px !important;
+  font-size: 70%; }
+
 #menu_lateral {
   border: 2px solid none;
   border-radius: 5px;

@@ -19,6 +19,7 @@ $(document).ready(function(){
   //al clickear el boton de guardado de seguimiento se ejecuta lo siguiente
     $("#guardar_seguimiento_nuevo").click(function(){
         var nuevo_estatus = $('#estatus_seguimiento_nuevo').val();
+        var nuevo_codificacion = $('#codificacion_noc').val();
         var nuevo_comentario = $('#comentarios_seguimiento_nuevo').val();
         var iduser = $("body").data("iduser");
         var idmetadatos = $('#detalles_metadatospanel_folio').html();
@@ -31,6 +32,7 @@ $(document).ready(function(){
             $.post('/actualizar_estatuscaptura',{
                 nuevo_estatus:nuevo_estatus,
                 nuevo_comentario:nuevo_comentario,
+                nuevo_codificacion: nuevo_codificacion,
                 iduser:iduser,
                 idmetadatos:idmetadatos
             },function(response){
@@ -173,6 +175,7 @@ $(document).ready(function(){
             }
             $('#detalles_metadatospanel_asesor').html(response[0]["nombre"]);
             $('#detalles_metadatospanel_creado').html(moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm'));
+            $('#detalles_metadatospanel_tipificacion').html(response[0]["tipificacion"]);
         });
 
         $.post('/get_detallescaptura', {
@@ -250,6 +253,11 @@ $(document).ready(function(){
                 table_body += '</tr>';
             }
             $('#tbody_detallescomentariosmodal').html(table_body);
+        });
+
+        //custom_routes_coordinador
+        $.post('/getTipificacion',{idmetadatos:idmetadatos},function(response){
+            $('#codificacion_noc').val(response[0]["tipificacion"]).trigger('change');
         });
     }); //fin de evento click en las filas de tabla de detalles
 

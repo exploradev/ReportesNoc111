@@ -15,6 +15,32 @@ $(document).ready(function(){
         });
     });
 
+    //INSTANCIA DE DATETIMEPICKER
+    // DATETIME PICKER ---------------------------------------------------------------------------------
+    
+    //datetimepicker por rango
+    jQuery('#exportar_desde').datetimepicker({
+        format: 'Y/m/d',
+        onShow: function (ct) {
+            this.setOptions({
+                maxDate: jQuery('#exportar_hasta').val() ? jQuery('#exportar_hasta').val() : false
+            })
+        },
+        timepicker: false,
+        theme: 'dark'
+    });
+    jQuery('#exportar_hasta').datetimepicker({
+        format: 'Y/m/d',
+        onShow: function (ct) {
+            this.setOptions({
+                minDate: jQuery('#exportar_desde').val() ? jQuery('#exportar_desde').val() : false
+            })
+        },
+        timepicker: false,
+        theme: 'dark'
+    });
+    // DATETIME PICKER ---------------------------------------------------------------------------------
+
     ///////////////////////////////////////////////
     //CLON DE SUPEVISOR_HELPERS.JS CON MODIFICACIONES
     ///////////////////////////////////////////////
@@ -51,6 +77,13 @@ $(document).ready(function(){
 
     $('#actualizar_estatus').select2({
         dropdownParent: $("#body_modaledicionusuarios"),
+        placeholder: "ESTATUS",
+        allowClear: false
+    });
+    ///////////////////////////////////////////////
+
+    $('#tiporeporte ').select2({
+        dropdownParent: $("#seleccion_rangos"),
         placeholder: "ESTATUS",
         allowClear: false
     });

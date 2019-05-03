@@ -41,9 +41,31 @@ $(document).ready(function(){
     //INSTANCIA DE DATETIMEPICKER
     // DATETIME PICKER ---------------------------------------------------------------------------------
     $('.datetimepicker').datetimepicker({
-        format: 'Y/m/d H:m:s',
-        validateOnBlur: false
+      format: 'Y/m/d H:m:s',
+      validateOnBlur: false
     });
+
+    //datetimepicker por rango
+  jQuery('#exportar_desde').datetimepicker({
+    format: 'Y/m/d',
+    onShow: function (ct) {
+      this.setOptions({
+        maxDate: jQuery('#exportar_hasta').val() ? jQuery('#exportar_hasta').val() : false
+      })
+    },
+    timepicker: false,
+    theme: 'dark'
+  });
+  jQuery('#exportar_hasta').datetimepicker({
+    format: 'Y/m/d',
+    onShow: function (ct) {
+      this.setOptions({
+        minDate: jQuery('#exportar_desde').val() ? jQuery('#exportar_desde').val() : false
+      })
+    },
+    timepicker: false,
+    theme: 'dark'
+  });
     // DATETIME PICKER ---------------------------------------------------------------------------------
 
     //VALIDACION DE CAMPOS DE LOS MODALES

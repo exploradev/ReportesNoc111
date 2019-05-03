@@ -134,7 +134,102 @@ module.exports = function(app,io){
         }); //fin del get connection
     });
 
-    
+    //EXPORTAR REPORTES
+    app.post('/getReport', middleware.requireLogin, function (req, res) {
+        var tipo = req.body.tipo;
+        var desde = req.body.desde;
+        var hasta = req.body.hasta;
+
+        //tablas estaticas
+        var tablas_estaticas = ['aclaracion', 'activacion', 'callback', 'cobertura', 'general', 'iccid', 'llamadassms', 'navegacion', 'promociones', 'recargas'];
+
+        if(tipo == "global"){
+            tipo = "vista_metadatos";
+            var query = "SELECT * from ?? where creado between ? and ?";
+            var inserts = [tipo, desde, hasta];
+            query = mysql.format(query, inserts);
+            
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                //se formatean horas
+                results.forEach(element => {
+                    if (element.creado){
+                        element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        
+                    }
+                    if(element.ultseguimiento){
+                        element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                    }
+                    if(element.cerrado){
+                        element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                    }
+                });
+                res.send(results);
+            });
+        } else if (tipo == 'users' || tipo == 'metadatos'){
+            res.send("Error");
+        }else if(tablas_estaticas.indexOf(tipo)!=-1){
+            var query = "SELECT * FROM ?? aux LEFT JOIN vista_metadatos v on v.idmetadatos = aux.idmetadatos where v.creado between ? and ?";
+            var inserts = [tipo, desde, hasta];
+            query = mysql.format(query, inserts)
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                results.forEach(element => {
+                    if (element.creado) {
+                        element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+
+                    }
+                    if (element.ultseguimiento) {
+                        element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                    }
+                    if (element.cerrado) {
+                        element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                    }
+                });
+                res.send(results);
+
+            });
+        }else{
+            var query = "SELECT * from ?? where creado between ? and ?";
+            
+            var inserts = [tipo, desde, hasta];
+            query = mysql.format(query, inserts)
+            connection.query(query, function (error, results, field) {
+                if (error) throw error;
+                if (element.creado) {
+                    element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+
+                }
+                res.send(results);
+                
+            });
+        }
+
+        
+        
+    });
+
+    app.post('/getTipificacion', middleware.requireLogin, function (req, res){
+        var idmetadatos = req.body.idmetadatos;
+        
+        
+        var query = "SELECT tipificacion from metadatos where idmetadatos = ? LIMIT 1";
+        var inserts = [idmetadatos];
+        query = mysql.format(query, inserts)
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            res.send(results);
+        });
+    });
+
+    app.post('/getTables', middleware.requireLogin, function (req, res){
+        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+        
+        connection.query(query, function (error, results, field) {
+            if (error) throw error;
+            res.send(results);
+        });
+    });
 
 
 }// fin del archivo

@@ -25,7 +25,7 @@ app.use(express.static('statics'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
   cookieName: 'session',
-  secret: 'doranringludenlichemorellorabadonbootsnashor',
+  secret: 'ichheissekeinegeldnicht',
   duration: 24 * 60  * 60 * 1000,
   activeDuration: 5 * 60 * 1000,
   cookie: {

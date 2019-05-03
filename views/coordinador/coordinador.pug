@@ -369,6 +369,22 @@ html(lang="en")
                         tbody#tbody_maintable_users
                             
                 #tabla_exportar
+                    #header_exportar
+                        #titulo_exportar
+                            p EXPORTAR
+                    #seleccion_rangos
+                        .input-group
+                            label TIPO*:
+                            select#tiporeporte.elemento_porexportar
+                                //aqui va el ajax response
+                        .input-group
+                            label DESDE*:
+                            input#exportar_desde.elemento_porexportar(type="text" placeholder="Desde")
+                        .input-group
+                            label HASTA*:
+                            input#exportar_hasta.elemento_porexportar(type="text" placeholder="Hasta")
+                        button#generar_export Generar Reporte
+                    
                 
 
         include ./modaldetalles/asesor_modal_detallesdecaptura

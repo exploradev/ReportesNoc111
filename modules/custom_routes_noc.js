@@ -790,20 +790,21 @@ module.exports = function(app,io){
     app.post('/actualizar_estatuscaptura',middleware.requireLogin, function(req,res){
         var nuevo_estatus = req.body.nuevo_estatus;
         var nuevo_comentario = req.body.nuevo_comentario;
+        var nuevo_codificacion = req.body.nuevo_codificacion;
         var iduser = req.body.iduser;
         var idmetadatos = req.body.idmetadatos;
 
         if (nuevo_estatus == "Cerrado"){
-            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), cerrado = now() WHERE idmetadatos = ?";
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), cerrado = now(), tipificacion = ? WHERE idmetadatos = ?";
         }else{
-            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now() WHERE idmetadatos = ?";
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), tipificacion = ? WHERE idmetadatos = ?";
         }
 
         connection.getConnection(function (err, pool) {
             pool.beginTransaction(function (err) {
                 if (err) throw err;
                 
-                var inserts = [nuevo_estatus, idmetadatos];
+                var inserts = [nuevo_estatus,nuevo_codificacion,idmetadatos];
                 var query = mysql.format(query_metadatos, inserts);
 
                 pool.query(query, function (err, result) {

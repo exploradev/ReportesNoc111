@@ -185,6 +185,18 @@ module.exports = function(app,io){
                     if (element.cerrado) {
                         element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
                     }
+
+                    if (element.iccidvirtual) {
+                        element.iccidvirtual = "'"+element.iccidvirtual;
+                        console.log(element.iccidvirtual);
+
+                    }
+
+                    if (element.iccidfisica) {
+                        element.iccidfisica = "'"+element.iccidfisica;
+                        console.log(element.iccidfisica);
+                    }
+
                 });
                 res.send(results);
 

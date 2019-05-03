@@ -1,7 +1,7 @@
 var load_users, fill_tablesoptions;
 $(document).ready(function(){
     //descomentar antes de pruebas finales y puesta en produccion
-    //$('#show_dashboard').trigger('click');
+    $('#show_dashboard').trigger('click');
 
 
     //CONTROL DE ALTA Y ACTUALIZACIONES ---------------------------

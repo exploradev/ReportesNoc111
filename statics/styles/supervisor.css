@@ -655,6 +655,10 @@ tbody td, thead th {
   max-height: 130px !important;
   font-size: 70%; }
 
+#select2-estatus_seguimiento_nuevo-results {
+  max-height: 98px !important;
+  font-size: 80%; }
+
 #menu_lateral {
   border: 2px solid none;
   border-radius: 5px;

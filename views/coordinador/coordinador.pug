@@ -36,6 +36,7 @@ html(lang="en")
                 #sectionname
                     p COORDINADOR *264  
                 #sectionbuttons
+                    button#show_wizardmasivas FALLAS MASIVAS
                     button#show_export ESTADISTICAS
                     button#show_usuarios USUARIOS
                     button#show_tablas REPORTES NOC
@@ -46,7 +47,7 @@ html(lang="en")
 
         #containermainbody
              .maincontainer
-                #menu_lateral(style="display:none")
+                #menu_lateral.hideallthis(style="display:none")
                     #titulo_menu 
                         #countergroup.clickable_filter(data-filter='global' onclick="setMetadataForBigTable('TODAS LAS FALLAS','global')")
                             span Fallas
@@ -209,7 +210,7 @@ html(lang="en")
                                 .circulo_conteo#cerrados_promociones 0 
                         
                         
-                #tabla_principal(style="display:none")
+                #tabla_principal.hideallthis(style="display:none")
                     #tablaheader
                         span
                             span#tiporeporte_header FALLAS
@@ -230,7 +231,7 @@ html(lang="en")
                             
                             
                             
-                #dashboard(style="display:none")
+                #dashboard.hideallthis(style="display:none")
                     p DASHBOARD
                     #conteo_estatus.container_grafica
                         p MENSUAL
@@ -298,7 +299,7 @@ html(lang="en")
                             tbody#tbody_tablaproductividad
                                 
                                 
-                #tabla_usuarios(style="display:none")
+                #tabla_usuarios.hideallthis(style="display:none")
                     #tablaheader_u
                         span 
                             span USUARIOS
@@ -368,7 +369,7 @@ html(lang="en")
                                 
                         tbody#tbody_maintable_users
                             
-                #tabla_exportar(style="display:none")
+                #tabla_exportar.hideallthis(style="display:none")
                     #header_exportar
                         #titulo_exportar
                             p EXPORTAR
@@ -385,7 +386,72 @@ html(lang="en")
                             input#exportar_hasta.elemento_porexportar(type="text" placeholder="Hasta")
                         button#generar_export Generar Reporte
                     
-                
+                #wizardmasivas.hideallthis(style="display:none")
+                    #header_fallas
+                        p GENERAR REPORTES PARA FALLAS MASIVAS
+                    #subheader_fallas
+                        button#btn_nuevorepfalla.buttonfallam NUEVO
+                        button#btn_gestionfalla.buttonfallam GESTIÓN
+                    #body_fallas
+                        #container_nuevo.hide_fallasmasivas
+                            #config_fallas
+                                .input-group
+                                    label.label-fallas NOMBRE DEL REPORTE
+                                    .class_for_validation(style='display:flex')
+                                        input#nombrereporte.nowhitesnumbers.fieldname(type="text", name="nombrereporte" placeholder="Ejemplo: llamadas220419")
+                                        span.successimage(style='display: none') 
+                                            img(src="../assets/success.png")
+                                        span.errorimage(style='display: none') 
+                                            img(src="../assets/error.png")
+                                    span Max 15 letras y 6 numeros
+                                .input-group
+                                    label.label-fallas CANTIDAD DE CAMPOS
+                                    input#camposreporte(type="range" min="1" max="10" value="0")
+                                    span#cantidadcamposreporte 0 campos
+                                    
+                                .input-group
+                                    label.label-fallas OBSERVACIONES
+                                    .class_for_validation(style='display:flex')
+                                        input.fieldname.tipodato_librelargo#observacionesreporte(type="text" placeholder="Observaciones")
+                                        span.successimage(style='display: none') 
+                                            img(src="../assets/success.png")
+                                        span.errorimage(style='display: none') 
+                                            img(src="../assets/error.png")
+                            .divider
+                            #preview_grid
+                                //.preview-group
+                                    label.preview-field NOMBRE DEL CAMPO
+                                    input.fieldname(type="text" placeholder="Nombre del campo")
+                                
+                                
+                            #preview_footer
+                                p *La longitud de c/u de los campos es de tipo texto de 200 caracteres.
+                                button.buttonfallam#btn_savefields PONER EN PRODUCCIÓN
+                        #container_gestion.hide_fallasmasivas(style="display:none")
+                            #leftside.sides
+                                label Activar:
+                                select
+                                    option yes
+                                button Activar
+                                button Desactivar todos
+                            #rightside.sides
+                                p Historico
+                                table
+                                    thead
+                                        tr
+                                            th Nombre
+                                            th Creado
+                                            th Estatus
+                                            th Descripción
+                                    tbody#tbody_fallasmasivas
+                                        tr
+                                            td texto
+                                            td texto
+                                            td texto
+                                            td texto
+                                        
+
+
 
         include ./modaldetalles/asesor_modal_detallesdecaptura
         include ./modaledicion/coordinador_modaledicionusuarios      

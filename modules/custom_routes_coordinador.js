@@ -10,10 +10,15 @@ module.exports = function(app,io){
     //RENDER LISTA DE USUARIOS
     app.post('/get_userlist', middleware.requireLogin, function (req, res){
         query = "SELECT * from users";
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
+        
     });
 
     //ALTA DE USUARIOS
@@ -62,6 +67,7 @@ module.exports = function(app,io){
                     
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
     });
 
@@ -70,11 +76,17 @@ module.exports = function(app,io){
         var iduser = req.body.iduser;
         var query = "SELECT iduser,nombre,username,rol,turno,estatus from users where iduser = ? LIMIT 1";
         var inserts = [iduser];
-        query = mysql.format(query,inserts)
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function(err,conn){
+            query = mysql.format(query, inserts)
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+
+            });
+            conn.release();
         });
+        
+
     });
 
 
@@ -131,6 +143,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release()
         }); //fin del get connection
     });
 
@@ -188,13 +201,13 @@ module.exports = function(app,io){
 
                     if (element.iccidvirtual) {
                         element.iccidvirtual = "'"+element.iccidvirtual;
-                        console.log(element.iccidvirtual);
+                        
 
                     }
 
                     if (element.iccidfisica) {
                         element.iccidfisica = "'"+element.iccidfisica;
-                        console.log(element.iccidfisica);
+                        
                     }
 
                 });
@@ -228,19 +241,96 @@ module.exports = function(app,io){
         var query = "SELECT tipificacion from metadatos where idmetadatos = ? LIMIT 1";
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts)
-        connection.query(query, function (error, results, field) {
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
+        });
+        
+    });
+
+    app.post('/getTables', middleware.requireLogin, function (req, res) {
+        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
             if (error) throw error;
             res.send(results);
+            });
+            conn.release();
         });
     });
 
-    app.post('/getTables', middleware.requireLogin, function (req, res){
-        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+    app.post('/generartabla', middleware.requireLogin, function (req, res) {
         
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
-        });
+        var newjson = req.body.estructura;
+        var parametros = JSON.parse(newjson);
+        var longitud = parametros.length;
+        
+        var inserts = [];
+        inserts.push(parametros[1]);
+        /*
+        CREATE TABLE testtabla (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        telefono varchar(200) DEFAULT NULL,
+        ciudad varchar(200) DEFAULT NULL,
+        estado varchar(200) DEFAULT NULL
+        PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+        */
+
+        //DEFINO LA QUERY PARA CREAR LA TABLA
+        var query_head = "CREATE TABLE ?? (id int(11) NOT NULL AUTO_INCREMENT,";
+        var query_body = "";
+        var query_footer = " PRIMARY KEY (id)) ENGINE = InnoDB DEFAULT CHARSET = utf8";
+
+        for (i = 3; i < longitud; i++) {
+            
+            query_body += "?? varchar(200) DEFAULT NULL,"
+            inserts.push(parametros[i]);
+        }
+
+        var query = query_head + query_body + query_footer;
+        
+        query = mysql.format(query,inserts);
+        console.log(query);
+        //CREAR TABLA
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) {
+                    res.send(error.sqlMessage);
+                }else{
+                    console.log("(1/3) TABLA CREADA CORRECTAMENTE");
+                    //DESACTIVAR LAS TABLAS DINAMICAS
+                    var changestatus = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
+                    conn.query(changestatus,function(error,results,field){
+                        if(error){
+                            res.send(error.sqlMessage);
+                        }else{
+                            console.log("(2/3) ESTATUS DE TABLAS DINAMICAS CAMBIADAS A INACTIVAS");
+                            //INGRESAR METADATOS A TABLASPOREXPORTAR CON ESTATUS ACTIVO
+                            var ingresar = "INSERT INTO tablasporexportar(tabla,activa,tipo,descripcion,autor,contenido) VALUES(?,'activa','dinamica',?,?,?)";
+                            var variables = [parametros[1],parametros[2],parametros[0],'<p>Holi<p>'];
+                            var query = mysql.format(ingresar,variables);
+                            conn.query(query,function(error,results,field){
+                                if (error) {
+                                    res.send(error.sqlMessage);
+                                }else{
+                                    console.log("(3/3) METADATOS DE TABLA INGRESADOS CORRECTAMENTE");
+                                    //SE ENVIA WEBSOCKET
+                                    res.send("TODO OK");
+                                }//fin de else de ingreso a metadatos
+                            });//fin de query de ingreso a metadatos
+                        }//fin de else de tablas dinamicas
+                    }); //fin de query de update estatus tablas dinamicas
+                }//fin de else de crear tabla
+                
+            });//fin de query crear tabla
+            conn.release();
+        });// fin del getConnection
     });
 
 

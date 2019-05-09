@@ -12,19 +12,27 @@ module.exports = function(app,io){
         var query = "SELECT SUM(CASE WHEN estatus = 'Nuevo'   AND propietario = ? THEN 1 ELSE 0 END) AS nuevos, SUM(CASE WHEN estatus = 'Pendiente'  AND propietario = ? THEN 1 ELSE 0 END) AS pendientes, SUM(CASE WHEN estatus = 'Cerrado'  AND month(creado) = month(now()) AND propietario = ? THEN 1 ELSE 0 END) AS cerrados, SUM(CASE WHEN estatus = 'En proceso'   AND propietario = ? THEN 1 ELSE 0 END) AS enproceso FROM metadatos LIMIT 1;";
         var inserts = [iduser, iduser, iduser, iduser];
         query = mysql.format(query, inserts)
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
-        });
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
+        })
+        
     });
 
     //OBTENGO CONTEOS PARA EL MENU LATERAL
     app.get('/get_conteosmenu', middleware.requireLogin, function (req, res) {
         var query = "SELECT SUM(CASE WHEN month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_global, SUM(CASE WHEN falla = 'aclaraciones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_aclaraciones, SUM(CASE WHEN falla = 'callback'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_callback,SUM(CASE WHEN falla = 'general'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_general,SUM(CASE WHEN falla = 'cobertura'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_cobertura,SUM(CASE WHEN falla = 'iccid'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_iccid,        SUM(CASE WHEN falla = 'llamadas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_llamadas, SUM(CASE WHEN falla = 'navegacion'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_navegacion, SUM(CASE WHEN falla = 'recargas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_recargas,            SUM(CASE WHEN falla = 'promociones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_promociones, SUM(CASE WHEN falla = 'servicios'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_servicios, SUM(CASE WHEN falla = 'aclaraciones' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_aclaraciones, SUM(CASE WHEN falla = 'callback' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_callback,                SUM(CASE WHEN falla = 'general' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_general, SUM(CASE WHEN falla = 'cobertura' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_cobertura, SUM(CASE WHEN falla = 'iccid' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_iccid, SUM(CASE WHEN falla = 'llamadas' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_llamadas, SUM(CASE WHEN falla = 'navegacion' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_navegacion, SUM(CASE WHEN falla = 'recargas' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_recargas, SUM(CASE WHEN falla = 'promociones' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_promociones, SUM(CASE WHEN falla = 'servicios' AND month(creado) = month(now()) AND estatus NOT IN('Cerrado') THEN 1 ELSE 0 END) AS abiertos_servicios, SUM(CASE WHEN falla = 'aclaraciones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_aclaraciones, SUM(CASE WHEN falla = 'callback'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_callback,                    SUM(CASE WHEN falla = 'general'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_general, SUM(CASE WHEN falla = 'cobertura'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_cobertura, SUM(CASE WHEN falla = 'iccid'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_iccid,                        SUM(CASE WHEN falla = 'llamadas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_llamadas, SUM(CASE WHEN falla = 'navegacion'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_navegacion, SUM(CASE WHEN falla = 'recargas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_recargas,                            SUM(CASE WHEN falla = 'promociones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_promociones, SUM(CASE WHEN falla = 'servicios'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_servicios, SUM(CASE WHEN falla = 'aclaraciones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_aclaraciones,                                SUM(CASE WHEN falla = 'callback'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_callback, SUM(CASE WHEN falla = 'general'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_general, SUM(CASE WHEN falla = 'cobertura'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_cobertura,                                    SUM(CASE WHEN falla = 'iccid'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_iccid, SUM(CASE WHEN falla = 'llamadas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_llamadas, SUM(CASE WHEN falla = 'navegacion'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_navegacion,                                        SUM(CASE WHEN falla = 'recargas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_recargas, SUM(CASE WHEN falla = 'promociones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_promociones, SUM(CASE WHEN falla = 'servicios'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_servicios, SUM(CASE WHEN falla = 'aclaraciones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_aclaraciones, SUM(CASE WHEN falla = 'callback'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_callback, SUM(CASE WHEN falla = 'general'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_general,                                            SUM(CASE WHEN falla = 'cobertura'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_cobertura, SUM(CASE WHEN falla = 'iccid'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_iccid, SUM(CASE WHEN falla = 'llamadas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_llamadas,                                                SUM(CASE WHEN falla = 'navegacion'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_navegacion, SUM(CASE WHEN falla = 'recargas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_recargas, SUM(CASE WHEN falla = 'promociones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_promociones,                                                    SUM(CASE WHEN falla = 'servicios'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_servicios, SUM(CASE WHEN falla = 'aclaraciones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_aclaraciones, SUM(CASE WHEN falla = 'callback'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_callback, SUM(CASE WHEN falla = 'general'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_general,                                                        SUM(CASE WHEN falla = 'cobertura'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_cobertura, SUM(CASE WHEN falla = 'iccid'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_iccid, SUM(CASE WHEN falla = 'llamadas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_llamadas, SUM(CASE WHEN falla = 'navegacion'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_navegacion, SUM(CASE WHEN falla = 'recargas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_recargas, SUM(CASE WHEN falla = 'promociones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_promociones, SUM(CASE WHEN falla = 'servicios'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_servicios FROM metadatos LIMIT 1;";
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });
 
     app.post('/get_conteosmenu_propios', middleware.requireLogin, function (req, res) {
@@ -42,10 +50,14 @@ module.exports = function(app,io){
             iduser
         ];
         query = mysql.format(query,inserts);
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });
 
     app.post('/get_maintabledata', middleware.requireLogin, function (req, res) {
@@ -343,10 +355,14 @@ module.exports = function(app,io){
 
         }
 
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });
 
     app.post('/get_maintabledata_propios', middleware.requireLogin, function (req, res) {
@@ -780,11 +796,14 @@ module.exports = function(app,io){
 
         }
 
-        
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });
 
     app.post('/actualizar_estatuscaptura',middleware.requireLogin, function(req,res){
@@ -842,6 +861,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
     });
 }// fin del archivo

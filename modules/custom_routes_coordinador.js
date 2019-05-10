@@ -219,14 +219,17 @@ module.exports = function(app,io){
             
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts)
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                if (element.creado) {
-                    element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-
-                }
-                res.send(results);
-                
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    results.forEach(element => {
+                        if (element.creado) {
+                            element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
+                    });
+                    res.send(results);
+                });
+                conn.release();
             });
         }
 
@@ -381,6 +384,7 @@ module.exports = function(app,io){
                             console.log(error);
                         } else {
                             res.send("ok")
+                            io.emit('fallamasiva', 'Nueva falla masiva');
                         }
                     });
                 }

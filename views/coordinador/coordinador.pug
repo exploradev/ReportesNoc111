@@ -430,25 +430,22 @@ html(lang="en")
                         #container_gestion.hide_fallasmasivas(style="display:none")
                             #leftside.sides
                                 label Activar:
-                                select
-                                    option yes
-                                button Activar
-                                button Desactivar todos
+                                select#tablas_fallas
+                                    
+                                button#activartabla Activar
+                                button#desactivartodastablas Desactivar todos
                             #rightside.sides
-                                p Historico
+                                p Histórico
                                 table
                                     thead
                                         tr
                                             th Nombre
                                             th Creado
+                                            th Creado por
                                             th Estatus
                                             th Descripción
                                     tbody#tbody_fallasmasivas
-                                        tr
-                                            td texto
-                                            td texto
-                                            td texto
-                                            td texto
+
                                         
 
 

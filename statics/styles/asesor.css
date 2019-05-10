@@ -271,8 +271,32 @@ header {
   background-color: #3F4658;
   color: white;
   width: 200px;
-  height: 40px; }
+  height: 35px; }
   #btn_nuevoreporte:hover {
+    background-color: #4B5367;
+    color: white; }
+
+#btn_nuevamasiva {
+  margin-top: 5px;
+  align-self: center;
+  border: 1px solid #C15965;
+  border-radius: 5px;
+  background-color: #C15965;
+  color: white;
+  width: 200px;
+  height: 35px; }
+  #btn_nuevamasiva:hover {
+    background-color: #B92D3D;
+    color: white; }
+
+#btn_savemasiva {
+  border: 1px solid #3F4658;
+  border-radius: 5px;
+  background-color: #3F4658;
+  color: white;
+  width: 150px;
+  height: 35px; }
+  #btn_savemasiva:hover {
     background-color: #4B5367;
     color: white; }
 
@@ -437,6 +461,12 @@ header {
 .has-error > textarea, .has-error > select, .has-error > input, .has-error .select2-container--default .select2-selection--single, .has-error .select2-container--default .select2-selection--single .select2-selection__rendered, .has-error .select2-container--default .select2-selection--single .select2-selection__placeholder {
   border-color: #DE4C43 !important;
   color: red; }
+
+#subheader_modalfallasmasivas {
+  height: 80px;
+  align-items: flex-start;
+  padding-top: 15px;
+  justify-content: flex-start; }
 
 #subheader_modaldetalles {
   justify-content: space-between;
@@ -783,5 +813,21 @@ header {
 
 #tbody_reportesexistentes > tr:hover {
   background-color: #E4E8F3; }
+
+#body_fallasmasivas {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(3, 278px);
+  grid-gap: 20px;
+  grid-auto-rows: minmax(15px, auto); }
+  #body_fallasmasivas input {
+    border-radius: 3px; }
+  #body_fallasmasivas p {
+    font-size: 80%; }
+
+.footer_modalmasivas {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px; }
 
 /*# sourceMappingURL=asesor.css.map */

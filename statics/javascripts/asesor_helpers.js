@@ -1,5 +1,6 @@
-
+var tablafallasEstaActiva;
 $(document).ready(function () {
+    // todo sobre liga de fallas
     //select2 de cobertura
     //ajax para refresco de selects dec obertura
 
@@ -154,5 +155,125 @@ $(document).ready(function () {
     });//fin de evento de cobertura colonia
 
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
+    //TODO LO RELACINADO A LIGA DE FALLAS
+
+    //validar si alguna tabla de fallas esta activada
+    tablafallasEstaActiva = function(){
+         //en caso de que este activada entonces hacemos visible el boton
+        //escribimos en el body del modal el contenido de la tabla activa
+        //en caso de que sea negativo  entonces el body lo vaciamos y ocultamos el boton
+        
+        $.post('/validarFallasActivas',function(response){
+            if (response == "existe"){
+                llenar_body_fallamasiva();
+            }else if(response == "noexiste"){
+                limpiar_body_fallamasiva();
+            }else{
+                console.log(response);
+            }
+        });
+    }
+
+    llenar_body_fallamasiva = function(){
+        //mostrar boton oculto 
+        //llenar body y comentario de falla
+        $.post('/getTablaMasivaActiva',function(response){
+            $("#body_fallasmasivas").html(response[0]['contenido']);
+            $("#descripcion_fallamasiva").html(response[0]['descripcion']);
+        });
+    }
+
+    limpiar_body_fallamasiva = function(){
+        console.log("holi");
+    };
+
+
+
+    //se ingresan los datos a la correspondiente db haciendo uso del backend
+    $('#btn_savemasiva').click(function(){
+        var acumulador_no_vacios = 0;
+        var conteo_inputs = 0;
+        var acumulador_por_llenar = 0;
+        
+        //----------------------------------
+        $('.campo_fallamasiva').each(function () {
+            //lleno mi contador de inputs
+            conteo_inputs++;
+
+            //lleno mis acumuladores de no vacios y por llenar
+            var valor_selector_actual = $(this).val();
+            if (valor_selector_actual == "" || valor_selector_actual == null) {
+                acumulador_por_llenar++;
+            } else {
+                acumulador_no_vacios++;
+            }
+        });//fin de ciclo each uno
+        //----------------------------------
+        
+
+        //SI LA CANTIDAD DE ERRORES Y LOS NO LLENADOS NO SON IGUAL A CERO
+        if (acumulador_por_llenar != 0) {
+            //HAGO ALERT INDICANDO LO QUE FALTA
+            alert("Es necesario llenar todos los campos correctamente antes de guardar");
+        } else if (conteo_inputs == acumulador_no_vacios) {
+            
+            //VALIDO QUE LA CANTIDAD DE INPUTS TOTAL SEA IGUAL AL TOTAL DE INPUTS CORRECTOS, ENTONCES
+
+            //TOMO LOS VALORES DE TODOS LOS QUE SON EXITOSOS Y LOS ASIGNO A VARIABLES POR PASAR POR AJAX, 
+            var parametro_ajax = [];
+            //get valor telefono
+            var iduser = $('#asesorname').data('name');
+            
+            parametro_ajax.push(iduser);
+            $('.campo_fallamasiva').each(function () {
+                parametro_ajax.push($(this).val());
+            });
+
+            console.log(parametro_ajax);
+            var newjson = JSON.stringify(parametro_ajax);
+            console.log(newjson);
+
+            if(parametro_ajax.length < 2){
+                alert("Sin campos no se hace el envio. Reportar al webmaster");
+            }else{
+            //EFECTUO EL AJAX Y EN EL CALLBACK CIERRO Y RESETEO TODOS LOS CAMPOS
+
+            $.post('/guardarpool_fallamasiva', {
+                parametros: newjson
+
+            }, function (response) {
+                if (response == 'Correcto') {
+                    alert("GUARDADO CORRECTAMENTE");
+                    $('.campo_fallamasiva').val("");
+                    $('.closebuttonn').trigger('click');
+                }else{
+                    alert("Error: "+response);
+                }
+            });
+            }
+            
+        }
+    });
+
+   
+
 });

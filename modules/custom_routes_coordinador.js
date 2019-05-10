@@ -263,6 +263,7 @@ module.exports = function(app,io){
         });
     });
 
+    //RUTA QUE CREA LA TABLA DINAMICAMENTE FALLAS MASIVAS
     app.post('/generartabla', middleware.requireLogin, function (req, res) {
         
         var newjson = req.body.estructura;
@@ -283,14 +284,24 @@ module.exports = function(app,io){
         */
 
         //DEFINO LA QUERY PARA CREAR LA TABLA
-        var query_head = "CREATE TABLE ?? (id int(11) NOT NULL AUTO_INCREMENT,";
+        var query_head = "CREATE TABLE ?? (id int(11) NOT NULL AUTO_INCREMENT,asesor varchar(200) DEFAULT NULL, creado timestamp NULL DEFAULT CURRENT_TIMESTAMP,";
         var query_body = "";
         var query_footer = " PRIMARY KEY (id)) ENGINE = InnoDB DEFAULT CHARSET = utf8";
 
+        //DEFINO LA VARIABLE DEL CONTENIDO
+        var contentHTMLheader = '<div class="group-masivas"> <p class="titulocampo">';
+        var contentHTMLfooter = '</p> <input class="inputsasesor campo_fallamasiva"/></div>';
+
+        var contentHTML = "";
         for (i = 3; i < longitud; i++) {
-            
             query_body += "?? varchar(200) DEFAULT NULL,"
             inserts.push(parametros[i]);
+
+            //agregamos los campos al contenido del html como nombre del label
+            contentHTML += contentHTMLheader;
+            contentHTML += parametros[i];
+            contentHTML += contentHTMLfooter;
+
         }
 
         var query = query_head + query_body + query_footer;
@@ -313,7 +324,7 @@ module.exports = function(app,io){
                             console.log("(2/3) ESTATUS DE TABLAS DINAMICAS CAMBIADAS A INACTIVAS");
                             //INGRESAR METADATOS A TABLASPOREXPORTAR CON ESTATUS ACTIVO
                             var ingresar = "INSERT INTO tablasporexportar(tabla,activa,tipo,descripcion,autor,contenido) VALUES(?,'activa','dinamica',?,?,?)";
-                            var variables = [parametros[1],parametros[2],parametros[0],'<p>Holi<p>'];
+                            var variables = [parametros[1], parametros[2], parametros[0], contentHTML];
                             var query = mysql.format(ingresar,variables);
                             conn.query(query,function(error,results,field){
                                 if (error) {
@@ -332,6 +343,124 @@ module.exports = function(app,io){
             conn.release();
         });// fin del getConnection
     });
+
+    app.post('/getTablesFallas', middleware.requireLogin, function (req, res) {
+        var query = " SELECT t.idtablasporexportar,t.tabla,t.activa,t.creado,t.descripcion,u.nombre FROM tablasporexportar t LEFT JOIN users u ON u.iduser = t.autor WHERE tipo = 'dinamica' ";
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) {
+                    res.send("Error al hacer la consulta");
+                } else {
+                    res.send(results);
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/activar_tabla', middleware.requireLogin, function (req, res) {
+        var query = " SELECT t.idtablasporexportar,t.tabla,t.activa,t.creado,t.descripcion,u.nombre FROM tablasporexportar t LEFT JOIN users u ON u.iduser = t.autor WHERE tipo = 'dinamica' ";
+
+
+        var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
+        var query_activar = "UPDATE tablasporexportar SET activa = 'activa' WHERE tipo = 'dinamica' AND idtablasporexportar = ?";
+        var inserts = [req.body.id];
+        query_activar = mysql.format(query_activar, inserts);
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query_desactivar, function (error, results, field) {
+                if (error) {
+                    res.send(error);
+                    console.log(error);
+                } else {
+                    conn.query(query_activar, function (error, results, field) {
+                        if (error) {
+                            res.send(error);
+                            console.log(error);
+                        } else {
+                            res.send("ok")
+                        }
+                    });
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/deshabilitar_tablas', middleware.requireLogin, function (req, res) {
+        var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query_desactivar, function (error, results, field) {
+                if (error) {
+                    res.send(error);
+                    console.log(error);
+                } else {
+                    res.send("ok");
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/validarFallasActivas', middleware.requireLogin, function (req, res) {
+        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error){
+                    res.send("error")
+                    console.log(error);
+                }else if(results.length > 0){
+                    res.send("existe");
+                }else{
+                    res.send("noexiste");
+                }
+                
+                
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/getTablaMasivaActiva', middleware.requireLogin, function (req, res) {
+        var query = " SELECT descripcion, contenido FROM tablasporexportar WHERE tipo = 'dinamica' and activa = 'activa' order by creado asc limit 1 ";
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.send(results);
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/guardarpool_fallamasiva', middleware.requireLogin, function (req, res) {
+        
+        var parametros = req.body.parametros;
+        parametros = JSON.parse(parametros);
+        console.log(parametros);
+        res.send("Correcto");
+        
+        /*var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query_desactivar, function (error, results, field) {
+                if (error) {
+                    res.send(error);
+                    console.log(error);
+                } else {
+                    res.send("ok");
+                }
+            });
+            conn.release();
+        });*/
+    });
+
+    
 
 
 }// fin del archivo

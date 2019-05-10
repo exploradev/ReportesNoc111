@@ -1282,7 +1282,6 @@ tbody td, thead th {
   display: flex; }
 
 .sides {
-  border: 1px solid red;
   height: 100%;
   font-size: 85%; }
 
@@ -1292,10 +1291,31 @@ tbody td, thead th {
   flex-direction: column; }
   #leftside label {
     font-weight: bold; }
+  #leftside button {
+    margin-top: 5px;
+    height: 25px;
+    border: 1px solid #3F4658;
+    background-color: #4B5367;
+    color: white; }
+    #leftside button:hover {
+      background-color: white;
+      color: #3F4658; }
 
 #rightside {
   width: 80%;
   display: flex;
-  justify-content: center; }
+  flex-direction: column;
+  align-items: center; }
+  #rightside p {
+    font-weight: bold;
+    font-size: 110%; }
+  #rightside table {
+    margin-top: 25px;
+    width: 95%; }
+    #rightside table thead {
+      font-weight: bold;
+      color: #3F4658; }
+    #rightside table tbody {
+      color: #4B5367; }
 
 /*# sourceMappingURL=coordinador.css.map */

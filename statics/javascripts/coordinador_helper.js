@@ -88,6 +88,12 @@ $(document).ready(function(){
         allowClear: false
     });
 
+    $('#tablas_fallas').select2({
+        dropdownParent: $("#leftside"),
+        placeholder: "TABLAS DE FALLAS",
+        allowClear: false
+    });
+
     ///////////////////////////////////////////////
     $('#show_export').click(function () {
         $('.hideallthis').hide();

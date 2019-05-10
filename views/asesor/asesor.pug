@@ -44,12 +44,14 @@ html(lang="en")
                     p#errorbusqueda(style='visibility:hidden') No se encontraron reportes para este número / folio
                         
                     .divider
-                    button#btn_nuevoreporte Nuevo Reporte
+                    button#btn_nuevoreporte NUEVO REPORTE
+                    button#btn_nuevamasiva(style='visibility: hidden') FALLA MASIVA
         
         include asesor_modal_reportesdisponibles
         include asesor_modal_seleccionartiporeporte
         include ./modaldetalles/asesor_modal_detallesdecaptura
         include ./modalformulario/asesor_modal_formularios
+        include ./modalfallasmasivas/asesor_modal_fallasmasivas
         
        
             

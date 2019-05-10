@@ -1,3 +1,4 @@
+var fill_selectoptionsfallas;
 $(document).ready(function () {
     //ABAJO LIGA DE FALLAS
 
@@ -188,7 +189,8 @@ $(document).ready(function () {
                     $('#cantidadcamposreporte').html("0 campos");
                     $(".fieldname").val("").closest('.class_for_validation').removeClass('has-error has-success');
                     $("#preview_grid").html("");
-                    
+                    fill_selectoptionsfallas();
+                    fill_tablesoptions();
                 }else{
                     alert("Informar a webmaster sobre el siguiente error: " + response);
                 }
@@ -205,6 +207,65 @@ $(document).ready(function () {
     $('#btn_gestionfalla').click(function () {
         $(".hide_fallasmasivas").hide();
         $("#container_gestion").css('display', 'flex');
+    });
+
+    //CARGA DE CAMPOS Y LISTAS DE REPORTES DE FALLAS
+    fill_selectoptionsfallas = function(){
+        $.post('/getTablesFallas',function(response){
+            
+            
+            //SE AGREGA AL SELECT
+            var options = "<option></option>";
+            for(i=0;i<response.length;i++){
+                options += "<option value='" + response[i]["idtablasporexportar"] + "'>" + response[i]["tabla"]+"</option>";
+            }
+            $('#tablas_fallas').html(options);
+
+            //SE AGREGAN A LAS TABLAS
+
+            var tbody_tabla = "";
+            for (i = 0; i < response.length; i++) {
+                tbody_tabla += "<tr>";
+                tbody_tabla += "<td>"+response[i]["tabla"]+"</td>";
+                tbody_tabla += "<td>" + moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm') +"</td>";
+                tbody_tabla += "<td>"+response[i]["nombre"]+"</td>";
+                tbody_tabla += "<td>"+response[i]["activa"]+"</td>";
+                tbody_tabla += "<td>"+response[i]["descripcion"]+"</td>";
+                tbody_tabla += "</tr>";
+            }
+            $('#tbody_fallasmasivas').html(tbody_tabla);
+        });
+    }
+
+    fill_selectoptionsfallas();
+
+    $('#activartabla').click(function () {
+        var id = $('#tablas_fallas').val();
+        if(id == ""){
+            alert("Seleccionar una opcion de la lista");
+        }else{
+            $.post('/activar_tabla',{id:id},function(response){
+                if(response == "ok"){
+                    alert("Activada correctamente");
+                    fill_selectoptionsfallas();
+                    fill_tablesoptions();
+                }else{
+                    alert("Error: " + response)
+                }
+            });
+        }
+    });
+
+    $('#desactivartodastablas').click(function () {
+        $.post('/deshabilitar_tablas',function(response){
+            if(response == "ok"){
+                alert("Todas las tablas de fallas fueron deshabilitadas correctamente");
+                fill_selectoptionsfallas();
+                fill_tablesoptions();
+            }else{
+                alert("Error: "+ response)
+            }
+        });
     });
 
 

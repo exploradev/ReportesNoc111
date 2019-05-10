@@ -15,16 +15,20 @@ module.exports = function(app,io){
         query = mysql.format(query, inserts);
         response = [];
      
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            results.forEach(element => {
-                var row = {
-                    'municipio': element.municipio
-                }
-                response.push(row);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                results.forEach(element => {
+                    var row = {
+                        'municipio': element.municipio
+                    }
+                    response.push(row);
+                });
+                res.send(response);
             });
-            res.send(response);
+            conn.release();
         });
+        
     });
 
     //DEVUELVE LOS OPTION DE LA BASE DE SEPOMEX
@@ -35,17 +39,20 @@ module.exports = function(app,io){
         inserts = [estado,municipio];
         query = mysql.format(query,inserts);
         response = [];
-        
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            results.forEach(element => {
-                var row = {
-                    'colonia': element.colonia
-                }
-                response.push(row);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                results.forEach(element => {
+                    var row = {
+                        'colonia': element.colonia
+                    }
+                    response.push(row);
+                });
+                res.send(response);
             });
-            res.send(response);
+            conn.release();
         });
+        
     });
 
     //DEVUELVE LOS OPTION DE LA BASE DE SEPOMEX
@@ -58,16 +65,20 @@ module.exports = function(app,io){
         query = mysql.format(query, inserts);
         response = [];
        
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            results.forEach(element => {
-                var row = {
-                    'cp': element.cp
-                }
-                response.push(row);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                results.forEach(element => {
+                    var row = {
+                        'cp': element.cp
+                    }
+                    response.push(row);
+                });
+                res.send(response);
             });
-            res.send(response);
+            conn.release();
         });
+        
     });
 
 
@@ -81,16 +92,20 @@ module.exports = function(app,io){
         inserts = [telefono, tiporeporte];
         query = mysql.format(query, inserts);
         response = [];
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            var numRows = results.length;
-            if(numRows > 0){
-                res.send('existe');
-            }else{
-                res.send('no existe');
-            }
-            //res.send(numRows);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                var numRows = results.length;
+                if (numRows > 0) {
+                    res.send('existe');
+                } else {
+                    res.send('no existe');
+                }
+                //res.send(numRows);
+            });
+            conn.release();
         });
+        
     });
 
 
@@ -117,35 +132,44 @@ module.exports = function(app,io){
             //buscar el id del que tenga menos registros de los noc vespertinos directo de db y asignarselo
             //comienza la query de consulta
             var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' group by u.iduser order by capturas asc limit 1";
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                //console.log(results);
-                let propietario = results[0].propietario;
-                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                var inserts = [propietario, captura];
-                query = mysql.format(query, inserts);
-                connection.query(query, function (error, results, field) {
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
                     if (error) throw error;
-                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                }); //fin query de asignacion
-            }); //fin query de consulta
+                    //console.log(results);
+                    let propietario = results[0].propietario;
+                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var inserts = [propietario, captura];
+                    query = mysql.format(query, inserts);
+                    conn.query(query, function (error, results, field) {
+                        if (error) throw error;
+                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                    }); //fin query de asignacion
+                }); //fin query de consulta
+                conn.release();
+            });
+            
         }else if(hours > 19 && hours < 24){ //si la captura esta entre las 8 y 11 pm
             //buscar el id del que tenga menos registros de los noc matutinos directo de db y asignarselo
             var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' group by u.iduser order by capturas asc limit 1";
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                //console.log(results);
-                let propietario = results[0].propietario;
-                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                var inserts = [propietario, captura];
-                query = mysql.format(query, inserts);
-                connection.query(query, function (error, results, field) {
+
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
                     if (error) throw error;
-                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                }); //fin query de asignacion
-            }); //fin query de consulta
+                    //console.log(results);
+                    let propietario = results[0].propietario;
+                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var inserts = [propietario, captura];
+                    query = mysql.format(query, inserts);
+                    conn.query(query, function (error, results, field) {
+                        if (error) throw error;
+                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                    }); //fin query de asignacion
+                }); //fin query de consulta
+                conn.release();
+            })
+            
         }else if(usuarios_conectados.length > 1){ //si hay conectados y la captura no esta entre los rangos anteriores
             //tratamiento de ids
             let usuarios_conectados_ids = [];
@@ -159,54 +183,66 @@ module.exports = function(app,io){
             var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.iduser IN(?) group by u.iduser order by capturas asc limit 1";
             var inserts = [usuarios_conectados_ids];
             query = mysql.format(query,inserts);
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                //console.log(results);
-                let propietario = results[0].propietario;
-                
-                //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                var inserts = [propietario,captura];
-                query = mysql.format(query, inserts);
-                connection.query(query, function (error, results, field) {
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
                     if (error) throw error;
-                    console.log("Asignado correctamente a iduser: " + propietario + " - la captura: "+ captura);
-                }); //fin query de asignacion
-            }); //fin query de consulta
+                    //console.log(results);
+                    let propietario = results[0].propietario;
+
+                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var inserts = [propietario, captura];
+                    query = mysql.format(query, inserts);
+                    conn.query(query, function (error, results, field) {
+                        if (error) throw error;
+                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                    }); //fin query de asignacion
+                }); //fin query de consulta
+                conn.release();
+            });
+            
             //BUSCAR EL QUE TIENE MENOS DE LOS CONECTADOS
         }else{
             if(hours > 1 && hours < 13){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
                 //buscar el que tiene menos del turno matutino y asignarlo
                 var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' group by u.iduser order by capturas asc limit 1";
-                connection.query(query, function (error, results, field) {
-                    if (error) throw error;
-                    //console.log(results);
-                    let propietario = results[0].propietario;
-                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                    var inserts = [propietario, captura];
-                    query = mysql.format(query, inserts);
-                    connection.query(query, function (error, results, field) {
+                connection.getConnection(function(err,conn){
+                    conn.query(query, function (error, results, field) {
                         if (error) throw error;
-                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                    }); //fin query de asignacion
-                }); //fin query de consulta
+                        //console.log(results);
+                        let propietario = results[0].propietario;
+                        //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                        var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                        var inserts = [propietario, captura];
+                        query = mysql.format(query, inserts);
+                        conn.query(query, function (error, results, field) {
+                            if (error) throw error;
+                            console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                        }); //fin query de asignacion
+                    }); //fin query de consulta
+                    conn.release();
+                });
+                
             }else if(hours > 14 && hours < 20){
                 //buscar el que tiene menos del turno vespertino y asignarlo
                 var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' group by u.iduser order by capturas asc limit 1";
-                connection.query(query, function (error, results, field) {
-                    if (error) throw error;
-                    //console.log(results);
-                    let propietario = results[0].propietario;
-                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                    var inserts = [propietario, captura];
-                    query = mysql.format(query, inserts);
-                    connection.query(query, function (error, results, field) {
+                connection.getConnection(function(err,conn){
+                    conn.query(query, function (error, results, field) {
                         if (error) throw error;
-                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                    }); //fin query de asignacion
-                }); //fin query de consulta
+                        //console.log(results);
+                        let propietario = results[0].propietario;
+                        //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+                        var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                        var inserts = [propietario, captura];
+                        query = mysql.format(query, inserts);
+                        conn.query(query, function (error, results, field) {
+                            if (error) throw error;
+                            console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                        }); //fin query de asignacion
+                    }); //fin query de consulta
+                    conn.release();
+                });
+                
             }
         }
         console.log(usuarios_conectados);
@@ -297,6 +333,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -375,6 +412,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -448,6 +486,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -520,6 +559,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -595,6 +635,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -673,6 +714,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -749,6 +791,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -777,6 +820,7 @@ module.exports = function(app,io){
         var metodocompra3 = req.body.metodocompra3;
         var fechayhora3 = req.body.fechayhora3;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var contacto = req.body.contacto;
 
         var tipodefallareportada = 'recargas';
         var estatus = 'Nuevo';
@@ -803,8 +847,8 @@ module.exports = function(app,io){
 
                     //siguiente query
 
-                    var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,metodocompra2,fechahora2,metodocompra3,fechahora3,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, metodocompra2, fechayhora2, metodocompra3, fechayhora3, descripcionsituacion];
+                    var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,metodocompra2,fechahora2,metodocompra3,fechahora3,descripcion,contacto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, metodocompra2, fechayhora2, metodocompra3, fechayhora3, descripcionsituacion,contacto];
                     query = mysql.format(query, inserts);
                     pool.query(query, function (err, result) {
                         if (err) {
@@ -828,6 +872,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -903,6 +948,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -977,6 +1023,7 @@ module.exports = function(app,io){
 
                 });//fin de la query 1
             }); //fin del begin transaction
+            pool.release();
         }); //fin del get connection
 
         //responder al cliente en caso de exito
@@ -997,30 +1044,34 @@ module.exports = function(app,io){
         var inserts = [numeroofolio, numeroofolio];
         query = mysql.format(query,inserts);
         var response = [];
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            var numRows = results.length;
-            if (numRows > 0) {
-                results.forEach(element => {
-                    var row = {
-                        'idmetadatos': element.idmetadatos,
-                        'creado': element.creado,
-                        'asesor': element.nombre,
-                        'ultseguimiento': element.ultseguimiento,
-                        'falla': element.falla,
-                        'estatus': element.estatus,
-                        'propietario': element.propietario,
-                        'cerrado': element.cerrado,
-                        
-                    }
-                    response.push(row);
-                });
-                res.send(response);
-            } else {
-                res.send('no existe');
-            }
-            
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                var numRows = results.length;
+                if (numRows > 0) {
+                    results.forEach(element => {
+                        var row = {
+                            'idmetadatos': element.idmetadatos,
+                            'creado': element.creado,
+                            'asesor': element.nombre,
+                            'ultseguimiento': element.ultseguimiento,
+                            'falla': element.falla,
+                            'estatus': element.estatus,
+                            'propietario': element.propietario,
+                            'cerrado': element.cerrado,
+
+                        }
+                        response.push(row);
+                    });
+                    res.send(response);
+                } else {
+                    res.send('no existe');
+                }
+
+            });
+            conn.release();
         });
+        
     });
     
     //SE CONSULTA EL DETALLE SEGUN EL ID Y TIPO DE FALLA PASADO
@@ -1065,10 +1116,14 @@ module.exports = function(app,io){
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         var response = [];
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });
 
     //SE CONSULTA EL DETALLE SEGUN EL ID Y TIPO DE FALLA PASADO
@@ -1078,10 +1133,14 @@ module.exports = function(app,io){
         var query = "SELECT m.idmetadatos,m.creado,u.nombre,m.falla FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });  
     
     app.post('/get_detallesobservaciones', middleware.requireLogin, function (req, res) {
@@ -1090,10 +1149,14 @@ module.exports = function(app,io){
         var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ? order by o.creado DESC"
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     });  
 
     

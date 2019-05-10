@@ -1,6 +1,8 @@
 var reset_all;
 $(document).ready(function(){
 
+    
+
     //FUNCION DE RESETEO DE CAMPOS AL GUARDAR
     //Y CIERRE DE LOS MODALES
     reset_all =  function(){
@@ -793,7 +795,8 @@ $(document).ready(function(){
                 fechayhora2: parametro_ajax[6],
                 metodocompra3: parametro_ajax[7],
                 fechayhora3: parametro_ajax[8],
-                descripcionsituacion: parametro_ajax[9]
+                descripcionsituacion: parametro_ajax[9],
+                contacto: parametro_ajax[10]
 
             }, function (response) {
                 if (response == 'Correcto') {

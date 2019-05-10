@@ -8,10 +8,14 @@ module.exports = function(app,io){
 
     app.post('/getNocs', middleware.requireLogin, function (req, res) {
         var query = "SELECT iduser, nombre from users where rol = 'noc' and estatus = 'activo'";
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            res.send(results);
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                res.send(results);
+            });
+            conn.release();
         });
+        
     }); //fin del /getTotalReportes
 
 
@@ -21,11 +25,15 @@ module.exports = function(app,io){
         var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
         var inserts = [iduser,idmetadatos];
         query = mysql.format(query,inserts);
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            io.emit('new', 'nuevo_reasignacion');
-            res.send("Correcto");
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                io.emit('new', 'nuevo_reasignacion');
+                res.send("Correcto");
+            });
+            conn.release();
         });
+        
     }); //fin del /getTotalReportes
 
     

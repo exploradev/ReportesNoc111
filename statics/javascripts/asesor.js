@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    
+
     //CONTROL DE MODALES Y VENTANAS
     
     //al tener abierto algun modal lo cierro con esc
@@ -29,7 +31,7 @@ $(document).ready(function(){
         $('#asesor_modal_formularios').css('display', 'none');
         $('#asesor_modal_reportesdisponibles').css('display', 'none');
         $('#asesor_modal_detallesdecaptura').css('display', 'none');
-        
+        $('#asesor_modal_fallasmasivas').css('display', 'none');
         
 
         $('#overlay-back').css('display', 'none');

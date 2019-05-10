@@ -185,8 +185,12 @@ $(document).ready(function () {
         $.post('/validarFallasActivas',function(response){
             if (response == "existe"){
                 llenar_body_fallamasiva();
+                $("#btn_nuevamasiva").css('visibility','visible');
+                
             }else if(response == "noexiste"){
                 limpiar_body_fallamasiva();
+                $("#btn_nuevamasiva").css('visibility','hidden');
+                
             }else{
                 console.log(response);
             }
@@ -199,14 +203,25 @@ $(document).ready(function () {
         $.post('/getTablaMasivaActiva',function(response){
             $("#body_fallasmasivas").html(response[0]['contenido']);
             $("#descripcion_fallamasiva").html(response[0]['descripcion']);
+            
         });
     }
 
     limpiar_body_fallamasiva = function(){
-        console.log("holi");
+        $("#body_fallasmasivas").html("");
+        $("#descripcion_fallamasiva").html("");
     };
 
+    tablafallasEstaActiva();
 
+    //------------------------------------------------------------
+    //CLICK AL BTN DE FALLA MASIVA MUESTRA MODAL
+    $("#btn_nuevamasiva").click(function(){
+        $('#asesor_modal_fallasmasivas').show();
+        $('#overlay-back').css('display', 'block');
+        $('body').addClass('modal-open');
+    });
+    //------------------------------------------------------------
 
     //se ingresan los datos a la correspondiente db haciendo uso del backend
     $('#btn_savemasiva').click(function(){
@@ -274,6 +289,20 @@ $(document).ready(function () {
         }
     });
 
+
+    //-----------------------------------------------------------------------
+    //-------------------------------WEBSOCKETS------------------------------
+    //-----------------------------------------------------------------------
+    socket = io.connect('http://192.168.3.62:2264');
+
+
+    socket.on('fallamasiva', function (msg) {
+        console.log("Socket: " + msg);
+        tablafallasEstaActiva();
+    });
+        //-----------------------------------------------------------------------
+        //-------------------------------WEBSOCKETS------------------------------
+        //-----------------------------------------------------------------------
    
 
 });

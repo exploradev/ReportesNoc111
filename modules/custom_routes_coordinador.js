@@ -333,6 +333,7 @@ module.exports = function(app,io){
                                     console.log("(3/3) METADATOS DE TABLA INGRESADOS CORRECTAMENTE");
                                     //SE ENVIA WEBSOCKET
                                     res.send("TODO OK");
+                                    io.emit('fallamasiva', 'Nueva falla masiva');
                                 }//fin de else de ingreso a metadatos
                             });//fin de query de ingreso a metadatos
                         }//fin de else de tablas dinamicas
@@ -398,6 +399,7 @@ module.exports = function(app,io){
                     console.log(error);
                 } else {
                     res.send("ok");
+                    io.emit('fallamasiva', 'Deshabilitadas todas las fallas masivas');
                 }
             });
             conn.release();
@@ -405,7 +407,7 @@ module.exports = function(app,io){
     });
 
     app.post('/validarFallasActivas', middleware.requireLogin, function (req, res) {
-        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa' and tipo = 'dinamica'";
         connection.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {
                 if (error){
@@ -413,6 +415,7 @@ module.exports = function(app,io){
                     console.log(error);
                 }else if(results.length > 0){
                     res.send("existe");
+                    //console.log(results.length);
                 }else{
                     res.send("noexiste");
                 }
@@ -424,7 +427,7 @@ module.exports = function(app,io){
     });
 
     app.post('/getTablaMasivaActiva', middleware.requireLogin, function (req, res) {
-        var query = " SELECT descripcion, contenido FROM tablasporexportar WHERE tipo = 'dinamica' and activa = 'activa' order by creado asc limit 1 ";
+        var query = " SELECT descripcion, contenido FROM tablasporexportar WHERE tipo = 'dinamica' and activa = 'activa' order by creado desc limit 1 ";
 
         connection.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {
@@ -443,24 +446,91 @@ module.exports = function(app,io){
         var parametros = req.body.parametros;
         parametros = JSON.parse(parametros);
         console.log(parametros);
-        res.send("Correcto");
+        //res.send("Correcto");
+
+
+        //OBTENER NOMBRE DE LA TABLA ACTIVA
+        //OBTENER FIELDNAME DE LA TABLA ACTIVA
+        //INSERTAR A ESOS FIELDNAMES DE LA TABLA ACTIVA
         
-        /*var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
+        var query_getActiva = "SELECT tabla FROM tablasporexportar WHERE tipo = 'dinamica' AND activa = 'activa' order by creado desc LIMIT 1";
+
+        var query_getNames = "SELECT * FROM ?? LIMIT 1";
+        var names_array = [];
+        
+        console.log("COMENZANDO INSERCION DE REGISTRO DE FALLA MASIVA")
 
         connection.getConnection(function (err, conn) {
-            conn.query(query_desactivar, function (error, results, field) {
+            //obtener tabla activa---------------------------------
+            conn.query(query_getActiva, function (error, results, field) {
                 if (error) {
                     res.send(error);
                     console.log(error);
                 } else {
-                    res.send("ok");
+                    var nombre_tabla = results[0]['tabla'];
+                    console.log("TABLA ACTIVA: " + nombre_tabla);
+                    var inserts = [nombre_tabla];
+                    query_getNames = mysql.format(query_getNames,inserts);
+                    //obtener los campos de la tabla activa ------------------------
+                    conn.query(query_getNames, function (error, results, field) {
+                        if (error) {
+                            res.send(error);
+                            console.log(error);
+                        } else {
+
+                            //COMIENZA CONSTRUCCION DE QUERY INSERCION ///////////////////////////////////////////////////////////////////////////
+                            Object.keys(field).forEach(function (key) {
+                                var row = field[key];
+                                names_array.push(row.name);
+                            });
+                            //los insert de nombres son: names_array
+                            //los insert de valores son: parametros
+                            //nombre de tabla es: nombre_tabla
+                            //SE INSERTAN LOS DATOS
+                            //INSERT INTO nombre_tabla(names_array) VALUES(parametros)
+                            var query_header = "INSERT INTO " + nombre_tabla+"(asesor";
+                            //------------------------------------------------------
+                            var query_body1 = "";
+                            for(i=3;i<names_array.length;i++){
+                                query_body1 += "," + names_array[i];
+                            }
+                            //------------------------------------------------------
+                            var query_body2 = ") VALUES(";
+                            for (i = 0; i < parametros.length; i++) {
+                                if (i + 1 == parametros.length){
+                                    query_body2 += "'" + parametros[i] + "'";
+                                }else{
+                                    query_body2 += "'" + parametros[i] + "',";
+                                }
+                            }
+                            //-------------------------------------------------------
+                            var query_footer = ")";
+                            //--------------------------------------------------------
+                            var finalquery = query_header + query_body1 + query_body2 + query_footer;
+                            
+                            conn.query(finalquery, function (error, results, field) {
+                                if (error) {
+                                    res.send(error);
+                                    console.log(error);
+                                } else {
+                                    res.send("Correcto");
+                                    console.log("AGREGADO CORRECTAMENTE A SU TABLA DE FALLA MASIVA");
+                                }
+                            });
+                            //FIN DE INSERCION
+                        }
+                    });
                 }
             });
             conn.release();
-        });*/
+        });
     });
 
     
+
+    /*
+    
+    */
 
 
 }// fin del archivo

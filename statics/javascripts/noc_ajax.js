@@ -360,6 +360,7 @@ $(document).ready(function(){
         $('#detalle_recargas_metodocompra3').html(response[0]["metodocompra3"]);
         $('#detalle_recargas_fechayhora3').html(response[0]["fechahora3"]);
         $('#detalle_recargas_descripcion').html(response[0]["descripcion"]);
+        $('#detalle_recargas_contacto').html(response[0]["contacto"]);
     }
 
     filldetalles_servicios = function (response) {

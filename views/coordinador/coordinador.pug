@@ -429,10 +429,20 @@ html(lang="en")
                                 button.buttonfallam#btn_savefields PONER EN PRODUCCIÓN
                         #container_gestion.hide_fallasmasivas(style="display:none")
                             #leftside.sides
-                                label Activar:
+                                label Formulario por activar:
                                 select#tablas_fallas
-                                    
+                                label Asignar a falla:
+                                select#numero_falla
+                                    option
+                                    option(value='falla1') Falla 1
+                                    option(value='falla2') Falla 2
+                                    option(value='falla3') Falla 3
                                 button#activartabla Activar
+                                hr
+                                label Desactivar formulario:
+                                select#tablas_por_desactivar
+                                button#desactivartabla Desactivar
+                                hr
                                 button#desactivartodastablas Desactivar todos
                             #rightside.sides
                                 p Histórico

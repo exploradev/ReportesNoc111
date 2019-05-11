@@ -440,9 +440,11 @@ $(document).ready(function () {
             var table_body = [];
             total_global = 0
 
-            response.forEach(element => {
+            response.forEach(function(element) {
                 total_global += element.total;
             });
+
+            
 
             for (i = 0; i < response.length; i++) {
                 table_body += "<tr>";

@@ -1290,7 +1290,8 @@ tbody td, thead th {
   display: flex;
   flex-direction: column; }
   #leftside label {
-    font-weight: bold; }
+    font-weight: bold;
+    margin-top: 10px; }
   #leftside button {
     margin-top: 5px;
     height: 25px;

@@ -276,7 +276,7 @@ header {
     background-color: #4B5367;
     color: white; }
 
-#btn_nuevamasiva {
+#btn_nuevamasiva, #btn_nuevamasiva2, #btn_nuevamasiva3 {
   margin-top: 5px;
   align-self: center;
   border: 1px solid #C15965;
@@ -285,7 +285,7 @@ header {
   color: white;
   width: 200px;
   height: 35px; }
-  #btn_nuevamasiva:hover {
+  #btn_nuevamasiva:hover, #btn_nuevamasiva2:hover, #btn_nuevamasiva3:hover {
     background-color: #B92D3D;
     color: white; }
 

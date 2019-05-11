@@ -255,7 +255,7 @@ module.exports = function(app,io){
     });
 
     app.post('/getTables', middleware.requireLogin, function (req, res) {
-        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa'";
+        var query = "SELECT tabla FROM tablasporexportar WHERE activa IN ('activa','falla1','falla2','falla3')";
 
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
@@ -317,30 +317,21 @@ module.exports = function(app,io){
                 if (error) {
                     res.send(error.sqlMessage);
                 }else{
-                    console.log("(1/3) TABLA CREADA CORRECTAMENTE");
-                    //DESACTIVAR LAS TABLAS DINAMICAS
-                    var changestatus = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
-                    conn.query(changestatus,function(error,results,field){
-                        if(error){
+                    console.log("(1/2) TABLA CREADA CORRECTAMENTE");
+                    //INGRESAR METADATOS A TABLASPOREXPORTAR CON ESTATUS ACTIVO
+                    var ingresar = "INSERT INTO tablasporexportar(tabla,activa,tipo,descripcion,autor,contenido) VALUES(?,'inactivo','dinamica',?,?,?)";
+                    var variables = [parametros[1], parametros[2], parametros[0], contentHTML];
+                    var query = mysql.format(ingresar,variables);
+                    conn.query(query,function(error,results,field){
+                        if (error) {
                             res.send(error.sqlMessage);
                         }else{
-                            console.log("(2/3) ESTATUS DE TABLAS DINAMICAS CAMBIADAS A INACTIVAS");
-                            //INGRESAR METADATOS A TABLASPOREXPORTAR CON ESTATUS ACTIVO
-                            var ingresar = "INSERT INTO tablasporexportar(tabla,activa,tipo,descripcion,autor,contenido) VALUES(?,'activa','dinamica',?,?,?)";
-                            var variables = [parametros[1], parametros[2], parametros[0], contentHTML];
-                            var query = mysql.format(ingresar,variables);
-                            conn.query(query,function(error,results,field){
-                                if (error) {
-                                    res.send(error.sqlMessage);
-                                }else{
-                                    console.log("(3/3) METADATOS DE TABLA INGRESADOS CORRECTAMENTE");
-                                    //SE ENVIA WEBSOCKET
-                                    res.send("TODO OK");
-                                    io.emit('fallamasiva', 'Nueva falla masiva');
-                                }//fin de else de ingreso a metadatos
-                            });//fin de query de ingreso a metadatos
-                        }//fin de else de tablas dinamicas
-                    }); //fin de query de update estatus tablas dinamicas
+                            console.log("(2/2) METADATOS DE TABLA INGRESADOS CORRECTAMENTE");
+                            //SE ENVIA WEBSOCKET
+                            res.send("TODO OK");
+                            //io.emit('fallamasiva', 'Nueva falla masiva');
+                        }//fin de else de ingreso a metadatos
+                    });//fin de query de ingreso a metadatos
                 }//fin de else de crear tabla
                 
             });//fin de query crear tabla
@@ -364,12 +355,16 @@ module.exports = function(app,io){
     });
 
     app.post('/activar_tabla', middleware.requireLogin, function (req, res) {
-        var query = " SELECT t.idtablasporexportar,t.tabla,t.activa,t.creado,t.descripcion,u.nombre FROM tablasporexportar t LEFT JOIN users u ON u.iduser = t.autor WHERE tipo = 'dinamica' ";
 
+        var id = req.body.id;
+        var numero = req.body.numero;
 
-        var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica'";
-        var query_activar = "UPDATE tablasporexportar SET activa = 'activa' WHERE tipo = 'dinamica' AND idtablasporexportar = ?";
-        var inserts = [req.body.id];
+        var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica' and activa = ?";
+        var insercion = [numero];
+        query_desactivar = mysql.format(query_desactivar,insercion);
+
+        var query_activar = "UPDATE tablasporexportar SET activa = ? WHERE tipo = 'dinamica' AND idtablasporexportar = ?";
+        var inserts = [numero,id];
         query_activar = mysql.format(query_activar, inserts);
 
         connection.getConnection(function (err, conn) {
@@ -387,6 +382,31 @@ module.exports = function(app,io){
                             io.emit('fallamasiva', 'Nueva falla masiva');
                         }
                     });
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/desactivar_tabla', middleware.requireLogin, function (req, res) {
+
+        var id = req.body.id;
+        
+
+        var query_desactivar = "UPDATE tablasporexportar SET activa = 'inactivo' WHERE tipo = 'dinamica' and idtablasporexportar = ?";
+        var insercion = [id];
+        query_desactivar = mysql.format(query_desactivar,insercion);
+
+        
+
+        connection.getConnection(function (err, conn) {
+            conn.query(query_desactivar, function (error, results, field) {
+                if (error) {
+                    res.send(error);
+                    console.log(error);
+                } else {
+                    res.send("ok")
+                    io.emit('fallamasiva', 'Falla masiva desactivada');
                 }
             });
             conn.release();
@@ -411,14 +431,14 @@ module.exports = function(app,io){
     });
 
     app.post('/validarFallasActivas', middleware.requireLogin, function (req, res) {
-        var query = "SELECT tabla FROM tablasporexportar WHERE activa = 'activa' and tipo = 'dinamica'";
+        var query = "SELECT activa FROM tablasporexportar WHERE activa in ('falla1','falla2','falla3') and tipo = 'dinamica'";
         connection.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {
                 if (error){
-                    res.send("error")
+                    res.send("error consultando fallas masivas")
                     console.log(error);
                 }else if(results.length > 0){
-                    res.send("existe");
+                    res.send(results);
                     //console.log(results.length);
                 }else{
                     res.send("noexiste");
@@ -431,8 +451,8 @@ module.exports = function(app,io){
     });
 
     app.post('/getTablaMasivaActiva', middleware.requireLogin, function (req, res) {
-        var query = " SELECT descripcion, contenido FROM tablasporexportar WHERE tipo = 'dinamica' and activa = 'activa' order by creado desc limit 1 ";
-
+        var query = " SELECT descripcion, contenido FROM tablasporexportar WHERE tipo = 'dinamica' and activa = ? order by creado desc limit 1 ";
+        query = mysql.format(query,req.body.falla);
         connection.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {
                 if (error) {
@@ -457,7 +477,9 @@ module.exports = function(app,io){
         //OBTENER FIELDNAME DE LA TABLA ACTIVA
         //INSERTAR A ESOS FIELDNAMES DE LA TABLA ACTIVA
         
-        var query_getActiva = "SELECT tabla FROM tablasporexportar WHERE tipo = 'dinamica' AND activa = 'activa' order by creado desc LIMIT 1";
+        var query_getActiva = "SELECT tabla FROM tablasporexportar WHERE tipo = 'dinamica' AND activa = ? order by creado desc LIMIT 1";
+        var insertss = [parametros[0]];
+        query_getActiva = mysql.format(query_getActiva,insertss);
 
         var query_getNames = "SELECT * FROM ?? LIMIT 1";
         var names_array = [];
@@ -468,7 +490,7 @@ module.exports = function(app,io){
             //obtener tabla activa---------------------------------
             conn.query(query_getActiva, function (error, results, field) {
                 if (error) {
-                    res.send(error);
+                    res.send(error.sqlMessage);
                     console.log(error);
                 } else {
                     var nombre_tabla = results[0]['tabla'];
@@ -478,7 +500,7 @@ module.exports = function(app,io){
                     //obtener los campos de la tabla activa ------------------------
                     conn.query(query_getNames, function (error, results, field) {
                         if (error) {
-                            res.send(error);
+                            res.send(error.sqlMessage);
                             console.log(error);
                         } else {
 
@@ -492,6 +514,8 @@ module.exports = function(app,io){
                             //nombre de tabla es: nombre_tabla
                             //SE INSERTAN LOS DATOS
                             //INSERT INTO nombre_tabla(names_array) VALUES(parametros)
+                            parametros.splice(0,1);
+                            console.log(parametros);
                             var query_header = "INSERT INTO " + nombre_tabla+"(asesor";
                             //------------------------------------------------------
                             var query_body1 = "";
@@ -514,7 +538,7 @@ module.exports = function(app,io){
                             
                             conn.query(finalquery, function (error, results, field) {
                                 if (error) {
-                                    res.send(error);
+                                    res.send(error.sqlMessage);
                                     console.log(error);
                                 } else {
                                     res.send("Correcto");

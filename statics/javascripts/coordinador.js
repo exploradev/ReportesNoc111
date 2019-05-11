@@ -220,6 +220,7 @@ $(document).ready(function () {
                 options += "<option value='" + response[i]["idtablasporexportar"] + "'>" + response[i]["tabla"]+"</option>";
             }
             $('#tablas_fallas').html(options);
+            $('#tablas_por_desactivar').html(options);
 
             //SE AGREGAN A LAS TABLAS
 
@@ -239,23 +240,46 @@ $(document).ready(function () {
 
     fill_selectoptionsfallas();
 
+    //ACTIVAR TABLA
     $('#activartabla').click(function () {
         var id = $('#tablas_fallas').val();
-        if(id == ""){
-            alert("Seleccionar una opcion de la lista");
-        }else{
-            $.post('/activar_tabla',{id:id},function(response){
-                if(response == "ok"){
+        var numero = $('#numero_falla').val();
+        if (id == "" || numero == "") {
+            alert("Seleccionar una opcion de la ambas listas");
+        } else {
+            $.post('/activar_tabla', { id: id, numero: numero }, function (response) {
+                if (response == "ok") {
                     alert("Activada correctamente");
                     fill_selectoptionsfallas();
                     fill_tablesoptions();
-                }else{
+                    $('#numero_falla').val("").trigger('change');
+                } else {
                     alert("Error: " + response)
                 }
             });
         }
     });
 
+    //DESACTIVAR TABLA
+    $('#desactivartabla').click(function () {
+        var id = $('#tablas_por_desactivar').val();
+        
+        if (id == "") {
+            alert("Seleccionar una opcion de la lista");
+        } else {
+            $.post('/desactivar_tabla', { id: id}, function (response) {
+                if (response == "ok") {
+                    alert("Desactivada correctamente");
+                    fill_selectoptionsfallas();
+                    fill_tablesoptions();
+                } else {
+                    alert("Error: " + response)
+                }
+            });
+        }
+    });
+
+    //DESACTIVAR TODAS LAS TABLAS
     $('#desactivartodastablas').click(function () {
         $.post('/deshabilitar_tablas',function(response){
             if(response == "ok"){

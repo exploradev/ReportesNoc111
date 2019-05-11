@@ -45,7 +45,9 @@ html(lang="en")
                         
                     .divider
                     button#btn_nuevoreporte NUEVO REPORTE
-                    button#btn_nuevamasiva(style='visibility: hidden') FALLA MASIVA
+                    button#btn_nuevamasiva(onclick="llenar_body_fallamasiva('falla1')" style='visibility: hidden') FALLA MASIVA 1
+                    button#btn_nuevamasiva2(onclick="llenar_body_fallamasiva('falla2')" style='visibility: hidden') FALLA MASIVA 2
+                    button#btn_nuevamasiva3(onclick="llenar_body_fallamasiva('falla3')" style='visibility: hidden') FALLA MASIVA 3
         
         include asesor_modal_reportesdisponibles
         include asesor_modal_seleccionartiporeporte

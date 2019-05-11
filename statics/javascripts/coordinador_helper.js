@@ -90,9 +90,24 @@ $(document).ready(function(){
 
     $('#tablas_fallas').select2({
         dropdownParent: $("#leftside"),
-        placeholder: "TABLAS DE FALLAS",
+        placeholder: "SELECCIONAR FALLA",
         allowClear: false
     });
+
+    
+    $('#numero_falla').select2({
+        dropdownParent: $("#leftside"),
+        placeholder: "ASIGNAR NUMERO",
+        allowClear: false
+    });
+
+    $('#tablas_por_desactivar').select2({
+        dropdownParent: $("#leftside"),
+        placeholder: "SELECCIONAR FALLA",
+        allowClear: false
+    });
+
+    
 
     ///////////////////////////////////////////////
     $('#show_export').click(function () {

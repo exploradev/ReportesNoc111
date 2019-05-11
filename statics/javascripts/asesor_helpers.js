@@ -183,27 +183,45 @@ $(document).ready(function () {
         //en caso de que sea negativo  entonces el body lo vaciamos y ocultamos el boton
         
         $.post('/validarFallasActivas',function(response){
-            if (response == "existe"){
-                llenar_body_fallamasiva();
-                $("#btn_nuevamasiva").css('visibility','visible');
-                
-            }else if(response == "noexiste"){
-                limpiar_body_fallamasiva();
-                $("#btn_nuevamasiva").css('visibility','hidden');
-                
-            }else{
-                console.log(response);
+
+            var fallas = [];
+            for(i=0;i<response.length;i++){
+                if (response[i]["activa"] == "falla1"){
+                    $("#btn_nuevamasiva").css('visibility','visible');
+                }else if(response[i]["activa"] == "falla2"){
+                    $("#btn_nuevamasiva2").css('visibility','visible');
+                }else if(response[i]["activa"] == "falla3"){
+                    $("#btn_nuevamasiva3").css('visibility','visible');
+                }else if(response == "noexiste"){
+                    $("#body_fallasmasivas").html("");
+                    $("#descripcion_fallamasiva").html("");
+                    $("#btn_nuevamasiva").css('visibility','hidden');
+                    $("#btn_nuevamasiva2").css('visibility','hidden');
+                    $("#btn_nuevamasiva3").css('visibility','hidden');
+                    limpiar_body_fallamasiva();
+                }
+                fallas.push(response[i]["activa"]);
             }
+            if(fallas.indexOf("falla1") == -1){
+                $("#btn_nuevamasiva").css('visibility', 'hidden');
+            }else if(fallas.indexOf("falla2") == -1){
+                $("#btn_nuevamasiva2").css('visibility', 'hidden');
+            } else if (fallas.indexOf("falla3") == -1) {
+                $("#btn_nuevamasiva3").css('visibility', 'hidden');
+            }
+
+
+            
         });
     }
 
-    llenar_body_fallamasiva = function(){
+    llenar_body_fallamasiva = function(falla){
         //mostrar boton oculto 
         //llenar body y comentario de falla
-        $.post('/getTablaMasivaActiva',function(response){
+        $.post('/getTablaMasivaActiva',{falla:falla},function(response){
+            $("#subheader_modalfallasmasivas").attr("data-falla",falla);
             $("#body_fallasmasivas").html(response[0]['contenido']);
             $("#descripcion_fallamasiva").html(response[0]['descripcion']);
-            
         });
     }
 
@@ -216,7 +234,7 @@ $(document).ready(function () {
 
     //------------------------------------------------------------
     //CLICK AL BTN DE FALLA MASIVA MUESTRA MODAL
-    $("#btn_nuevamasiva").click(function(){
+    $("#btn_nuevamasiva,#btn_nuevamasiva2,#btn_nuevamasiva3").click(function(){
         $('#asesor_modal_fallasmasivas').show();
         $('#overlay-back').css('display', 'block');
         $('body').addClass('modal-open');
@@ -257,7 +275,8 @@ $(document).ready(function () {
             var parametro_ajax = [];
             //get valor telefono
             var iduser = $('#asesorname').data('name');
-            
+            var falla = $('#subheader_modalfallasmasivas').attr('data-falla');
+            parametro_ajax.push(falla);
             parametro_ajax.push(iduser);
             $('.campo_fallamasiva').each(function () {
                 parametro_ajax.push($(this).val());
@@ -293,8 +312,8 @@ $(document).ready(function () {
     //-----------------------------------------------------------------------
     //-------------------------------WEBSOCKETS------------------------------
     //-----------------------------------------------------------------------
-    socket = io.connect('http://192.168.3.62:2264');
-
+    //socket = io.connect('http://192.168.3.62:2264');
+    var socket = io.connect('http://localhost:2264');
 
     socket.on('fallamasiva', function (msg) {
         console.log("Socket: " + msg);

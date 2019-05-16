@@ -519,11 +519,21 @@ $(document).ready(function () {
             var total = response[0]['total'];
             var num = (cerrados / total) * 100;
             num = num.toFixed(2);
-            if (total == 0){
+            if (total == 0) {
                 num = "00";
             }
-            
+
             $('#conteo_productividad_dia').html(num + "%");
+        });
+    }
+
+    estatus_actuales_supervisor = function () {
+        $.get('/getConteoSupervisor', function (response) {
+            $('#conteo_nuevos_sup').html(response[0]['nuevos']);
+            $('#conteo_enproceso_sup').html(response[0]['enproceso']);
+            $('#conteo_cerrados_sup').html(response[0]['cerrados']);
+            $('#conteo_total_sup').html(response[0]['total']);
+            
         });
     }
     
@@ -534,6 +544,7 @@ $(document).ready(function () {
         graficaHighchartBarra();
         graficaHighchartSpider();
         tabla_productividad();
+        estatus_actuales_supervisor();
     }
 
     //reload_all();

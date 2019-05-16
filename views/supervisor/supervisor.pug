@@ -36,13 +36,13 @@ html(lang="en")
                 #sectionname
                     p SUPERVISOR *264  
                 #sectionbuttons
-                    button#show_tablas REPORTES 
-                    button#show_dashboard DASHBOARD
+                    //button#show_tablas REPORTES 
+                    //button#show_dashboard DASHBOARD
                     
 
         #containermainbody
              .maincontainer
-                #menu_lateral
+                //#menu_lateral
                     #titulo_menu 
                         #countergroup.clickable_filter(data-filter='global' onclick="setMetadataForBigTable('TODAS LAS FALLAS','global')")
                             span Fallas
@@ -205,11 +205,11 @@ html(lang="en")
                                 .circulo_conteo#cerrados_promociones 0 
                         
                         
-                #tabla_principal
+                #tabla_principal_supervisor
                     #tablaheader
                         span
-                            span#tiporeporte_header FALLAS
-                        input#main_searchbox(type="text" placeholder="BUSCAR...")
+                            span#tiporeporte_header REPORTES SUPERVISOR
+                        input#main_searchbox_supervisor(type="text" placeholder="BUSCAR...")
                     table
                         thead
                             tr
@@ -217,16 +217,14 @@ html(lang="en")
                                 th FOLIO
                                 th ASESOR
                                 th NÚMERO
-                                
-                                th ULT. SEGUIMIENTO
-                                th FALLA
                                 th ESTATUS
+                                th CERRADO
                                 th PROPIETARIO
-                        tbody#tbody_maintable
+                        tbody#tbody_maintable_supervisor
                             
                             
                             
-                #dashboard(style="display:none")
+                //#dashboard(style="display:none")
                     p DASHBOARD
                     #conteo_estatus.container_grafica
                         p MENSUAL
@@ -307,8 +305,8 @@ html(lang="en")
     script(src='../javascripts/socket.io.js')
     script(src='../javascripts/moment.js')
     //imports de noc
-    script(src='../javascripts/noc_helpers.js')
-    script(src='../javascripts/noc_tablas.js')
+    //script(src='../javascripts/noc_helpers.js')
+    //script(src='../javascripts/noc_tablas.js')
     
     script(src='../bootstrap/dist/js/bootstrap.min.js')
     script(src='../javascripts/select2.js')
@@ -320,12 +318,16 @@ html(lang="en")
     script(src='../javascripts/supervisor_helpers.js')
     script(src='../javascripts/supervisor_graficas.js')
 
+    script(src='../javascripts/supervisor_reportessupervisor.js')
+
+
+
     //scripts highcharts
-    script(src="../javascripts/highcharts/highcharts.js")
-    script(src="../javascripts/highcharts/highcharts-more.js")
-    script(src="../javascripts/highcharts/modules/exporting.js")
-    script(src="../javascripts/highcharts/modules/export-data.js")
-    script(src="../javascripts/highcharts/js/themes/dark-unica.js")
+    //script(src="../javascripts/highcharts/highcharts.js")
+    //script(src="../javascripts/highcharts/highcharts-more.js")
+    //script(src="../javascripts/highcharts/modules/exporting.js")
+    //script(src="../javascripts/highcharts/modules/export-data.js")
+    //script(src="../javascripts/highcharts/js/themes/dark-unica.js")
 
     
     

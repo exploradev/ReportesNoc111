@@ -232,7 +232,21 @@ html(lang="en")
                             
                             
                 #dashboard.hideallthis(style="display:none")
-                    p DASHBOARD
+                    p REPORTES SUPERVISOR
+                    #conteo_repsupervisor.container_grafica
+                        .container_estatus
+                            p.titulo_estatus Nuevos
+                            p.numeros_conteos#conteo_nuevos_sup 00
+                        .container_estatus
+                            p.titulo_estatus En proceso
+                            p.numeros_conteos#conteo_enproceso_sup 00
+                        .container_estatus
+                            p.titulo_estatus Cerrados ultimos 2 meses
+                            p.numeros_conteos#conteo_cerrados_sup 00
+                        .container_estatus
+                            p.titulo_estatus Total del mes
+                            p.numeros_conteos#conteo_total_sup 00
+                    p#title_dashsup DASHBOARD NOCS
                     #conteo_estatus.container_grafica
                         p MENSUAL
                         .container_estatus
@@ -480,7 +494,7 @@ html(lang="en")
     script(src='../javascripts/clipboard.min.js')
 
     //scripts supervision
-    script(src='../javascripts/supervisor.js')
+    //script(src='../javascripts/supervisor.js')
     script(src='../javascripts/supervisor_ajax.js')
     script(src='../javascripts/supervisor_graficas.js')
 

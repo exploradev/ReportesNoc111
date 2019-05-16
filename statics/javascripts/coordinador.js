@@ -3,6 +3,43 @@ $(document).ready(function () {
     //ABAJO LIGA DE FALLAS
 
 
+    //-----------------------------------------------------------------------
+    //-------------------------------WEBSOCKETS------------------------------
+    //-----------------------------------------------------------------------
+    socket = io.connect('http://192.168.3.62:2264');
+    //var socket = io.connect('http://localhost:2264');
+
+    socket.on('new', function (msg) {
+        console.log("Socket: " + msg);
+
+        reload_everything();
+        
+    });
+    //-----------------------------------------------------------------------
+    //-------------------------------WEBSOCKETS------------------------------
+    //-----------------------------------------------------------------------
+
+
+    ////////////////////////////////////////
+
+    reload_everything = function () {
+
+        //reload_conteos
+        var mios = $("input[name=mios]:checked").val();
+        if (mios == 'show') {
+            llenar_conteos_propios();
+        } else {
+            llenar_conteos_todos();
+        }
+        //reload tabla actual trtgger click de panel abierto
+        var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+        $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+
+        //reload dashboard
+        reload_all();
+    }
+        /////////////////////////////////////////
+
 
 
     //CONTROL DE VENTANAS
@@ -12,6 +49,7 @@ $(document).ready(function () {
 
     //CLICK EN BOTONES DE CIERRES DE MODAL
     $('.closebuttonn').click(function () {
+        $('#asesor_modal_detallesdecaptura').css('display', 'none');
         $('#coordinador_modaledicionusuarios').css('display', 'none');
         $('#overlay-back').css('display', 'none');
         $('body').removeClass('modal-open');

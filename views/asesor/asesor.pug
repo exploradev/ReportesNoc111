@@ -34,6 +34,7 @@ html(lang="en")
             .maincontainer  
                     #sectionname
                         p ASESOR *264  
+                    button#btn_nuevoreportesupervisor REPORTE SUPER
                     
         #containersearchbox
              .maincontainer
@@ -44,7 +45,7 @@ html(lang="en")
                     p#errorbusqueda(style='visibility:hidden') No se encontraron reportes para este número / folio
                         
                     .divider
-                    button#btn_nuevoreporte NUEVO REPORTE
+                    button#btn_nuevoreporte NUEVO REPORTE NOC
                     button#btn_nuevamasiva(onclick="llenar_body_fallamasiva('falla1')" style='visibility: hidden') FALLA MASIVA 1
                     button#btn_nuevamasiva2(onclick="llenar_body_fallamasiva('falla2')" style='visibility: hidden') FALLA MASIVA 2
                     button#btn_nuevamasiva3(onclick="llenar_body_fallamasiva('falla3')" style='visibility: hidden') FALLA MASIVA 3
@@ -54,6 +55,7 @@ html(lang="en")
         include ./modaldetalles/asesor_modal_detallesdecaptura
         include ./modalformulario/asesor_modal_formularios
         include ./modalfallasmasivas/asesor_modal_fallasmasivas
+        include ./modalreportessupervisor/asesor_modal_reportessupervisor
         
        
             
@@ -68,6 +70,7 @@ html(lang="en")
     script(src='../javascripts/asesor_validacion.js')
     script(src='../javascripts/asesor_ajax.js')
     script(src='../javascripts/asesor.js')
+    script(src='../javascripts/asesor_reportessuper.js')
     script(src='../bootstrap/dist/js/bootstrap.min.js')
     script(src='../javascripts/select2.js')
     script(src='../javascripts/clipboard.min.js')

@@ -799,6 +799,8 @@ tbody td, thead th {
     color: white;
     font-size: 115%;
     font-weight: bold; }
+  #dashboard #title_dashsup {
+    margin-top: 15px; }
   #dashboard .container_grafica {
     background-color: #4B5367;
     border-radius: 3px;
@@ -814,20 +816,20 @@ tbody td, thead th {
     #dashboard .tablas_containers #tablatop_izq, #dashboard .tablas_containers #tablatop_der {
       width: 49.8%;
       height: auto; }
-  #dashboard #conteo_estatus, #dashboard #conteo_estatus_dia {
+  #dashboard #conteo_estatus, #dashboard #conteo_estatus_dia, #dashboard #conteo_repsupervisor {
     height: 70px; }
   #dashboard #grafica_mayor {
     height: 400px; }
 
-#conteo_estatus, #conteo_estatus_dia {
+#conteo_estatus, #conteo_estatus_dia, #conteo_repsupervisor {
   display: flex;
   justify-content: space-around;
   align-items: center;
   text-align: center;
   font-size: 80%; }
-  #conteo_estatus .titulo_estatus, #conteo_estatus_dia .titulo_estatus {
+  #conteo_estatus .titulo_estatus, #conteo_estatus_dia .titulo_estatus, #conteo_repsupervisor .titulo_estatus {
     color: #BAC3D4; }
-  #conteo_estatus .numeros_conteos, #conteo_estatus_dia .numeros_conteos {
+  #conteo_estatus .numeros_conteos, #conteo_estatus_dia .numeros_conteos, #conteo_repsupervisor .numeros_conteos {
     font-size: 150%; }
 
 #tablabot {
@@ -880,6 +882,120 @@ tbody td, thead th {
     #reasignacion button:hover {
       background-color: #3F4658;
       border: none; }
+
+#main_searchbox_supervisor {
+  border-radius: 30px;
+  border: none;
+  background-color: #4B5367;
+  color: #BAC3D4;
+  font-size: 60%;
+  font-weight: bold;
+  padding-left: 15px;
+  height: 30px;
+  width: 200px; }
+
+#tabla_principal_supervisor {
+  border: 2px solid none;
+  border-radius: 5px;
+  height: 90vh;
+  width: 1200;
+  margin-left: 3px;
+  background-color: #3F4658;
+  margin-bottom: 50px; }
+  #tabla_principal_supervisor table {
+    margin-top: -3px; }
+    #tabla_principal_supervisor table tr {
+      border: 1px solid #3F4658; }
+  #tabla_principal_supervisor table, #tabla_principal_supervisor thead, #tabla_principal_supervisor tbody {
+    border: 1px solid #3F4658;
+    width: 1200px; }
+  #tabla_principal_supervisor thead {
+    background-color: #4B5367;
+    color: white;
+    font-size: 70%;
+    height: 40px;
+    display: block; }
+    #tabla_principal_supervisor thead th {
+      height: 40px; }
+  #tabla_principal_supervisor tbody {
+    display: block;
+    height: 620px;
+    overflow-y: auto; }
+    #tabla_principal_supervisor tbody tr {
+      background-color: white;
+      height: 30px;
+      font-size: 70%;
+      color: #707070; }
+      #tabla_principal_supervisor tbody tr:hover {
+        background-color: #F4F8FF;
+        color: #3F4658;
+        cursor: pointer; }
+  #tabla_principal_supervisor th, #tabla_principal_supervisor td {
+    padding-left: 5px; }
+  #tabla_principal_supervisor thead th, #tabla_principal_supervisor tbody td {
+    width: 140px; }
+    #tabla_principal_supervisor thead th:nth-child(3), #tabla_principal_supervisor tbody td:nth-child(3) {
+      width: 248px; }
+    #tabla_principal_supervisor thead th:nth-child(7), #tabla_principal_supervisor tbody td:nth-child(7) {
+      width: 248px; }
+
+#subheader_modaldetalles_sup {
+  justify-content: flex-start;
+  min-height: 90px;
+  align-content: center; }
+
+.subheader_modaldetalles_sup {
+  width: 45%; }
+  .subheader_modaldetalles_sup p {
+    margin-top: 5px;
+    font-size: 80%;
+    font-weight: bold; }
+
+.detalle_super {
+  font-weight: bold;
+  font-size: 120%; }
+
+#body_modaldetallescaptura p {
+  color: #7985A2;
+  font-size: 90%; }
+#body_modaldetallescaptura #detalles_supervisor_descripcion {
+  color: #4B5367; }
+
+#footer_modal_sup {
+  height: 210px; }
+
+.footer_modal_container_sup {
+  display: flex; }
+  .footer_modal_container_sup p {
+    color: #7985A2; }
+  .footer_modal_container_sup #leftside_footer {
+    width: 60%;
+    margin-top: 20px; }
+  .footer_modal_container_sup #rightside_footer {
+    display: flex;
+    flex-direction: column; }
+
+#rightside_footer {
+  width: 300px; }
+  #rightside_footer p {
+    margin-top: 10px; }
+  #rightside_footer button {
+    border: 1px solid #3F4658;
+    background-color: #454C5F;
+    margin-top: 5px;
+    height: 25px;
+    width: 100px;
+    border-radius: 3px;
+    color: white;
+    font-size: 80%;
+    align-self: flex-end; }
+    #rightside_footer button:hover {
+      background-color: #3F4658;
+      border: none; }
+
+#comentario_cierre {
+  font-size: 90%;
+  color: #4B5367; }
 
 #tabla_usuarios {
   width: 100%;

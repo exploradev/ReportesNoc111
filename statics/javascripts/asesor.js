@@ -24,6 +24,14 @@ $(document).ready(function(){
         reset_all();
     });
 
+    //CLICK EN BOTONES DE NUEVO REPORTE
+    $('#btn_nuevoreportesupervisor').click(function () {
+        $('#asesor_modal_reportessupervisor').css('display', 'block');
+        $('#overlay-back').css('display', 'block');
+        $('body').addClass('modal-open');
+        reset_all();
+    });
+
 
     //CLICK EN BOTONES DE CIERRES DE MODAL
     $('.closebuttonn, .btn_cancelarcaptura').click(function () {
@@ -32,7 +40,7 @@ $(document).ready(function(){
         $('#asesor_modal_reportesdisponibles').css('display', 'none');
         $('#asesor_modal_detallesdecaptura').css('display', 'none');
         $('#asesor_modal_fallasmasivas').css('display', 'none');
-        
+        $('#asesor_modal_reportessupervisor').css('display', 'none');
 
         $('#overlay-back').css('display', 'none');
         $('body').removeClass('modal-open');

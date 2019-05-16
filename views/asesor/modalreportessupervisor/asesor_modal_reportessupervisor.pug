@@ -1,0 +1,41 @@
+#asesor_modal_reportessupervisor(style="display:none")
+    .container_modal#container_modal_reportessupervisor
+        .header_modal
+            span NUEVO REPORTE
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
+                    
+        .body_modal#body_modal_reportessupervisor
+            .campodetalle_super.class_for_validation
+                p.titulocampo ASUNTO
+                input.inputsasesorforsup.inputs_supervisor.tipodato_libreestandar#super_asunto
+                span.successimage(style='display: none') 
+                    img(src="../assets/success.png")
+                span.errorimage(style='display: none') 
+                    img(src="../assets/error.png")
+            .campodetalle_super.class_for_validation
+                p.titulocampo NÚMERO AFECTADO
+                input.inputsasesorforsup.inputs_supervisor.tipodato_telefono#super_numero
+                span.successimage(style='display: none') 
+                    img(src="../assets/success.png")
+                span.errorimage(style='display: none') 
+                    img(src="../assets/error.png")
+            .campodetalle_super.class_for_validation
+                p.titulocampo NÚMERO DE CONTACTO
+                input.inputsasesorforsup.inputs_supervisor.tipodato_telefono#super_contacto
+                span.successimage(style='display: none') 
+                        img(src="../assets/success.png")
+                span.errorimage(style='display: none') 
+                    img(src="../assets/error.png")
+            .campodetalle_super.class_for_validation
+                p.titulocampo DESCRIPCIÓN DEL PROBLEMA
+                textarea.inputsasesorforsup.inputs_supervisor.form-control.tipodato_librelargo#super_descripcion(cols="10")
+                span.successimage(style='display: none') 
+                    img(src="../assets/success.png")
+                span.errorimage(style='display: none') 
+                    img(src="../assets/error.png")
+        .footer_modal#footer_modal_reportessupervisor
+            button.btn_cancelarcaptura CANCELAR
+            button.btn_guardarcaptura#btn_captura_supervisor GUARDAR
+            
+                   

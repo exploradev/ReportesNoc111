@@ -830,4 +830,57 @@ header {
   justify-content: center;
   margin-top: 100px; }
 
+#container_modal_reportessupervisor {
+  width: 500px;
+  min-height: 500px; }
+
+#body_modal_reportessupervisor {
+  height: 400px; }
+  #body_modal_reportessupervisor::before {
+    content: "";
+    background-image: url("../assets/wave.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    opacity: 0.1;
+    left: 0;
+    bottom: 60px;
+    right: 0;
+    position: absolute;
+    z-index: -1; }
+
+#footer_modal_reportessupervisor {
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  width: 100%; }
+
+.inputsasesorforsup {
+  border-radius: 3px;
+  border: 1px solid #C2CAD9;
+  font-size: 90%;
+  height: 27px;
+  width: 90%;
+  padding-top: 3px;
+  padding-left: 3px; }
+
+textarea.inputsasesorforsup {
+  display: inline; }
+
+.campodetalle_super {
+  margin-top: 20px; }
+
+#btn_nuevoreportesupervisor {
+  border: 1px solid #3F4658;
+  background-color: #454C5F;
+  margin-left: 5px;
+  height: 40px;
+  width: 100px;
+  border-radius: 3px;
+  color: white;
+  font-size: 60%; }
+  #btn_nuevoreportesupervisor:hover {
+    background-color: #3F4658;
+    border: none; }
+
 /*# sourceMappingURL=asesor.css.map */

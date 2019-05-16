@@ -250,6 +250,18 @@ module.exports = function(app,io){
     }); //fin del /getTotalReportes
 
 
+    //CONTEO DE ESTATUS REPORTES SUPERVISOR --------------------------------------------
+
+    app.get('/getConteoSupervisor', middleware.requireLogin, function (req, res){
+        query = "SELECT SUM(CASE WHEN estatus = 'Nuevo'  THEN 1 ELSE 0 END) AS nuevos, SUM(CASE WHEN estatus = 'En proceso'  THEN 1 ELSE 0 END) AS enproceso, SUM(CASE WHEN estatus = 'Cerrado'  AND month(creado) IN(month(now()), month(DATE_SUB(now(), INTERVAL 1 MONTH))) THEN 1 ELSE 0 END) AS cerrados, SUM(CASE WHEN estatus IN('Nuevo', 'En proceso', 'Cerrado')  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS total FROM supervision";
+        connection.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error) res.send(error);
+                res.send(results);
+            });
+            conn.release();
+        });
+    });
 
 
 

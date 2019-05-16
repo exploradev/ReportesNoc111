@@ -1146,7 +1146,7 @@ module.exports = function(app,io){
     app.post('/get_detallesobservaciones', middleware.requireLogin, function (req, res) {
         var idmetadatos = req.body.idmetadatos;
 
-        var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ? order by o.creado DESC"
+        var query = "SELECT o.creado,u.nombre,o.observacion,o.estatus FROM observaciones o LEFT JOIN users u ON o.noc = u.iduser WHERE idmetadatos = ? order by o.creado DESC";
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         connection.getConnection(function (err, conn) {
@@ -1159,6 +1159,42 @@ module.exports = function(app,io){
         
     });  
 
+
+    //BACKEND DE MODULO DE SUPERVISORES, REPORTES SUPERVISORES
+    app.post('/guardar_repsupervisor', middleware.requireLogin, function (req, res) {
+
+        //se reciben los parametros del lado del cliente
+
+        var iduser = req.body.iduser;
+        var asunto = req.body.asunto;
+        var numero = req.body.numero;
+        var contacto = req.body.contacto;
+        var descripcion = req.body.descripcion;
+       
+        var estatus = 'Nuevo';
+
+        var query = "INSERT INTO supervision( asesor, asunto, numero, contacto, descripcion, estatus ) VALUES (?,?,?,?,?,?); ";
+        var inserts = [iduser, asunto, numero, contacto, descripcion, estatus];
+        query = mysql.format(query,inserts);
+        connection.getConnection(function(err,conn){
+            conn.query(query,function(error,results){
+                if(error){
+                    res.send(error.sqlMessage);
+                    console.log("Error: "+ error.sqlMessage);
+                }else{
+                    res.send("Correcto");
+                    console.log("Nuevo reporte a supervisor por asesor: " + iduser);
+                    io.emit('new', 'nueva_captura_super');
+                }
+            });
+            conn.release();
+        });
+
+
+        
+
+
+    });
     
     
 

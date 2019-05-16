@@ -6,8 +6,6 @@ $(document).ready(function () {
         $('#dashboard').css('display','initial');
         $(".highch").html("<img src='../assets/loader1.gif'>");
         reload_all();
-    
-        
     });
 
     $('#show_tablas').click(function () {
@@ -21,6 +19,8 @@ $(document).ready(function () {
         placeholder: "Seleccionar nuevo propietario",
         allowClear: false
     });
+
+    
 
     getNocs = function(){
         $.post('/getNocs', function (response) {

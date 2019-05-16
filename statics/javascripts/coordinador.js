@@ -2,6 +2,10 @@ var fill_selectoptionsfallas;
 $(document).ready(function () {
     //ABAJO LIGA DE FALLAS
 
+    //funciones con problemas forzandolas
+    load_users();
+    estatus_actuales_supervisor();
+    //fin de funciones con problemas
 
     //-----------------------------------------------------------------------
     //-------------------------------WEBSOCKETS------------------------------

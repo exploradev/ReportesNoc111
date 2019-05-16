@@ -227,7 +227,7 @@ $(document).ready(function(){
                     table_body += '</td>';
                 }else{
                     table_body += '<td>';
-                    table_body += moment(response[i]["ultimologin"]).format('DD/MM/YYYY HH:mm');
+                    table_body += moment(response[i]["ultimologin"]).locale('es').fromNow();
                     table_body += '</td>';
                 }
                 

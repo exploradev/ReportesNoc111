@@ -125,6 +125,11 @@ $(document).ready(function(){
         $('#wizardmasivas').css('display', 'initial');
     });
 
+    $('#show_supervisor').click(function () {
+        $('.hideallthis').hide();
+        $('#tabla_supervisor').css('display', 'initial');
+    });
+
     ////////////////////////////////////////////////
     
     $('#show_dashboard').click(function () {

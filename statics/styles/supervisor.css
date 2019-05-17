@@ -894,7 +894,7 @@ tbody td, thead th {
   height: 30px;
   width: 200px; }
 
-#tabla_principal_supervisor {
+#tabla_principal_supervisor, #tabla_supervisor {
   border: 2px solid none;
   border-radius: 5px;
   height: 90vh;
@@ -902,41 +902,41 @@ tbody td, thead th {
   margin-left: 3px;
   background-color: #3F4658;
   margin-bottom: 50px; }
-  #tabla_principal_supervisor table {
+  #tabla_principal_supervisor table, #tabla_supervisor table {
     margin-top: -3px; }
-    #tabla_principal_supervisor table tr {
+    #tabla_principal_supervisor table tr, #tabla_supervisor table tr {
       border: 1px solid #3F4658; }
-  #tabla_principal_supervisor table, #tabla_principal_supervisor thead, #tabla_principal_supervisor tbody {
+  #tabla_principal_supervisor table, #tabla_principal_supervisor thead, #tabla_principal_supervisor tbody, #tabla_supervisor table, #tabla_supervisor thead, #tabla_supervisor tbody {
     border: 1px solid #3F4658;
     width: 1200px; }
-  #tabla_principal_supervisor thead {
+  #tabla_principal_supervisor thead, #tabla_supervisor thead {
     background-color: #4B5367;
     color: white;
     font-size: 70%;
     height: 40px;
     display: block; }
-    #tabla_principal_supervisor thead th {
+    #tabla_principal_supervisor thead th, #tabla_supervisor thead th {
       height: 40px; }
-  #tabla_principal_supervisor tbody {
+  #tabla_principal_supervisor tbody, #tabla_supervisor tbody {
     display: block;
     height: 620px;
     overflow-y: auto; }
-    #tabla_principal_supervisor tbody tr {
+    #tabla_principal_supervisor tbody tr, #tabla_supervisor tbody tr {
       background-color: white;
       height: 30px;
       font-size: 70%;
       color: #707070; }
-      #tabla_principal_supervisor tbody tr:hover {
+      #tabla_principal_supervisor tbody tr:hover, #tabla_supervisor tbody tr:hover {
         background-color: #F4F8FF;
         color: #3F4658;
         cursor: pointer; }
-  #tabla_principal_supervisor th, #tabla_principal_supervisor td {
+  #tabla_principal_supervisor th, #tabla_principal_supervisor td, #tabla_supervisor th, #tabla_supervisor td {
     padding-left: 5px; }
-  #tabla_principal_supervisor thead th, #tabla_principal_supervisor tbody td {
+  #tabla_principal_supervisor thead th, #tabla_principal_supervisor tbody td, #tabla_supervisor thead th, #tabla_supervisor tbody td {
     width: 140px; }
-    #tabla_principal_supervisor thead th:nth-child(3), #tabla_principal_supervisor tbody td:nth-child(3) {
+    #tabla_principal_supervisor thead th:nth-child(3), #tabla_principal_supervisor tbody td:nth-child(3), #tabla_supervisor thead th:nth-child(3), #tabla_supervisor tbody td:nth-child(3) {
       width: 248px; }
-    #tabla_principal_supervisor thead th:nth-child(7), #tabla_principal_supervisor tbody td:nth-child(7) {
+    #tabla_principal_supervisor thead th:nth-child(7), #tabla_principal_supervisor tbody td:nth-child(7), #tabla_supervisor thead th:nth-child(7), #tabla_supervisor tbody td:nth-child(7) {
       width: 248px; }
 
 #subheader_modaldetalles_sup {

@@ -1,0 +1,55 @@
+#asesor_modal_detallessupervisor(style="display:none")
+    .container_modal
+        .header_modal
+            span DETALLES DE REPORTE &nbsp;
+                span#detalles_supervisor_id --
+            span 
+                img.closebuttonn(src="../assets/closebuttonn.png")
+        .subheader_modal#subheader_modaldetalles_sup
+            
+            .subheader_modaldetalles_sup
+                p ASESOR:&nbsp;
+                    span.detalle_super#detalles_supervisor_asesor -- 
+                p NÚMERO:&nbsp;
+                    span.detalle_super#detalles_supervisor_numero -- 
+                p ASUNTO:&nbsp;
+                    span.detalle_super#detalles_supervisor_asunto -- 
+            .subheader_modaldetalles_sup
+                p ASIGNADO:&nbsp;
+                    span.detalle_super#detalles_supervisor_asignado --
+                p ESTATUS:&nbsp;
+                    span.detalle_super#detalles_supervisor_estatus --
+                p CREADO:&nbsp;
+                    span.detalle_super#detalles_supervisor_creado --
+            
+                            
+                
+        .body_modal#body_modaldetallescaptura
+            p Número de contacto
+            #detalles_supervisor_contacto
+            hr
+            p Descripción
+            #detalles_supervisor_descripcion --
+               
+        .footer_modal#footer_modal_sup
+
+            p SEGUIMIENTO
+            .footer_modal_container_sup
+                #leftside_footer
+                    p Comentario de cierre
+                    #comentario_cierre Prueba de comentario de cierre
+                #rightside_footer
+                    p Estatus
+                    select#estatusrepsuper.form_element_supervisor
+                        option
+                        option(value="En proceso") En proceso
+                        option(value="Cerrado") Cerrado
+                    #hideshow_textarea(style="display:none")
+                        p Comentario de cierre
+                        textarea#textarearepsup.form-control.form_element_supervisor
+                    button#btn_actualizarrepsup Guardar
+                
+                    
+                    
+                       
+                

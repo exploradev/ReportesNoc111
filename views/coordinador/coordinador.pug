@@ -36,9 +36,10 @@ html(lang="en")
                 #sectionname
                     p COORDINADOR *264  
                 #sectionbuttons
-                    button#show_wizardmasivas FALLAS MASIVAS
+                    button#show_wizardmasivas F. MASIVAS
                     button#show_export ESTADISTICAS
                     button#show_usuarios USUARIOS
+                    button#show_supervisor REP. SUPER
                     button#show_tablas REPORTES NOC
                     button#show_dashboard DASHBOARD
                     
@@ -229,7 +230,22 @@ html(lang="en")
                                 th PROPIETARIO
                         tbody#tbody_maintable
                             
-                            
+                #tabla_supervisor.hideallthis(style="display:none")
+                    #tablaheader
+                        span
+                            span#tiporeporte_header REPORTES SUPERVISOR
+                        input#main_searchbox_supervisor(type="text" placeholder="BUSCAR...")
+                    table
+                        thead
+                            tr
+                                th CREADO
+                                th FOLIO
+                                th ASESOR
+                                th NÚMERO
+                                th ESTATUS
+                                th CERRADO
+                                th PROPIETARIO
+                        tbody#tbody_maintable_supervisor
                             
                 #dashboard.hideallthis(style="display:none")
                     p REPORTES SUPERVISOR
@@ -476,7 +492,8 @@ html(lang="en")
 
         include ./modaldetalles/asesor_modal_detallesdecaptura
         include ./modaledicion/coordinador_modaledicionusuarios      
-            
+        include ./asesor_modal_detallesdecapturasup
+
         #overlay-back       
     
     script(src='../jquery/dist/jquery.min.js')
@@ -497,6 +514,7 @@ html(lang="en")
     //script(src='../javascripts/supervisor.js')
     script(src='../javascripts/supervisor_ajax.js')
     script(src='../javascripts/supervisor_graficas.js')
+    script(src='../javascripts/supervisor_reportessupervisor.js')
 
     //scripts highcharts
     script(src="../javascripts/highcharts/highcharts.js")

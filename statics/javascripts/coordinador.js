@@ -1,4 +1,4 @@
-var fill_selectoptionsfallas;
+var fill_selectoptionsfallas, reload_supervision;
 $(document).ready(function () {
     //ABAJO LIGA DE FALLAS
 
@@ -16,7 +16,11 @@ $(document).ready(function () {
     socket.on('new', function (msg) {
         console.log("Socket: " + msg);
 
-        reload_everything();
+        if (msg == "nueva_captura_super" || msg == "nuevo_seguimiento_super") {
+            reload_supervision();
+        }else{
+            reload_everything();
+        }
         
     });
     //-----------------------------------------------------------------------
@@ -41,6 +45,13 @@ $(document).ready(function () {
 
         //reload dashboard
         reload_all();
+    }
+
+    reload_supervision = function () {
+        
+        //reload supervision
+        getTablePreview();
+
     }
         /////////////////////////////////////////
 

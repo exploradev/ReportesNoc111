@@ -162,58 +162,66 @@ module.exports = function(app,io){
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts);
             
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                //se formatean horas
-                results.forEach(element => {
-                    if (element.creado){
-                        element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                        
-                    }
-                    if(element.ultseguimiento){
-                        element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                    }
-                    if(element.cerrado){
-                        element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                    }
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    //se formatean horas
+                    results.forEach(element => {
+                        if (element.creado) {
+                            element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+
+                        }
+                        if (element.ultseguimiento) {
+                            element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
+                        if (element.cerrado) {
+                            element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
+                    });
+                    res.send(results);
                 });
-                res.send(results);
-            });
+                conn.release();
+            })
+            
         } else if (tipo == 'users' || tipo == 'metadatos'){
             res.send("Error");
         }else if(tablas_estaticas.indexOf(tipo)!=-1){
             var query = "SELECT * FROM ?? aux LEFT JOIN vista_metadatos v on v.idmetadatos = aux.idmetadatos where v.creado between ? and ?";
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts)
-            connection.query(query, function (error, results, field) {
-                if (error) throw error;
-                results.forEach(element => {
-                    if (element.creado) {
-                        element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
+                    if (error) throw error;
+                    results.forEach(element => {
+                        if (element.creado) {
+                            element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
 
-                    }
-                    if (element.ultseguimiento) {
-                        element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                    }
-                    if (element.cerrado) {
-                        element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                    }
+                        }
+                        if (element.ultseguimiento) {
+                            element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
+                        if (element.cerrado) {
+                            element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
 
-                    if (element.iccidvirtual) {
-                        element.iccidvirtual = "'"+element.iccidvirtual;
-                        
+                        if (element.iccidvirtual) {
+                            element.iccidvirtual = "'" + element.iccidvirtual;
 
-                    }
 
-                    if (element.iccidfisica) {
-                        element.iccidfisica = "'"+element.iccidfisica;
-                        
-                    }
+                        }
+
+                        if (element.iccidfisica) {
+                            element.iccidfisica = "'" + element.iccidfisica;
+
+                        }
+
+                    });
+                    res.send(results);
 
                 });
-                res.send(results);
-
+                conn.release();
             });
+            
         }else{
             var query = "SELECT * from ?? where creado between ? and ?";
             

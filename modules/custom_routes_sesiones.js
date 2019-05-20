@@ -94,11 +94,14 @@ module.exports = function (app, io) {
         var inserts = ['users', 'username', user];
         query = mysql.format(query, inserts);
 
-        connection.query(query, function (error, results, field) {
-            if (error) throw error;
-            validate(results[0]);
-
+        connection.getConnection(function(err,conn){
+            conn.query(query, function (error, results, field) {
+                if (error) throw error;
+                validate(results[0]);
+            });
+            conn.release();
         });
+        
 
         //connection.end();
         
@@ -150,10 +153,14 @@ module.exports = function (app, io) {
             var query = "UPDATE users SET ultimologin = now() WHERE iduser = ?";
             var inserts = [req.session.iduser];
             query = mysql.format(query,inserts);
-            connection.query(query, function (error, results, field) {
+            connection.getConnection(function(err,conn){
+                conn.query(query, function (error, results, field) {
                 if (error) throw error;
                 console.log('Usuario logueado: ' + iduser);
+                });
+                conn.release();
             });
+            
         } // fin de la funcion timestamp_lastlogin
     });
 

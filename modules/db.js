@@ -4,7 +4,7 @@ var db;
 function connectDatabase() {
     if (!db) {
         db = mysql.createPool({
-            connectionLimit: 1000,
+            connectionLimit: 150,
             host: 'localhost',
             user: 'explora264', password: '3.1415927',
             //user: 'root', password: 'root',

@@ -9,7 +9,7 @@ module.exports = function(app,io){
     //OBTENGO CONTEOS DE PANEL SUPERIOR
     app.post('/get_conteopersonal_superior', middleware.requireLogin, function (req, res){
         var iduser = req.body.iduser;
-        var query = "SELECT SUM(CASE WHEN estatus = 'Nuevo'   AND propietario = ? THEN 1 ELSE 0 END) AS nuevos, SUM(CASE WHEN estatus = 'Pendiente'  AND propietario = ? THEN 1 ELSE 0 END) AS pendientes, SUM(CASE WHEN estatus = 'Cerrado'  AND month(creado) = month(now()) AND propietario = ? THEN 1 ELSE 0 END) AS cerrados, SUM(CASE WHEN estatus = 'En proceso'   AND propietario = ? THEN 1 ELSE 0 END) AS enproceso FROM metadatos LIMIT 1;";
+        var query = "SELECT SUM(CASE WHEN estatus = 'Nuevo'   AND propietario = ? THEN 1 ELSE 0 END) AS nuevos, SUM(CASE WHEN estatus = 'Pendiente'  AND propietario = ? THEN 1 ELSE 0 END) AS pendientes, SUM(CASE WHEN estatus IN ('Cerrado','Rechazado')  AND month(creado) = month(now()) AND propietario = ? THEN 1 ELSE 0 END) AS cerrados, SUM(CASE WHEN estatus = 'En proceso'   AND propietario = ? THEN 1 ELSE 0 END) AS enproceso FROM metadatos LIMIT 1;";
         var inserts = [iduser, iduser, iduser, iduser];
         query = mysql.format(query, inserts)
         connection.getConnection(function(err,conn){

@@ -254,7 +254,7 @@ module.exports = function(app,io){
 
     //SE AGREGA A BASE DE DATOS LOS DATOS DE LOS FORMULARIOS
 
-    //COBERTURA
+    //COBERTURA OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_cobertura', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -285,56 +285,74 @@ module.exports = function(app,io){
 
 
 
+        connection.getConnection(function(errors,connectit){
+            
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado,tipodefallareportada];
+            duplicidad = mysql.format(duplicidad,inserts_duplicidad);
 
+            connectit.query(duplicidad,function(errorr,results){
+                if (results.length > 0){
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
+
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
+
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
+
+                                //siguiente query
+
+                                var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,estado,municipio,colonia,cp,direccion,desczona,equipomarca,equipomodelo,falla,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, estado, municipio, colonia, cp, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de cobertura ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
 
 
         //se ejecuta la query con transacciones
         
 
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada,telefono_afectado];
-                query = mysql.format(query, inserts);
-
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
-
-                    //siguiente query
-
-                    var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,estado,municipio,colonia,cp,direccion,desczona,equipomarca,equipomodelo,falla,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, estado, municipio, colonia, cp, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de cobertura ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
-
-                        });//fin del commit
-                    });//fin del query 2
-
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+        
 
         //responder al cliente en caso de exito
 
@@ -344,7 +362,7 @@ module.exports = function(app,io){
 
     });
 
-    //ACLARACIONES
+    //ACLARACIONES OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_aclaracion', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -362,68 +380,78 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
+        
+        connection.getConnection(function (errors, connectit) {
+
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
+
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
+
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
+
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
+
+                                //siguiente query
+
+                                var query = "INSERT INTO aclaracion(idmetadatos,telefono,usuario,contacto,fecha,descripcion) VALUES(?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, fechainiciofalla, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de aclaracion ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
 
 
 
-
-
-        //se ejecuta la query con transacciones
-
-
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
-
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
-
-                    //siguiente query
-
-                    var query = "INSERT INTO aclaracion(idmetadatos,telefono,usuario,contacto,fecha,descripcion) VALUES(?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, fechainiciofalla, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de aclaracion ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
-
-                        });//fin del commit
-                    });//fin del query 2
-
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
-
-        //responder al cliente en caso de exito
-
-        //esponder al cliente en caso de fallo
-
+       
 
 
     });
 
-    //CALLBACK
+    //CALLBACK OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_callback', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -439,65 +467,84 @@ module.exports = function(app,io){
         var tipodefallareportada = 'callback';
         var estatus = 'Nuevo';
 
-
-
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+        //VALIDAR SI LA INSERCION EXISTE, SINO NO HACERLA
+        connection.getConnection(function(errors,connectit){
+            
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado,tipodefallareportada];
+            duplicidad = mysql.format(duplicidad,inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad,function(errorr,results){
+                if (results.length > 0){
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                }else{
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                    var query = "INSERT INTO callback(idmetadatos,telefono,usuario,contacto,motivo,descripcion) VALUES(?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, motivo, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de callback ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                        });//fin del commit
-                    });//fin del query 2
+                                //siguiente query
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                var query = "INSERT INTO callback(idmetadatos,telefono,usuario,contacto,motivo,descripcion) VALUES(?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, motivo, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de callback ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
 
-        //responder al cliente en caso de exito
+                                    });//fin del commit
+                                });//fin del query 2
 
-        //esponder al cliente en caso de fallo
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+                }
+            });
+
+            connectit.release();
+        });
+
+        
+
+        
+
+        
 
 
 
     });
 
-    //GENERAL
+    //GENERAL OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_general', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -516,51 +563,72 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+        connection.getConnection(function (errors, connectit) {
 
-                    //siguiente query
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    var query = "INSERT INTO general(idmetadatos,telefono,usuario,contacto,descripcion) VALUES(?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto,descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Afectación general ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                        });//fin del commit
-                    });//fin del query 2
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
+
+                                //siguiente query
+
+                                var query = "INSERT INTO general(idmetadatos,telefono,usuario,contacto,descripcion) VALUES(?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Afectación general ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -570,7 +638,7 @@ module.exports = function(app,io){
 
     });
 
-    //ICCID
+    //ICCIDOK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_iccid', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -592,51 +660,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO iccid(idmetadatos,telefono,usuario,contacto,cac,iccidfisica,iccidvirtual,fzaventa) VALUES(?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, cac, iccidfisica, iccidvirtual,fzaventa];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Cambio de ICCID ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO iccid(idmetadatos,telefono,usuario,contacto,cac,iccidfisica,iccidvirtual,fzaventa) VALUES(?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, cac, iccidfisica, iccidvirtual, fzaventa];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Cambio de ICCID ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -646,7 +734,7 @@ module.exports = function(app,io){
 
     });
 
-    //LLAMADAS / SMS
+    //LLAMADAS / SMS OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_llamadas', middleware.requireLogin, function (req, res) {
 
         //se reciben los parametros del lado del cliente
@@ -671,51 +759,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO llamadassms(idmetadatos,telefono,usuario,contacto,error,afectacion,tipored,origendestuno,origendestdos,origendesttres,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, afectacion, tipored, origen1, origen2, origen3, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Llamadas / SMS ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO llamadassms(idmetadatos,telefono,usuario,contacto,error,afectacion,tipored,origendestuno,origendestdos,origendesttres,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, afectacion, tipored, origen1, origen2, origen3, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Llamadas / SMS ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -748,51 +856,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO navegacion(idmetadatos,telefono,usuario,contacto,error,pruebasbasicas,tipored,fechahora,descripcion) VALUES(?,?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, pruebasbasicas, tipored, fechayhorainiciofalla, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO navegacion(idmetadatos,telefono,usuario,contacto,error,pruebasbasicas,tipored,fechahora,descripcion) VALUES(?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, pruebasbasicas, tipored, fechayhorainiciofalla, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -829,51 +957,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,metodocompra2,fechahora2,metodocompra3,fechahora3,descripcion,contacto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, metodocompra2, fechayhora2, metodocompra3, fechayhora3, descripcionsituacion,contacto];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO recargas(idmetadatos,telefono,usuario,error,importe,metodocompra,fechahora,metodocompra2,fechahora2,metodocompra3,fechahora3,descripcion,contacto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, mensajeerror, importe, metodocompra, fechayhora, metodocompra2, fechayhora2, metodocompra3, fechayhora3, descripcionsituacion, contacto];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Navegación ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -905,51 +1053,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO promociones(idmetadatos,telefono,usuario,contacto,promocion,fecha,descripcion,tipo) VALUES(?,?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, promocion, fechainiciofalla, descripcionsituacion,tipo];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Promociones ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO promociones(idmetadatos,telefono,usuario,contacto,promocion,fecha,descripcion,tipo) VALUES(?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, promocion, fechainiciofalla, descripcionsituacion, tipo];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Promociones ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 
@@ -980,51 +1148,71 @@ module.exports = function(app,io){
 
         var last_id_inserted; //auxiliar para insertar id de la ultima query
 
-        //se ejecuta la query con transacciones
-        connection.getConnection(function (err, pool) {
-            pool.beginTransaction(function (err) {
-                if (err) throw err;
-                var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
-                query = mysql.format(query, inserts);
+        connection.getConnection(function (errors, connectit) {
 
-                pool.query(query, function (err, result) {
-                    if (err) {
-                        pool.rollback(function () {
-                            throw err;
-                        });
-                    }
-                    last_id_inserted = result.insertId;
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
-                    //siguiente query
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
 
-                    var query = "INSERT INTO activacion(idmetadatos,telefono,usuario,contacto,error,servicio,descripcion) VALUES(?,?,?,?,?,?,?)";
-                    var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, servicio, descripcionsituacion];
-                    query = mysql.format(query, inserts);
-                    pool.query(query, function (err, result) {
-                        if (err) {
-                            pool.rollback(function () {
-                                throw err;
-                            });
-                        }
-                        //en el ultimo insert
-                        pool.commit(function (err) {
-                            if (err) {
-                                pool.rollback(function () {
-                                    throw err;
-                                });
-                            }
-                            console.log('Nuevo reporte de Servicios ID: ' + last_id_inserted);
-                            asignacion_propietario(last_id_inserted);
-                            res.send("Correcto");
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            query = mysql.format(query, inserts);
 
-                        });//fin del commit
-                    });//fin del query 2
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
 
-                });//fin de la query 1
-            }); //fin del begin transaction
-            pool.release();
-        }); //fin del get connection
+                                //siguiente query
+
+                                var query = "INSERT INTO activacion(idmetadatos,telefono,usuario,contacto,error,servicio,descripcion) VALUES(?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, mensajeerror, servicio, descripcionsituacion];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Servicios ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
 
         //responder al cliente en caso de exito
 

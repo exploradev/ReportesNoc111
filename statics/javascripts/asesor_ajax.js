@@ -234,6 +234,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -313,6 +315,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -392,6 +396,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                }else{
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -470,6 +476,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -551,6 +559,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -635,6 +645,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -717,6 +729,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -803,6 +817,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -884,6 +900,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }
@@ -964,6 +982,8 @@ $(document).ready(function(){
                     alert("Todo correcto");
                     $('.closebuttonn').trigger('click');
                     reset_all();
+                } else {
+                    alert("ERROR: " + response);
                 }
             });
         }

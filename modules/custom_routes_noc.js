@@ -39,7 +39,7 @@ module.exports = function(app,io){
 
         var iduser = req.body.iduser;
 
-        var query = "SELECT SUM(CASE WHEN propietario = ? AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_global, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_callback, SUM(CASE WHEN propietario = ? AND falla = 'general' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_servicios FROM metadatos LIMIT 1";
+        var query = "SELECT SUM(CASE WHEN propietario = ? AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_global, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND month(creado) = month(now()) THEN 1 ELSE 0 END) AS conteo_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado','Rechazado') THEN 1 ELSE 0 END) AS abiertos_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_callback, SUM(CASE WHEN propietario = ? AND falla = 'general' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios' AND month(creado) = month(now()) AND estatus NOT IN ('Cerrado') THEN 1 ELSE 0 END) AS abiertos_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'Nuevo' THEN 1 ELSE 0 END) AS nuevos_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'En proceso' THEN 1 ELSE 0 END) AS enproceso_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND estatus = 'Pendiente' THEN 1 ELSE 0 END) AS pendientes_servicios, SUM(CASE WHEN propietario = ? AND falla = 'aclaraciones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_aclaraciones, SUM(CASE WHEN propietario = ? AND falla = 'callback'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_callback, SUM(CASE WHEN propietario = ? AND falla = 'general'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_general, SUM(CASE WHEN propietario = ? AND falla = 'cobertura'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_cobertura, SUM(CASE WHEN propietario = ? AND falla = 'iccid'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_iccid, SUM(CASE WHEN propietario = ? AND falla = 'llamadas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_llamadas, SUM(CASE WHEN propietario = ? AND falla = 'navegacion'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_navegacion, SUM(CASE WHEN propietario = ? AND falla = 'recargas'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_recargas, SUM(CASE WHEN propietario = ? AND falla = 'promociones'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_promociones, SUM(CASE WHEN propietario = ? AND falla = 'servicios'  AND month(creado) = month(now()) AND estatus = 'Cerrado' THEN 1 ELSE 0 END) AS cerrados_servicios FROM metadatos LIMIT 1";
         var inserts = [
             iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser,
             iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser, iduser,
@@ -67,49 +67,49 @@ module.exports = function(app,io){
 
             case 'global':
                 //todas las capturas que no esten cerradas y las cerradas que sean del mes
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado')) OR (m.estatus NOT IN ('Cerrado')) order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado','Rechazado')) OR (m.estatus NOT IN ('Cerrado','Rechazado')) order by m.creado";
                 break;
 
             //----------------------------------------------------
             case 'aclaraciones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado')) AND falla = 'aclaraciones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'aclaraciones' order by m.creado";
                 break;
             case 'callback':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado')) AND falla = 'callback' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'callback' order by m.creado";
                 break;
             case 'general':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado')) AND falla = 'general' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'general' order by m.creado";
                 break;
             case 'cobertura':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado')) AND falla = 'cobertura' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'cobertura' order by m.creado";
                 break;
             case 'iccid':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado')) AND falla = 'iccid' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'iccid' order by m.creado";
                 break;
             case 'llamadas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado')) AND falla = 'llamadas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'llamadas' order by m.creado";
                 break;
             case 'navegacion':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado')) AND falla = 'navegacion' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'navegacion' order by m.creado";
                 break;
             case 'recargas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado')) AND falla = 'recargas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'recargas' order by m.creado";
                 break;
             case 'promociones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado')) AND falla = 'promociones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'promociones' order by m.creado";
                 break;
             case 'servicios':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado')  AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado')) AND falla = 'servicios' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'servicios' order by m.creado";
                 break;
 
 
@@ -118,7 +118,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'aclaraciones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by m.creado";
                 break;
             case 'nuevos_aclaraciones':
                 //todas las capturas que 
@@ -142,7 +142,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'general' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by m.creado";
                 break;
             case 'nuevos_general':
                 //todas las capturas que 
@@ -166,7 +166,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'servicios' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by m.creado";
                 break;
             case 'nuevos_servicios':
                 //todas las capturas que 
@@ -190,7 +190,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'callback' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by m.creado";
                 break;
             case 'nuevos_callback':
                 //todas las capturas que 
@@ -214,7 +214,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'cobertura' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by m.creado";
                 break;
             case 'nuevos_cobertura':
                 //todas las capturas que 
@@ -238,7 +238,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'iccid' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by m.creado";
                 break;
             case 'nuevos_iccid':
                 //todas las capturas que 
@@ -262,7 +262,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'navegacion' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by m.creado";
                 break;
             case 'nuevos_navegacion':
                 //todas las capturas que 
@@ -286,7 +286,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'recargas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by m.creado";
                 break;
             case 'nuevos_recargas':
                 //todas las capturas que 
@@ -310,7 +310,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'llamadas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by m.creado";
                 break;
             case 'nuevos_llamadas':
                 //todas las capturas que 
@@ -334,7 +334,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado')) AND m.falla =  'promociones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by m.creado";
                 break;
             case 'nuevos_promociones':
                 //todas las capturas que 
@@ -373,7 +373,7 @@ module.exports = function(app,io){
 
             case 'global':
                 //todas las capturas que no esten cerradas y las cerradas que sean del mes
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE   (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado') AND m.propietario = ?) OR (m.estatus NOT IN ('Cerrado') AND m.propietario = ?) order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE   (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado') AND m.propietario = ?) OR (m.estatus NOT IN ('Cerrado','Rechazado') AND m.propietario = ?) order by m.creado";
 
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
@@ -459,7 +459,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'aclaraciones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -493,7 +493,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'general' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -527,7 +527,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'servicios' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -561,7 +561,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'callback' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -595,7 +595,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'cobertura' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -629,7 +629,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'iccid' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -663,7 +663,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'navegacion' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -697,7 +697,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'recargas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -731,7 +731,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'llamadas' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -765,7 +765,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado')) AND m.falla =  'promociones' order by m.creado";
+                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by m.creado";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;

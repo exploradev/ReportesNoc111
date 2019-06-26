@@ -83,6 +83,11 @@ $(document).ready(function () {
             }
             $('#detalles_metadatospanel_asesor').html(response[0]["nombre"]);
             $('#detalles_metadatospanel_creado').html(moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm'));
+
+                $('#folio_bit_as').html(response[0]["bit"]);
+                $('#folio_cpd_as').html(response[0]["cpd"]);
+                $('#folio_usd_as').html(response[0]["usd"]);
+                $('#folio_reporsis_as').html(response[0]["reporsis"]);
         });
 
         $.post('/get_detallescaptura',{

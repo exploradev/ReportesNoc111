@@ -497,8 +497,9 @@ $(document).ready(function () {
         $.post('/getEstatusActuales', function (response) {
             $('#conteo_nuevos').html(response[0]['nuevos']);
             $('#conteo_enproceso').html(response[0]['enproceso']);
-            $('#conteo_pendientes').html(response[0]['pendientes']);
+            $('#conteo_solucionados').html(response[0]['solucionados']);
             $('#conteo_cerrados').html(response[0]['cerrados']);
+            $('#conteo_rechazados').html(response[0]['rechazados']);
             $('#conteo_total').html(response[0]['total']);
             var cerrados = response[0]['cerrados'];
             var total = response[0]['total'];
@@ -512,8 +513,9 @@ $(document).ready(function () {
         $.post('/getEstatusActualesDia', function (response) {
             $('#conteo_nuevos_dia').html(response[0]['nuevos']);
             $('#conteo_enproceso_dia').html(response[0]['enproceso']);
-            $('#conteo_pendientes_dia').html(response[0]['pendientes']);
+            $('#conteo_solucionados_dia').html(response[0]['solucionados']);
             $('#conteo_cerrados_dia').html(response[0]['cerrados']);
+            $('#conteo_rechazados_dia').html(response[0]['rechazados']);
             $('#conteo_total_dia').html(response[0]['total']);
             var cerrados = response[0]['cerrados'];
             var total = response[0]['total'];

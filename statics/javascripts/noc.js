@@ -44,6 +44,10 @@ $(document).ready(function () {
     $('.closebuttonn').click(function () {
         
         $('#asesor_modal_detallesdecaptura').css('display', 'none');
+        $('#folio_bit').val("");
+        $('#folio_cpd').val("");
+        $('#folio_usd').val("");
+        $('#folio_reporsis').val("");
         $('#overlay-back').css('display', 'none');
         $('body').removeClass('modal-open');
         //reset_all();

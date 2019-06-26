@@ -1318,7 +1318,7 @@ module.exports = function(app,io){
     app.post('/get_detallesmetadatos', middleware.requireLogin, function (req, res) {
         var idmetadatos = req.body.idmetadatos;
 
-        var query = "SELECT m.idmetadatos,m.creado,u.nombre,m.falla FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
+        var query = "SELECT m.enproceso_time,m.solucionado_time,m.rechazado_time,m.cerrado ,m.estatus,m.idmetadatos,m.creado,u.nombre,m.falla,m.bit,m.cpd,m.usd,m.reporsis FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         connection.getConnection(function (err, conn) {

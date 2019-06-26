@@ -1,6 +1,10 @@
 var setMetadataForBigTable;
 $(document).ready(function () {
 
+
+
+    
+
     //CONTROL DEL MENU LATERAL PARA MOSTRAR SUBMENU
     $('.menu_item').click(function(){
         $('.submenu_item').slideUp('slow');
@@ -28,6 +32,14 @@ $(document).ready(function () {
         placeholder: "ELEGIR ESTATUS",
         allowClear: false
     });
+
+    $('#estatus_seguimiento_solucionado').select2({
+        dropdownParent: $("#form_seguimiento"),
+        placeholder: "ELEGIR ESTATUS",
+        allowClear: false
+    });
+
+
     $('#codificacion_noc').select2({
         dropdownParent: $(".container_modal"),
         placeholder: "ELEGIR TIPIFICACIÓN",

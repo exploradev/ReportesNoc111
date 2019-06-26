@@ -15,7 +15,9 @@
                     span#detalles_metadatospanel_asesor --
                 p CREADO:&nbsp;
                     span#detalles_metadatospanel_creado --
-                
+            #subehadertimer
+                p Transcurrido desde ultimo estatus:
+                p#server_rolex --
                     
         .body_modal#body_modaldetallescaptura
             #container_detalle_cobertura
@@ -31,20 +33,36 @@
                 include body_modal_detallesservicios
         .footer_modal
 
+            #container_folios
+                .group_foliosinput
+                    label BIT
+                    input#folio_bit(type="number")
+                .group_foliosinput
+                    label CPD
+                    input#folio_cpd(type="number")
+                .group_foliosinput
+                    label USD
+                    input#folio_usd(type="number")
+                .group_foliosinput
+                    label REPORSIS
+                    input#folio_reporsis(type="number")
+
             p COMENTARIOS DE SEGUIMIENTO
             .footer_modal_container
-                
-                table.seguimientos_tabla
-                    thead
-                        tr
-                            th FECHA
-                            th NOC
-                            th ESTATUS
-                            th OBSERVACIÓN
-                    tbody#tbody_detallescomentariosmodal
+                #seccion_comentarioslibres(data-estatus="" style="display:none")
+                    table.seguimientos_tabla#tabla_comentarioslibres
+                        thead
+                            tr
+                                th FECHA
+                                th NOC
+                                th ESTATUS
+                                th OBSERVACIÓN
+                        tbody#tbody_detallescomentariosmodal
+                    input#input_comentarioslibres(type="text")
+                    button#btn_comentarioslibres Agregar
                     
                        
-                #form_seguimiento
+                #form_seguimiento(style="display:none")
                     
 
                     select#codificacion_noc
@@ -84,14 +102,19 @@
                         option(value='Reporte por cobertura') Reporte por cobertura
                         option(value='Satisfacción del usuario') Satisfacción del usuario
 
-                    select#estatus_seguimiento_nuevo 
+                    select#estatus_seguimiento_nuevo(style="display:none") 
                         option(selected)
-                        option(value="Nuevo") Nuevo
-                        option(value="En proceso") En proceso
-                        option(value="Pendiente") Pendiente
+                        option(value="Solucionado") Solucionado
+                        option(value="Cerrado") Cerrado
+                        option(value="Rechazado") Rechazado
+
+                    select#estatus_seguimiento_solucionado(style="display:none")
+                        option(selected)
                         option(value="Cerrado") Cerrado
                         option(value="Rechazado") Rechazado
                         
                         
-                    textarea#comentarios_seguimiento_nuevo(rows="5")
-                    button#guardar_seguimiento_nuevo GUARDAR
+                    textarea#comentarios_seguimiento_nuevo(rows="5" style="display:none")
+                    button#guardar_seguimiento_nuevo(style="display:none") GUARDAR
+                    button#guardar_seguimiento_solucionado(style="display:none") GUARDAR
+                button#boton_enproceso(style="display:none") Iniciar seguimiento

@@ -504,7 +504,7 @@ header {
       font-size: 120%; }
 
 #body_modaldetallescaptura {
-  height: 320px;
+  height: 380px;
   position: relative; }
 
 #body_modaldetallescaptura::before {
@@ -522,7 +522,7 @@ header {
   z-index: -1; }
 
 .footer_modal {
-  height: 230px;
+  height: 280px;
   background-color: #E4E8F3;
   padding: 15px; }
   .footer_modal p {
@@ -553,6 +553,22 @@ header {
     display: block; }
   .footer_modal thead th, .footer_modal tbody td {
     width: 218px; }
+
+#contenedor_folios {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 15px; }
+  #contenedor_folios .group_folios {
+    display: flex;
+    flex-direction: column; }
+    #contenedor_folios .group_folios p {
+      width: 100px;
+      font-size: 90%;
+      font-weight: bold; }
+    #contenedor_folios .group_folios label {
+      font-size: 70%;
+      font-weight: bold; }
 
 .inputsasesor {
   border-radius: 3px;

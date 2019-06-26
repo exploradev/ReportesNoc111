@@ -388,7 +388,7 @@ tbody td, thead th {
       font-size: 120%; }
 
 #body_modaldetallescaptura {
-  height: 320px;
+  height: 380px;
   position: relative; }
 
 #body_modaldetallescaptura::before {
@@ -415,15 +415,41 @@ tbody td, thead th {
   width: 25%;
   font-size: 80%;
   justify-content: space-between; }
-  #form_seguimiento #guardar_seguimiento_nuevo {
+  #form_seguimiento #guardar_seguimiento_nuevo, #form_seguimiento #guardar_seguimiento_solucionado {
     border-radius: 5px;
     border: none;
     height: 30px;
     width: 100px;
     background-color: #4B5367;
     color: white; }
-    #form_seguimiento #guardar_seguimiento_nuevo:hover {
+    #form_seguimiento #guardar_seguimiento_nuevo:hover, #form_seguimiento #guardar_seguimiento_solucionado:hover {
       background-color: #3F4658; }
+
+#tabla_comentarioslibres {
+  width: 100%; }
+
+#btn_comentarioslibres {
+  border: 1px solid #3F4658;
+  background-color: #454C5F;
+  margin-left: 5px;
+  height: 22px;
+  width: 10%;
+  border-radius: 3px;
+  color: white;
+  font-size: 60%; }
+  #btn_comentarioslibres:hover {
+    border: 1px solid #3F4658;
+    background-color: #3F4658;
+    border: none; }
+
+#input_comentarioslibres {
+  border-radius: 3px;
+  border: 1px solid #C2CAD9;
+  font-size: 80%;
+  height: 27px;
+  width: 88%;
+  padding-top: 3px;
+  padding-left: 3px; }
 
 .gridsystem_cobertura {
   display: grid;
@@ -616,7 +642,7 @@ tbody td, thead th {
     grid-column: 2/4; }
 
 .footer_modal {
-  height: 230px;
+  height: 300px;
   background-color: #E4E8F3;
   padding: 15px; }
   .footer_modal p {
@@ -651,6 +677,22 @@ tbody td, thead th {
     .footer_modal thead th:nth-child(4), .footer_modal tbody td:nth-child(4) {
       width: 248px; }
 
+#boton_enproceso {
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background-image: moz-linear-gradient(#4B5367, #262A34);
+  background-image: linear-gradient(#4B5367, #262A34);
+  width: 250px;
+  color: white;
+  font-size: 70%; }
+  #boton_enproceso:hover {
+    background-image: moz-linear-gradient(#344367, #121B31);
+    background-image: linear-gradient(#344367, #121B31); }
+
+#estatus_seguimiento_solucionado + .select2-container {
+  display: none; }
+
 #select2-codificacion_noc-results {
   max-height: 130px !important;
   font-size: 70%; }
@@ -658,6 +700,25 @@ tbody td, thead th {
 #select2-estatus_seguimiento_nuevo-results {
   max-height: 98px !important;
   font-size: 80%; }
+
+#select2-estatus_seguimiento_solucionado-results {
+  max-height: 98px !important;
+  font-size: 80%; }
+
+#container_folios {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 15px; }
+  #container_folios .group_foliosinput {
+    display: flex;
+    flex-direction: column; }
+    #container_folios .group_foliosinput input {
+      width: 100px;
+      font-size: 80%; }
+    #container_folios .group_foliosinput label {
+      font-size: 70%;
+      font-weight: bold; }
 
 #menu_lateral {
   border: 2px solid none;

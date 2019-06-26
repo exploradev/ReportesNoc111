@@ -1,7 +1,9 @@
-var llenarContadoresSuperiores;
+var llenarContadoresSuperiores, timestampsCounter,clockInterval;
 $(document).ready(function(){
 
   //TODAS LAS OPERACIONES CRUD DE LOS REPORTES SE HACEN ACA
+
+
 
   //llamada para llenar contadores
     llenarContadoresSuperiores = function(){
@@ -15,12 +17,77 @@ $(document).ready(function(){
                 $("#conteonoc_cerrado").html(response[0]['cerrados']);
         });
     }
+
+  //CONDICIONAL PARA MOSTRAR PICKLIST AL MOMENTO DE CLICKEAR EN PROCESO
+    $('#boton_enproceso').click(function () {
+
+        //ajax para timestamp de estatus en proceso
+        //al ajax exitoso se ejecuta el codigo de abajo
+        var iduser = $("body").data("iduser");
+        var idmetadatos = $('#detalles_metadatospanel_folio').html();
+
+        $.post('/setPrimerBloqueo', {iduser:iduser, idmetadatos:idmetadatos,estatus: "En proceso" }, function (response) {
+            if (response == "En proceso") {
+                $('#seccion_comentarioslibres').attr("data-estatus", "En proceso");
+                $('#form_seguimiento').show();
+                $('#boton_enproceso ').hide();
+                $('#estatus_seguimiento_nuevo').next(".select2-container").show();
+                $('#estatus_seguimiento_nuevo').show();
+                $('#guardar_seguimiento_nuevo').show();
+                $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                $('#guardar_seguimiento_solucionado').hide();
+                $('#comentarios_seguimiento_nuevo').show();
+                $("#seccion_comentarioslibres").show();
+                reload_comentarios(idmetadatos)
+
+                //ACTUALIZO PANEL DE LISTA CONCENTRADOS DE REPORTES
+                var mios = $("input[name=mios]:checked").val();
+                if (mios == 'show') {
+                    llenar_conteos_propios();
+                } else {
+                    llenar_conteos_todos();
+                }
+                //reload tabla actual trtgger click de panel abierto
+                var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+                $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+                 
+                $.post("/get_detallesmetadatos", {idmetadatos:idmetadatos},
+                    function (inner_response) {
+                        //ACTUALIZAR CONTADOR ---------------------------
+                        //INICIO RELOJ ESTATUS -------------------------
+                        var servertime = inner_response[0]["enproceso_time"]
+                        var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                        servertime = new Date(newMoment);
+                        clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                        timestampsCounter(servertime);
+                        //FIN RELOJ ESTATUS ----------------------------
+                    }
+                );
+
+                
+                
+            } else {
+                alert(response);
+            }
+
+
+        });
+
+
+    });
     
   //al clickear el boton de guardado de seguimiento se ejecuta lo siguiente
     $("#guardar_seguimiento_nuevo").click(function(){
         var nuevo_estatus = $('#estatus_seguimiento_nuevo').val();
         var nuevo_codificacion = $('#codificacion_noc').val();
         var nuevo_comentario = $('#comentarios_seguimiento_nuevo').val();
+        var folio_bit = $('#folio_bit').val();
+        var folio_cpd = $('#folio_cpd').val();
+        var folio_usd = $('#folio_usd').val();
+        var folio_reporsis = $('#folio_reporsis').val();
+
+
+
         var iduser = $("body").data("iduser");
         var idmetadatos = $('#detalles_metadatospanel_folio').html();
         if(nuevo_comentario == ""){
@@ -33,10 +100,22 @@ $(document).ready(function(){
                 nuevo_estatus:nuevo_estatus,
                 nuevo_comentario:nuevo_comentario,
                 nuevo_codificacion: nuevo_codificacion,
+                folio_bit: folio_bit,
+                folio_cpd: folio_cpd,
+                folio_usd: folio_usd,
+                folio_reporsis: folio_reporsis,
                 iduser:iduser,
                 idmetadatos:idmetadatos
             },function(response){
-                if(response == "Correcto"){
+                if(response == "Solucionado"){
+                    $('#seccion_comentarioslibres').attr("data-estatus", "Solucionado");
+                    //MOSTRAR SELECT CON LOS ESTATUS SIGUIENTES
+                    $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                    $('#guardar_seguimiento_nuevo').hide();
+                    $('#estatus_seguimiento_solucionado').next(".select2-container").show();
+                    $('#guardar_seguimiento_solucionado').show();
+
+
                     alert("Actualizado correctamente");
                     $('#estatus_seguimiento_nuevo').val("").trigger('change');
                     $('#comentarios_seguimiento_nuevo').val("");
@@ -53,14 +132,218 @@ $(document).ready(function(){
                     var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
                     $('.clickable_filter[data-filter="'+panelabierto+'"]').trigger('click');
                     //console.log(panelabierto);
-                    
 
+                    $.post("/get_detallesmetadatos", { idmetadatos: idmetadatos },
+                        function (inner_response) {
+                            //ACTUALIZAR CONTADOR ---------------------------
+                            //INICIO RELOJ ESTATUS -------------------------
+                            var servertime = inner_response[0]["solucionado_time"]
+                            var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                            servertime = new Date(newMoment);
+                            clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                            timestampsCounter(servertime);
+                            //FIN RELOJ ESTATUS ----------------------------
+                        }
+                    );
+
+                    
+                    
+                    
+                }else if(response == 'Cerrado' || response == 'Rechazado'){ //si el estatus es cerrado o rechazado
+                    $('#seccion_comentarioslibres').attr("data-estatus", response);
+                    //ocultar selects y botones
+                    $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                    $('#guardar_seguimiento_nuevo').hide();
+                    $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                    $('#guardar_seguimiento_solucionado').hide();
+                    $('#comentarios_seguimiento_nuevo').hide();
+
+
+                    alert("Actualizado correctamente");
+                    $('#estatus_seguimiento_nuevo').val("").trigger('change');
+                    $('#estatus_seguimiento_solucionado').val("").trigger('change');
+                    $('#comentarios_seguimiento_nuevo').val("");
+                    //llamar ajax de comentarios de folio actual
+                    reload_comentarios(idmetadatos);
+                    //reload_conteos
+                    var mios = $("input[name=mios]:checked").val();
+                    if (mios == 'show') {
+                        llenar_conteos_propios();
+                    } else {
+                        llenar_conteos_todos();
+                    }
+                    //reload tabla actual trtgger click de panel abierto
+                    var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+                    $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+                    //console.log(panelabierto);
+
+                    clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                    $('#server_rolex').html("--");
+
+                }else{
+                    alert(response)
                 }
             });
             
             
         }
     });
+
+    $("#guardar_seguimiento_solucionado").click(function () {
+        var nuevo_estatus = $('#estatus_seguimiento_solucionado').val();
+        var nuevo_codificacion = $('#codificacion_noc').val();
+        var nuevo_comentario = $('#comentarios_seguimiento_nuevo').val();
+        var folio_bit = $('#folio_bit').val();
+        var folio_cpd = $('#folio_cpd').val();
+        var folio_usd = $('#folio_usd').val();
+        var folio_reporsis = $('#folio_reporsis').val();
+
+
+
+        var iduser = $("body").data("iduser");
+        var idmetadatos = $('#detalles_metadatospanel_folio').html();
+        if (nuevo_comentario == "") {
+            alert("Ingresar comentario de seguimiento");
+        } else if (nuevo_estatus == "") {
+            alert("Ingresar estatus de la captura actual");
+        } else if (nuevo_comentario != "" && nuevo_estatus != "") {
+            //ingresar comentario a db por 
+            $.post('/actualizar_estatuscaptura', {
+                nuevo_estatus: nuevo_estatus,
+                nuevo_comentario: nuevo_comentario,
+                nuevo_codificacion: nuevo_codificacion,
+                folio_bit: folio_bit,
+                folio_cpd: folio_cpd,
+                folio_usd: folio_usd,
+                folio_reporsis: folio_reporsis,
+                iduser: iduser,
+                idmetadatos: idmetadatos
+            }, function (response) {
+                if (response == "Solucionado") {
+
+                    $('#seccion_comentarioslibres').attr("data-estatus", "Solucionado");
+                    //MOSTRAR SELECT CON LOS ESTATUS SIGUIENTES
+
+                    $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                    $('#guardar_seguimiento_nuevo').hide();
+                    $('#estatus_seguimiento_solucionado').next(".select2-container").show();
+                    $('#guardar_seguimiento_solucionado').show();
+
+
+                    alert("Actualizado correctamente");
+                    $('#estatus_seguimiento_nuevo').val("").trigger('change');
+                    $('#comentarios_seguimiento_nuevo').val("");
+                    //llamar ajax de comentarios de folio actual
+                    reload_comentarios(idmetadatos);
+                    //reload_conteos
+                    var mios = $("input[name=mios]:checked").val();
+                    if (mios == 'show') {
+                        llenar_conteos_propios();
+                    } else {
+                        llenar_conteos_todos();
+                    }
+                    //reload tabla actual trtgger click de panel abierto
+                    var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+                    $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+                    //console.log(panelabierto);
+
+                    $.post("/get_detallesmetadatos", { idmetadatos: idmetadatos },
+                        function (inner_response) {
+                            //ACTUALIZAR CONTADOR ---------------------------
+                            //INICIO RELOJ ESTATUS -------------------------
+                            var servertime = inner_response[0]["solucionado_time"]
+                            var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                            servertime = new Date(newMoment);
+                            clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                            timestampsCounter(servertime);
+                            //FIN RELOJ ESTATUS ----------------------------
+                        }
+                    );
+
+
+                } else if (response == 'Cerrado' || response == 'Rechazado') { //si el estatus es cerrado o rechazado
+
+                    $('#seccion_comentarioslibres').attr("data-estatus", response);
+                    //ocultar selects y botones
+                    $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                    $('#guardar_seguimiento_nuevo').hide();
+                    $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                    $('#guardar_seguimiento_solucionado').hide();
+                    $('#comentarios_seguimiento_nuevo').hide();
+
+
+                    alert("Actualizado correctamente");
+                    $('#estatus_seguimiento_nuevo').val("").trigger('change');
+                    $('#estatus_seguimiento_solucionado').val("").trigger('change');
+                    $('#comentarios_seguimiento_nuevo').val("");
+                    //llamar ajax de comentarios de folio actual
+                    reload_comentarios(idmetadatos);
+
+                    //reload_conteos
+                    var mios = $("input[name=mios]:checked").val();
+                    if (mios == 'show') {
+                        llenar_conteos_propios();
+                    } else {
+                        llenar_conteos_todos();
+                    }
+                    //reload tabla actual trtgger click de panel abierto
+                    var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
+                    $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
+                    //console.log(panelabierto);
+
+                    clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                    $('#server_rolex').html("--");
+
+
+                } else {
+                    alert(response)
+                }
+            });
+
+
+        }
+    });
+
+    //GUARDAR COMENTARIOS LIBRES (SIN CAMBIO DE ESTATUS) **PENDIENTE CONTINUAR---------------
+    $('#btn_comentarioslibres').click(function () { 
+        var nuevo_comentario = $('#input_comentarioslibres').val();
+        var nuevo_estatus = $('#seccion_comentarioslibres').attr("data-estatus");
+        var nuevo_codificacion = $('#codificacion_noc').val();
+        var folio_bit = $('#folio_bit').val();
+        var folio_cpd = $('#folio_cpd').val();
+        var folio_usd = $('#folio_usd').val();
+        var folio_reporsis = $('#folio_reporsis').val();
+
+        var iduser = $("body").data("iduser");
+        var idmetadatos = $('#detalles_metadatospanel_folio').html();
+
+        if (nuevo_comentario == "") {
+            alert("Ingresar comentario de seguimiento");
+        } else if (nuevo_estatus == "") {
+            alert("Ingresar estatus de la captura actual");
+        } else if (nuevo_comentario != "" && nuevo_estatus != "") {
+            //ingresar comentario a db por 
+            $.post('/set_comentariolibre', {
+                nuevo_estatus: nuevo_estatus,
+                nuevo_comentario: nuevo_comentario,
+                nuevo_codificacion: nuevo_codificacion,
+                folio_bit: folio_bit,
+                folio_cpd: folio_cpd,
+                folio_usd: folio_usd,
+                folio_reporsis: folio_reporsis,
+                iduser: iduser,
+                idmetadatos: idmetadatos
+            }, function (response) {
+                    $("#input_comentarioslibres").val("");
+                reload_comentarios(idmetadatos);
+            });
+
+
+        }
+    });
+
+    //AGREGAR EL ESTATUS EN CUALQUIER LUGAR PARA REUTILIZARLO EN COMENTARIO LIBRES
+    //GUARDAR COMENTARIOS LIBRES (SIN CAMBIO DE ESTATUS) **PENDIENTE CONTINUAR---------------
 
     function reload_comentarios(idmetadatos){
         //LLAMAR AJAX PARA LLENAR TABLA DE COMENTARIOS DE SEGUIMIENTO
@@ -95,13 +378,15 @@ $(document).ready(function(){
 
 
   
-  //AJAX PARA LLENAR DETALLES EN EL MODAL DE SEGUIMIENTO
+  //AJAX PARA LLENAR DETALLES EN EL MODAL DE SEGUIMIENTO -------------------------------------
     $("#tbody_maintable").on('click','.rowdetallesdisponibles',function(){
         var idmetadatos = $(this).data('idmetadatos');
         var tipofalla = $(this).data('tipofalla');
         
+        //reseteo el contador superior
+        $("#server_rolex").html("--");
         //console.log(tipofalla, idmetadatos);
-        
+        //javascript de show para demas controles al iniciar el proceso en get_detallesmetadatos
         
         $('.body_modal_detalles').css('display', 'none');
         switch (tipofalla) {
@@ -140,6 +425,90 @@ $(document).ready(function(){
         $.post('/get_detallesmetadatos', {
             idmetadatos: idmetadatos
         }, function (response) {
+
+
+            //REVISAR EL ESTATUS Y DEPENDIENDO DEL QUE TENGA SE HACE SHOW O HIDE
+            //DEL SELECT Y DEL BOTON DE ENVIO
+
+            if (response[0]["estatus"] == "En proceso"){
+                $('#form_seguimiento').show();
+                $('#boton_enproceso ').hide();
+                $('#estatus_seguimiento_nuevo').next(".select2-container").show();
+                $('#estatus_seguimiento_nuevo').show();
+                $('#guardar_seguimiento_nuevo').show();
+                $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                $('#guardar_seguimiento_solucionado').hide();
+                $('#comentarios_seguimiento_nuevo').show();
+                $("#seccion_comentarioslibres").show();
+
+                //INICIO RELOJ ESTATUS -------------------------
+                var servertime = response[0]["enproceso_time"]
+                var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                servertime = new Date(newMoment);
+                clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                timestampsCounter(servertime);
+                //FIN RELOJ ESTATUS ----------------------------
+
+            }else if(response[0]["estatus"] == "Solucionado"){
+                $('#form_seguimiento').show();
+                //MOSTRAR SELECT CON LOS ESTATUS SIGUIENTES
+                $('#boton_enproceso ').hide();
+                $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                $('#guardar_seguimiento_nuevo').hide();
+                $('#estatus_seguimiento_solucionado').next(".select2-container").show();
+                $('#estatus_seguimiento_solucionado').show();
+                $('#guardar_seguimiento_solucionado').show();
+                $('#comentarios_seguimiento_nuevo').show();
+                $("#seccion_comentarioslibres").show();
+
+                //INICIO RELOJ ESTATUS -------------------------
+                var servertime = response[0]["solucionado_time"]
+                var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                servertime = new Date(newMoment);
+                clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                timestampsCounter(servertime);
+                //FIN RELOJ ESTATUS ----------------------------
+
+            } else if (response[0]["estatus"] == "Cerrado" || response[0]["estatus"] == "Rechazado"){
+                //ocultar selects y botones
+                $('#form_seguimiento').show();
+                $('#boton_enproceso ').hide();
+                $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                $('#guardar_seguimiento_nuevo').hide();
+                $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                $('#guardar_seguimiento_solucionado').hide();
+                $('#comentarios_seguimiento_nuevo').hide();
+                $("#seccion_comentarioslibres").show();
+
+                clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                $('#server_rolex').html("--");
+
+            } else if (response[0]["estatus"] == "Nuevo"){
+                $('#form_seguimiento').hide();
+                $('#boton_enproceso ').show();
+                $('#estatus_seguimiento_nuevo').next(".select2-container").hide();
+                $('#guardar_seguimiento_nuevo').hide();
+                $('#estatus_seguimiento_solucionado').next(".select2-container").hide();
+                $('#guardar_seguimiento_solucionado').hide();
+                $('#comentarios_seguimiento_nuevo').hide();
+                $("#seccion_comentarioslibres").hide();
+
+                //INICIO RELOJ ESTATUS -------------------------
+                var servertime = response[0]["creado"]
+                var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
+                servertime = new Date(newMoment);
+                clearInterval(clockInterval); //reseteo el contador de la ventana actual
+                timestampsCounter(servertime);
+                //FIN RELOJ ESTATUS ----------------------------
+
+            }
+
+            //FIN DE VALIDACION DE ESTATUS
+            
+            
+
+            $('#seccion_comentarioslibres').attr("data-estatus", response[0]["estatus"]);
+
             $('#detalles_metadatospanel_folio').html(response[0]["idmetadatos"]);
             switch (tipofalla) {
                 case 'aclaraciones':
@@ -176,6 +545,11 @@ $(document).ready(function(){
             $('#detalles_metadatospanel_asesor').html(response[0]["nombre"]);
             $('#detalles_metadatospanel_creado').html(moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm'));
             $('#detalles_metadatospanel_tipificacion').html(response[0]["tipificacion"]);
+
+            $('#folio_bit').val(response[0]["bit"]);
+            $('#folio_cpd').val(response[0]["cpd"]);
+            $('#folio_usd').val(response[0]["usd"]);
+            $('#folio_reporsis').val(response[0]["reporsis"]);
         });
 
         $.post('/get_detallescaptura', {
@@ -230,6 +604,8 @@ $(document).ready(function(){
         $.post('/get_detallesobservaciones', {
             idmetadatos: idmetadatos
         }, function (response) {
+
+            
             var table_body = [];
             for (i = 0; i < response.length; i++) {
                 table_body += "<tr>";
@@ -373,5 +749,69 @@ $(document).ready(function(){
     }
 
     llenarContadoresSuperiores();
+
+    //contador de timestamps
+    timestampsCounter = function(server_time){
+        
+        var hoy = new moment();
+        
+        console.log(hoy);
+        console.log(server_time);
+        
+        var duration = moment.duration(hoy.diff(server_time));
+        
+        var dias = duration.asDays();
+        var horas = duration.get('hours');
+        var minutos = duration.get('minutes');
+        var segundos = duration.get('seconds');
+
+        dias = parseInt(dias);
+
+        if (horas < 10) { horas = "0" + horas }
+        if(minutos<10){minutos = "0"+minutos}
+        if (segundos < 10) { segundos = "0" + segundos }
+        var current = dias + " dias, " + horas + ":" + minutos + ":" + segundos + " hrs";
+        $('#server_rolex').html(current);
+        
+
+        clockInterval = setInterval(function () {
+            //validar cada contador
+            if(segundos == 59){
+                segundos = 0;
+                if(minutos==59){
+                    minutos = 0;
+                    if(horas==23){
+                        horas=0
+                        dias++
+                    }else{
+                        horas++;
+                    }
+                }else{
+                    minutos++
+                }
+            }else{
+                segundos++
+            }
+            dias = parseInt(dias);
+            horas = parseInt(horas);
+            minutos = parseInt(minutos);
+            segundos = parseInt(segundos);
+
+            if (horas < 10) { 
+                
+                if (toString(horas).charAt(0) != '0') { horas = "0" + horas}  
+            }
+            if (minutos < 10) { 
+                if (toString(minutos).charAt(0) != '0') { minutos = "0" + minutos }  
+            }
+            if (segundos < 10) { 
+                
+                if (toString(segundos).charAt(0) != '0') { segundos = "0" + segundos }  
+            }
+            var current = dias + " dias, " + horas + ":" + minutos + ":" + segundos + " hrs";
+            $('#server_rolex').html(current);
+        }, 1000);
+        
+    }
 
 });

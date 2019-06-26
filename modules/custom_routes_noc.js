@@ -806,24 +806,32 @@ module.exports = function(app,io){
         
     });
 
-    app.post('/actualizar_estatuscaptura',middleware.requireLogin, function(req,res){
+    app.post('/actualizar_estatuscaptura', middleware.requireLogin, function (req, res) {
         var nuevo_estatus = req.body.nuevo_estatus;
         var nuevo_comentario = req.body.nuevo_comentario;
         var nuevo_codificacion = req.body.nuevo_codificacion;
+        var folio_bit = req.body.folio_bit;
+        var folio_cpd = req.body.folio_cpd;
+        var folio_usd = req.body.folio_usd;
+        var folio_reporsis = req.body.folio_reporsis;
         var iduser = req.body.iduser;
         var idmetadatos = req.body.idmetadatos;
 
-        if (nuevo_estatus == "Cerrado"){
-            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), cerrado = now(), tipificacion = ? WHERE idmetadatos = ?";
-        }else{
-            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), tipificacion = ? WHERE idmetadatos = ?";
-        }
+        if (nuevo_estatus == "Cerrado") {
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), cerrado = now(), tipificacion = ?, bit = ?, cpd = ?, usd = ?, reporsis = ? WHERE idmetadatos = ?";
+        } else if (nuevo_estatus == "En proceso") {
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), enproceso_time = now(), tipificacion = ?, bit = ?, cpd = ?, usd = ?, reporsis = ? WHERE idmetadatos = ?";
+        } else if (nuevo_estatus == "Solucionado") {
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), solucionado_time = now(), tipificacion = ?, bit = ?, cpd = ?, usd = ?, reporsis = ? WHERE idmetadatos = ?";
+        } else if (nuevo_estatus == "Rechazado") {
+            var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), rechazado_time = now(), tipificacion = ?, bit = ?, cpd = ?, usd = ?, reporsis = ? WHERE idmetadatos = ?";
+        } 
 
         connection.getConnection(function (err, pool) {
             pool.beginTransaction(function (err) {
                 if (err) throw err;
-                
-                var inserts = [nuevo_estatus,nuevo_codificacion,idmetadatos];
+
+                var inserts = [nuevo_estatus, nuevo_codificacion, folio_bit, folio_cpd, folio_usd, folio_reporsis, idmetadatos];
                 var query = mysql.format(query_metadatos, inserts);
 
                 pool.query(query, function (err, result) {
@@ -832,7 +840,7 @@ module.exports = function(app,io){
                             throw err;
                         });
                     }
-                    
+
 
                     //siguiente query
 
@@ -854,7 +862,7 @@ module.exports = function(app,io){
                             }
                             console.log('Nuevo comentario de seguimiento de captura ID: ' + idmetadatos);
                             io.emit('new', 'nuevo_seguimiento');
-                            res.send("Correcto");
+                            res.send(nuevo_estatus);
 
                         });//fin del commit
                     });//fin del query 2
@@ -864,4 +872,130 @@ module.exports = function(app,io){
             pool.release();
         }); //fin del get connection
     });
+
+    app.post('/set_comentariolibre', middleware.requireLogin, function (req, res) {
+        var nuevo_estatus = req.body.nuevo_estatus;
+        var nuevo_comentario = req.body.nuevo_comentario;
+        var nuevo_codificacion = req.body.nuevo_codificacion;
+        var folio_bit = req.body.folio_bit;
+        var folio_cpd = req.body.folio_cpd;
+        var folio_usd = req.body.folio_usd;
+        var folio_reporsis = req.body.folio_reporsis;
+        var iduser = req.body.iduser;
+        var idmetadatos = req.body.idmetadatos;
+
+        var query_metadatos = "UPDATE metadatos SET estatus = ?, ultseguimiento = now(), tipificacion = ?, bit = ?, cpd = ?, usd = ?, reporsis = ? WHERE idmetadatos = ?";
+
+        connection.getConnection(function (err, pool) {
+            pool.beginTransaction(function (err) {
+                if (err) throw err;
+
+                var inserts = [nuevo_estatus, nuevo_codificacion, folio_bit, folio_cpd, folio_usd, folio_reporsis, idmetadatos];
+                var query = mysql.format(query_metadatos, inserts);
+
+                pool.query(query, function (err, result) {
+                    if (err) {
+                        pool.rollback(function () {
+                            throw err;
+                        });
+                    }
+
+
+                    //siguiente query
+
+                    var query = "INSERT INTO observaciones(idmetadatos,observacion,noc,estatus) VALUES(?,?,?,?)";
+                    var inserts = [idmetadatos, nuevo_comentario, iduser, nuevo_estatus];
+                    query = mysql.format(query, inserts);
+                    pool.query(query, function (err, result) {
+                        if (err) {
+                            pool.rollback(function () {
+                                throw err;
+                            });
+                        }
+                        //en el ultimo insert
+                        pool.commit(function (err) {
+                            if (err) {
+                                pool.rollback(function () {
+                                    throw err;
+                                });
+                            }
+                            console.log('Nuevo comentario de seguimiento de captura ID: ' + idmetadatos);
+                            io.emit('new', 'nuevo_seguimiento');
+                            res.send(nuevo_estatus);
+
+                        });//fin del commit
+                    });//fin del query 2
+
+                });//fin de la query 1
+            }); //fin del begin transaction
+            pool.release();
+        }); //fin del get connection
+    });
+
+
+    //INGRESO ESTATUS DE PRIMER BLOQUEO
+    app.post('/setPrimerbloqueo', middleware.requireLogin,function(req,res){
+        var estatus = req.body.estatus;
+        var idmetadatos = req.body.idmetadatos;
+        var iduser = req.body.iduser;
+
+        var nuevo_estatus = estatus;
+        var nuevo_comentario = "Seguimiento iniciado";
+        
+        if(estatus == "En proceso"){
+            var query_metadatos = "UPDATE metadatos SET estatus = 'En proceso', enproceso_time = now() WHERE idmetadatos = ? ";
+            connection.getConnection(function (err, pool) {
+                pool.beginTransaction(function (err) {
+                    if (err) throw err;
+
+                    var inserts = [idmetadatos];
+                    var query = mysql.format(query_metadatos, inserts);
+
+                    pool.query(query, function (err, result) {
+                        if (err) {
+                            pool.rollback(function () {
+                                throw err;
+                            });
+                        }
+
+
+                        //siguiente query
+
+                        var query = "INSERT INTO observaciones(idmetadatos,observacion,noc,estatus) VALUES(?,?,?,?)";
+                        var inserts = [idmetadatos, nuevo_comentario, iduser, nuevo_estatus];
+                        query = mysql.format(query, inserts);
+                        pool.query(query, function (err, result) {
+                            if (err) {
+                                pool.rollback(function () {
+                                    throw err;
+                                });
+                            }
+                            //en el ultimo insert
+                            pool.commit(function (err) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                console.log('Primer bloqueo en captura ID: ' + idmetadatos);
+                                io.emit('new', 'nuevo_seguimiento');
+                                res.send(nuevo_estatus);
+
+                            });//fin del commit
+                        });//fin del query 2
+
+                    });//fin de la query 1
+                }); //fin del begin transaction
+                pool.release();
+            }); //fin del get connection
+        }else{
+            res.send("Error, no se puede iniciar el seguimiento");
+        }
+
+        //ingresar timestamp y establecer nuevo estatus como "En espera"
+
+
+        
+    });
+
 }// fin del archivo

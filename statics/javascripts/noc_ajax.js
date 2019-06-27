@@ -40,6 +40,11 @@ $(document).ready(function(){
                 $("#seccion_comentarioslibres").show();
                 reload_comentarios(idmetadatos)
 
+                //manejo de clase auxiliar para centrar boton en proceso
+                //debugger
+                $("#footer_modal_container").removeClass('aux_enproceso');
+                $("#footer_modal_container").addClass('footer_modal_container');
+
                 //ACTUALIZO PANEL DE LISTA CONCENTRADOS DE REPORTES
                 var mios = $("input[name=mios]:checked").val();
                 if (mios == 'show') {
@@ -48,6 +53,7 @@ $(document).ready(function(){
                     llenar_conteos_todos();
                 }
                 //reload tabla actual trtgger click de panel abierto
+
                 var panelabierto = $('#tiporeporte_header').attr("data-filterclick");
                 $('.clickable_filter[data-filter="' + panelabierto + '"]').trigger('click');
                  
@@ -441,6 +447,13 @@ $(document).ready(function(){
                 $('#comentarios_seguimiento_nuevo').show();
                 $("#seccion_comentarioslibres").show();
 
+                //manejo de clase auxiliar para centrar boton en proceso
+                //debugger
+                $("#footer_modal_container").removeClass('aux_enproceso');
+                $("#footer_modal_container").addClass('footer_modal_container');
+                
+                
+
                 //INICIO RELOJ ESTATUS -------------------------
                 var servertime = response[0]["enproceso_time"]
                 var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
@@ -461,6 +474,13 @@ $(document).ready(function(){
                 $('#comentarios_seguimiento_nuevo').show();
                 $("#seccion_comentarioslibres").show();
 
+                //manejo de clase auxiliar para centrar boton en proceso
+                //debugger
+                $("#footer_modal_container").removeClass('aux_enproceso');
+                $("#footer_modal_container").addClass('footer_modal_container');
+
+
+
                 //INICIO RELOJ ESTATUS -------------------------
                 var servertime = response[0]["solucionado_time"]
                 var newMoment = moment(servertime).format("YYYY-MM-DD HH:mm:ss");
@@ -480,6 +500,13 @@ $(document).ready(function(){
                 $('#comentarios_seguimiento_nuevo').hide();
                 $("#seccion_comentarioslibres").show();
 
+                //manejo de clase auxiliar para centrar boton en proceso
+                //debugger
+                $("#footer_modal_container").removeClass('aux_enproceso');
+                $("#footer_modal_container").addClass('footer_modal_container');
+
+
+
                 clearInterval(clockInterval); //reseteo el contador de la ventana actual
                 $('#server_rolex').html("--");
 
@@ -492,6 +519,11 @@ $(document).ready(function(){
                 $('#guardar_seguimiento_solucionado').hide();
                 $('#comentarios_seguimiento_nuevo').hide();
                 $("#seccion_comentarioslibres").hide();
+
+                //manejo de clase auxiliar para centrar boton en proceso
+                //debugger
+                $("#footer_modal_container").removeClass('footer_modal_container');
+                $("#footer_modal_container").addClass('aux_enproceso');
 
                 //INICIO RELOJ ESTATUS -------------------------
                 var servertime = response[0]["creado"]
@@ -755,8 +787,8 @@ $(document).ready(function(){
         
         var hoy = new moment();
         
-        console.log(hoy);
-        console.log(server_time);
+        //console.log(hoy);
+        //console.log(server_time);
         
         var duration = moment.duration(hoy.diff(server_time));
         

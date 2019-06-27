@@ -253,18 +253,15 @@ header
 //anchos fijos de columnas
 tbody td, thead th
     width: 100px
-    &:nth-child(2)
-        width: 50px
+    &:nth-child(1)
+        width: 120px
     &:nth-child(3)
-        width: 150px
+        width: 120px
     &:nth-child(4)
-        width: 75px
+        width: 200px
     &:nth-child(5)
-        width: 130px
-    &:nth-child(6)
-        width: 180px
-    &:nth-child(8)
-        width: 157px
+        width: 200px
+    
     
 
 // MODAL DE DETALLES DE REPORTE EXISTENTE ---------------------------------------------------
@@ -444,6 +441,7 @@ tbody td, thead th
 .footer_modal_container
     display: flex
     justify-content: space-between
+    
 
 #form_seguimiento
     display: flex
@@ -752,9 +750,14 @@ tbody td, thead th
     width: 250px
     color: white
     font-size: 70%
+    text-align: center
     &:hover
         background-image: moz-linear-gradient(#344367,#121B31)
         background-image: linear-gradient(#344367,#121B31)
+
+.aux_enproceso
+    display: flex
+    justify-content: center
 
 #estatus_seguimiento_solucionado + .select2-container
     display: none

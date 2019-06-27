@@ -1,5 +1,91 @@
-var llenar_conteos;
+var llenar_conteos, construirRelojEn, clockInterval_rows;
 $(document).ready(function () {
+
+
+    //RELOJ PARA CADA FILA RENDERIZADA
+    construirRelojEn = function(selector,server_time){
+        $("#" + selector).empty();
+        var hoy = new moment();
+
+        //console.log(hoy);
+        //console.log(server_time);
+
+        var duration = moment.duration(hoy.diff(server_time));
+
+        var dias = duration.asDays();
+        var horas = duration.get('hours');
+        var minutos = duration.get('minutes');
+        var segundos = duration.get('seconds');
+
+        dias = parseInt(dias);
+
+        if (horas < 10) { horas = "0" + horas }
+        if (minutos < 10) { minutos = "0" + minutos }
+        if (segundos < 10) { segundos = "0" + segundos }
+        var current = dias + "d " + horas + ":" + minutos + ":" + segundos + "h";
+        
+        //pintar de colores los tiempos por default
+        if ((horas > 1 && horas < 4) && (dias == 0)) {
+            $("#" + selector).html("<span style='color:orange;font-weight:bold;'>" + current + "</span>");
+        } else if (horas > 3 || dias > 0) {
+            $("#" + selector).html("<span style='color:red;font-weight:bold;'>" + current + "</span>");
+        } else {
+            $("#" + selector).html(current);
+        }
+
+
+        clockInterval_rows = setInterval(function () {
+            //validar cada contador
+            if (segundos == 59) {
+                segundos = 0;
+                if (minutos == 59) {
+                    minutos = 0;
+                    if (horas == 23) {
+                        horas = 0
+                        dias++
+                    } else {
+                        horas++;
+                    }
+                } else {
+                    minutos++
+                }
+            } else {
+                segundos++
+            }
+            dias = parseInt(dias);
+            horas = parseInt(horas);
+            minutos = parseInt(minutos);
+            segundos = parseInt(segundos);
+
+            if (horas < 10) {
+
+                if (toString(horas).charAt(0) != '0') { horas = "0" + horas }
+            }
+            if (minutos < 10) {
+                if (toString(minutos).charAt(0) != '0') { minutos = "0" + minutos }
+            }
+            if (segundos < 10) {
+
+                if (toString(segundos).charAt(0) != '0') { segundos = "0" + segundos }
+            }
+            var current = dias + "d " + horas + ":" + minutos + ":" + segundos + "h";
+            //$('#server_rolex').html(current);
+
+            //pintar de colores los tiempos
+            if ((horas > 1 && horas < 4) && (dias == 0)) {
+                $("#" + selector).html("<span style='color:orange;font-weight:bold;'>" + current + "</span>");
+            } else if (horas > 3 || dias > 0) {
+                $("#" + selector).html("<span style='color:red;font-weight:bold;'>" + current + "</span>");
+            } else {
+                $("#" + selector).html(current);
+            }
+            
+        }, 1000);
+
+    }
+    //FIN DE RELOJ PARA CADA FILA RENDERIZADA
+
+    //-------------------------------------------------------
 
     llenar_conteos_todos = function () {
         $.get('/get_conteosmenu', function (response) {
@@ -165,6 +251,9 @@ $(document).ready(function () {
 
     //CLICK EN LOS DIFERENTES FILTROS LLAMAN QUERYS DISTINTAS
     $('.clickable_filter').click(function () {
+        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+        var lista_relojes = [];
+
         var filtro = $(this).data('filter');
         var mios = $("input[name=mios]:checked").val();
         if(mios == 'show'){
@@ -181,14 +270,6 @@ $(document).ready(function () {
                     table_body += '</td>';
 
                     table_body += '<td>';
-                    table_body += response[i]["idmetadatos"];
-                    table_body += '</td>';
-
-                    table_body += '<td>';
-                    table_body += response[i]["asesor"];
-                    table_body += '</td>';
-
-                    table_body += '<td>';
                     table_body += response[i]["telefono"];
                     table_body += '</td>';
 
@@ -228,9 +309,7 @@ $(document).ready(function () {
                     }
                     table_body += '</td>';
 
-                    table_body += '<td>';
-                    table_body += response[i]["estatus"];
-                    table_body += '</td>';
+                    
 
 
                     if (response[i]["propietario"] == null) {
@@ -243,9 +322,81 @@ $(document).ready(function () {
                         table_body += '</td>';
                     }
 
+                    table_body += '<td>';
+                    table_body += response[i]["estatus"];
+                    table_body += '</td>';
+
+                    //BLOQUE QUE HACE RENDER DEL TIEMPO
+                    var idreporte = response[i]["idmetadatos"];
+                    var ultimoestatus = response[i]["estatus"];
+                    if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
+                        table_body += '<td>';
+                        table_body += "--"
+                        table_body += '</td>';
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "Nuevo") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
+
+                        table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+                        var row = {
+                            ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "En proceso") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_enproceso_" + idreporte).empty().remove();
+                        table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+
+                        var row = {
+                            ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "Solucionado") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_solucionado_" + idreporte).empty().remove();
+                        table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+
+                        var row = {
+                            ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    }
+                    //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
+                    
+
                     table_body += '</tr>';
                 }
                 $('#tbody_maintable').html(table_body);
+                //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+                lista_relojes.forEach(element => {
+                    clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                });
+
+                lista_relojes.forEach(element => {
+                    for (key in element) {
+                        if (element.hasOwnProperty(key)) {
+                            if (element[key]) {
+                                $("#" + key).empty();
+                                construirRelojEn(key, element[key]);
+                            }
+                        }
+                    }
+                });
+
+        // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
             });
         }else{
             
@@ -258,13 +409,7 @@ $(document).ready(function () {
                     table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
                     table_body += '</td>';
 
-                    table_body += '<td>';
-                    table_body += response[i]["idmetadatos"];
-                    table_body += '</td>';
-
-                    table_body += '<td>';
-                    table_body += response[i]["asesor"];
-                    table_body += '</td>';
+                    
 
                     table_body += '<td>';
                     table_body += response[i]["telefono"];
@@ -306,10 +451,7 @@ $(document).ready(function () {
                     }
                     table_body += '</td>';
 
-                    table_body += '<td>';
-                    table_body += response[i]["estatus"];
-                    table_body += '</td>';
-
+                    
 
                     if (response[i]["propietario"] == null) {
                         table_body += '<td>';
@@ -321,12 +463,89 @@ $(document).ready(function () {
                         table_body += '</td>';
                     }
 
+                    table_body += '<td>';
+                    table_body += response[i]["estatus"];
+                    table_body += '</td>';
+
+                    //BLOQUE QUE HACE RENDER DEL TIEMPO
+                    var idreporte = response[i]["idmetadatos"];
+                    var ultimoestatus = response[i]["estatus"];
+                    if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
+                        table_body += '<td>';
+                        table_body += "--"
+                        table_body += '</td>';
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "Nuevo") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
+
+                        table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+                        var row = {
+                            ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "En proceso") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_enproceso_" + idreporte).empty().remove();
+                        table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+
+                        var row = {
+                            ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    } else if (ultimoestatus == "Solucionado") {
+                        var numero_random = Math.random() * (999999 - 000000) + 000000;
+                        numero_random = parseInt(numero_random);
+                        $("#clock_solucionado_" + idreporte).empty().remove();
+                        table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
+                        table_body += "--";
+                        table_body += '</td>';
+
+                        var row = {
+                            ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
+                        }
+                        lista_relojes.push(row);
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    }
+                    //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
+                    
+
                     table_body += '</tr>';
                 }
                 $('#tbody_maintable').html(table_body);
+                //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+                lista_relojes.forEach(element => {
+                    clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                });
+
+                lista_relojes.forEach(element => {
+                    for (key in element) {
+                        if (element.hasOwnProperty(key)) {
+                            if (element[key]) {
+                                $("#" + key).empty();
+                                construirRelojEn(key, element[key]);
+                            }
+                        }
+                    }
+                });
+
+                // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+
+                
+                
             });
         }
         
+        
+
     });
 
     //POR DEFAULT SE LLENA LA TABLA CON TODOS LOS REPORTES

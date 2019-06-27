@@ -67,49 +67,49 @@ module.exports = function(app,io){
 
             case 'global':
                 //todas las capturas que no esten cerradas y las cerradas que sean del mes
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado','Rechazado')) OR (m.estatus NOT IN ('Cerrado','Rechazado')) order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  (m.estatus NOT IN ('Cerrado','Rechazado')) order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
             case 'aclaraciones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'callback':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'general':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cobertura':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'iccid':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'llamadas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'navegacion':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'recargas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'promociones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'servicios':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where(month(m.creado) = month(now()) AND m.estatus IN('Cerrado','Rechazado')  AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado','Rechazado')) AND falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
 
@@ -118,23 +118,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -142,23 +142,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -166,23 +166,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -190,23 +190,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -214,23 +214,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -238,23 +238,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -262,23 +262,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -286,23 +286,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -310,23 +310,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
             //----------------------------------------------------
@@ -334,23 +334,23 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'nuevos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Nuevo' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'enproceso_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'En proceso' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'pendientes_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Pendiente' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
             case 'cerrados_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus = 'Cerrado' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
         }
@@ -373,7 +373,7 @@ module.exports = function(app,io){
 
             case 'global':
                 //todas las capturas que no esten cerradas y las cerradas que sean del mes
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE   (month(m.creado) = month(now()) AND m.estatus IN ('Cerrado') AND m.propietario = ?) OR (m.estatus NOT IN ('Cerrado','Rechazado') AND m.propietario = ?) order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE    (m.estatus NOT IN ('Cerrado','Rechazado') AND m.propietario = ?) order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
 
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
@@ -382,7 +382,7 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'aclaraciones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE  (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ?  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado') AND m.propietario = ? )  AND falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE  (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ?  AND m.falla = 'aclaraciones') OR (m.estatus NOT IN('Cerrado') AND m.propietario = ? )  AND falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
 
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
@@ -391,63 +391,63 @@ module.exports = function(app,io){
                 break;
             case 'callback':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'callback') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'general':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'general') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'cobertura':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'cobertura') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'iccid':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'iccid') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'llamadas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'llamadas') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'navegacion':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'navegacion') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'recargas':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'recargas') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'promociones':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'promociones') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
                 break;
             case 'servicios':
                 //todas las capturas que que no esten cerradas y las cerradas del mes con estatus especifico 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser WHERE (month(m.creado) = month(now()) AND m.estatus IN('Cerrado') AND m.propietario = ? AND m.falla = 'servicios') OR(m.estatus NOT IN('Cerrado') AND m.propietario = ?) AND falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser, iduser];
                 query = mysql.format(query, inserts);
                 
@@ -459,31 +459,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_aclaraciones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'aclaraciones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'aclaraciones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -493,31 +493,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_general':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'general' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'general' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -527,31 +527,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_servicios':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'servicios' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'servicios' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -561,31 +561,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_callback':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'callback' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'callback' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -595,31 +595,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_cobertura':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'cobertura' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'cobertura' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -629,31 +629,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_iccid':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'iccid' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'iccid' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -663,31 +663,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_navegacion':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'navegacion' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'navegacion' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -697,31 +697,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_recargas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'recargas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'recargas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -731,31 +731,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_llamadas':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'llamadas' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'llamadas' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
@@ -765,31 +765,31 @@ module.exports = function(app,io){
             //----------------------------------------------------
             case 'abiertos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  (m.estatus NOT IN ('Cerrado','Rechazado')) AND m.falla =  'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'nuevos_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Nuevo' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'enproceso_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'En proceso' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'pendientes_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Pendiente' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;
             case 'cerrados_promociones':
                 //todas las capturas que 
-                var query = "select m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'promociones' order by m.creado";
+                var query = "select m.enproceso_time, m.solucionado_time, m.rechazado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where  m.propietario = ?  AND  m.estatus = 'Cerrado' AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 var inserts = [iduser];
                 query = mysql.format(query, inserts);
                 break;

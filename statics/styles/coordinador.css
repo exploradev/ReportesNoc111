@@ -247,18 +247,14 @@ header {
 
 tbody td, thead th {
   width: 100px; }
-  tbody td:nth-child(2), thead th:nth-child(2) {
-    width: 50px; }
+  tbody td:nth-child(1), thead th:nth-child(1) {
+    width: 120px; }
   tbody td:nth-child(3), thead th:nth-child(3) {
-    width: 150px; }
+    width: 120px; }
   tbody td:nth-child(4), thead th:nth-child(4) {
-    width: 75px; }
+    width: 200px; }
   tbody td:nth-child(5), thead th:nth-child(5) {
-    width: 130px; }
-  tbody td:nth-child(6), thead th:nth-child(6) {
-    width: 180px; }
-  tbody td:nth-child(8), thead th:nth-child(8) {
-    width: 157px; }
+    width: 200px; }
 
 #overlay-back {
   position: absolute;
@@ -685,10 +681,15 @@ tbody td, thead th {
   background-image: linear-gradient(#4B5367, #262A34);
   width: 250px;
   color: white;
-  font-size: 70%; }
+  font-size: 70%;
+  text-align: center; }
   #boton_enproceso:hover {
     background-image: moz-linear-gradient(#344367, #121B31);
     background-image: linear-gradient(#344367, #121B31); }
+
+.aux_enproceso {
+  display: flex;
+  justify-content: center; }
 
 #estatus_seguimiento_solucionado + .select2-container {
   display: none; }

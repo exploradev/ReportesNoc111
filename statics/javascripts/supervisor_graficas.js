@@ -469,13 +469,17 @@ $(document).ready(function () {
                 table_body += response[i]["cerrados"];
                 table_body += '</td>';
 
+                table_body += "<td bgcolor='#3F4658'>";
+                table_body += response[i]["rechazados"];
+                table_body += '</td>';
+
                 table_body += "<td>";
                 table_body += response[i]["total"];
                 table_body += '</td>';
 
                 table_body += "<td>";
                 var total = response[i]["total"];
-                var cerrados = response[i]['cerrados'];
+                var cerrados = response[i]['cerrados'] + response[i]['rechazados'];
                 var num = ((cerrados / total) * 100);
                 num = num.toFixed(2);
                 table_body += num + "%";

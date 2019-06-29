@@ -170,9 +170,14 @@ header {
     font-size: 70%;
     color: white;
     margin-left: 10px;
-    align-items: center; }
+    align-items: center;
+    width: 23px;
+    border-right: 1px solid whitesmoke;
+    padding-right: 10px; }
     #seccion_contadores .contador-group span {
-      color: orange; }
+      color: #BAC3D4; }
+    #seccion_contadores .contador-group:last-child {
+      border: none; }
 
 #containermainbody {
   min-height: 100%;

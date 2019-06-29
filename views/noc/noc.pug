@@ -36,18 +36,18 @@ html(lang="en")
                 #sectionname
                     p ASESOR NOC *264  
                 #seccion_contadores
-                    .contador-group
+                    .contador-group(alt="Nuevos")
                         span#conteonoc_nuevos 00
-                        p Rep.Nuevos
+                        p N
                     .contador-group
                         span#conteonoc_enproceso 00
-                        p En proceso
+                        p EP
                     .contador-group
                         span#conteonoc_pendientes 00
-                        p Pendientes
+                        p S
                     .contador-group
                         span#conteonoc_cerrado 00
-                        p Cerrados
+                        p C/R
 
         #containermainbody
              .maincontainer
@@ -73,9 +73,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_aclaraciones 0 
                             span.clickable_filter(data-filter='enproceso_aclaraciones' onclick="setMetadataForBigTable('ACLARACIONES - EN PROCESO','enproceso_aclaraciones')") EN PROCESO
                                 .circulo_conteo#enproceso_aclaraciones 0 
-                            span.clickable_filter(data-filter='pendientes_aclaraciones' onclick="setMetadataForBigTable('ACLARACIONES - PENDIENTES','pendientes_aclaraciones')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_aclaraciones' onclick="setMetadataForBigTable('ACLARACIONES - SOLUCIONADO','pendientes_aclaraciones')") SOLUCIONADO
                                 .circulo_conteo#pendientes_aclaraciones 0 
-                            span.clickable_filter(data-filter='cerrados_aclaraciones' onclick="setMetadataForBigTable('ACLARACIONES - CERRADOS','cerrados_aclaraciones')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_aclaraciones' onclick="setMetadataForBigTable('ACLARACIONES - CERRADOS/RECHAZADOS','cerrados_aclaraciones')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_aclaraciones 0 
                         .menu_item.clickable_filter(data-filter='general' onclick="setMetadataForBigTable('AFECTACION GENERAL','general')") AFECTACIÓN GENERAL
                             span (
@@ -88,9 +88,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_general 0 
                             span.clickable_filter(data-filter='enproceso_general' onclick="setMetadataForBigTable('AFECTACIÓN GENERAL - EN PROCESO','enproceso_general')") EN PROCESO
                                 .circulo_conteo#enproceso_general 0 
-                            span.clickable_filter(data-filter='pendientes_general' onclick="setMetadataForBigTable('AFECTACIÓN GENERAL - PENDIENTES','pendientes_general')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_general' onclick="setMetadataForBigTable('AFECTACIÓN GENERAL - SOLUCIONADO','pendientes_general')") SOLUCIONADO
                                 .circulo_conteo#pendientes_general 0 
-                            span.clickable_filter(data-filter='cerrados_general' onclick="setMetadataForBigTable('AFECTACIÓN GENERAL - CERRADOS','cerrados_general')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_general' onclick="setMetadataForBigTable('AFECTACIÓN GENERAL - CERRADOS/RECHAZADOS','cerrados_general')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_general 0 
                         .menu_item.clickable_filter(data-filter='servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS','servicios')") ALTAS/BAJAS DE SERVICIOS
                             span (
@@ -103,9 +103,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_servicios 0 
                             span.clickable_filter(data-filter='enproceso_servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS - EN PROCESO','enproceso_servicios')") EN PROCESO
                                 .circulo_conteo#enproceso_servicios 0 
-                            span.clickable_filter(data-filter='pendientes_servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS - PENDIENTES','pendientes_servicios')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS - SOLUCIONADO','pendientes_servicios')") SOLUCIONADO
                                 .circulo_conteo#pendientes_servicios 0 
-                            span.clickable_filter(data-filter='cerrados_servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS - CERRADOS','cerrados_servicios')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_servicios' onclick="setMetadataForBigTable('ALTAS/BAJAS DE SERVICIOS - CERRADOS/RECHAZADOS','cerrados_servicios')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_servicios 0 
                         .menu_item.clickable_filter(data-filter='callback' onclick="setMetadataForBigTable('CALLBACK','callback')") CALLBACK
                             span (
@@ -118,9 +118,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_callback 0 
                             span.clickable_filter(data-filter='enproceso_callback' onclick="setMetadataForBigTable('CALLBACK - EN PROCESO','enproceso_callback')") EN PROCESO
                                 .circulo_conteo#enproceso_callback 0 
-                            span.clickable_filter(data-filter='pendientes_callback' onclick="setMetadataForBigTable('CALLBACK - PENDIENTES','pendientes_callback')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_callback' onclick="setMetadataForBigTable('CALLBACK - SOLUCIONADO','pendientes_callback')") SOLUCIONADO
                                 .circulo_conteo#pendientes_callback 0 
-                            span.clickable_filter(data-filter='cerrados_callback' onclick="setMetadataForBigTable('CALLBACK - CERRADOS','cerrados_callback')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_callback' onclick="setMetadataForBigTable('CALLBACK - CERRADOS/RECHAZADOS','cerrados_callback')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_callback 0 
                         .menu_item.clickable_filter(data-filter='cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA','cobertura')") CALIDAD EN EL SERVICIO/COBERTURA
                             span (
@@ -133,9 +133,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_cobertura 0 
                             span.clickable_filter(data-filter='enproceso_cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA - EN PROCESO','enproceso_cobertura')") EN PROCESO
                                 .circulo_conteo#enproceso_cobertura 0 
-                            span.clickable_filter(data-filter='pendientes_cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA - PENDIENTES','pendientes_cobertura')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA - SOLUCIONADO','pendientes_cobertura')") SOLUCIONADO
                                 .circulo_conteo#pendientes_cobertura 0 
-                            span.clickable_filter(data-filter='cerrados_cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA - CERRADOS','cerrados_cobertura')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_cobertura' onclick="setMetadataForBigTable('CALIDAD EN EL SERVICIO/COBERTURA - CERRADOS/RECHAZADOS','cerrados_cobertura')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_cobertura 0 
                         .menu_item.clickable_filter(data-filter='iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID','iccid')") CAMBIO DE ICCID
                             span (
@@ -148,9 +148,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_iccid 0 
                             span.clickable_filter(data-filter='enproceso_iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID - EN PROCESO','enproceso_iccid')") EN PROCESO
                                 .circulo_conteo#enproceso_iccid 0 
-                            span.clickable_filter(data-filter='pendientes_iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID - PENDIENTES','pendientes_iccid')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID - SOLUCIONADO','pendientes_iccid')") SOLUCIONADO
                                 .circulo_conteo#pendientes_iccid 0 
-                            span.clickable_filter(data-filter='cerrados_iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID - CERRADOS','cerrados_iccid')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_iccid' onclick="setMetadataForBigTable('CAMBIO DE ICCID - CERRADOS/RECHAZADOS','cerrados_iccid')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_iccid 0 
                         .menu_item.clickable_filter(data-filter='navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN','navegacion')") FALLA EN NAVEGACIÓN
                             span (
@@ -163,9 +163,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_navegacion 0 
                             span.clickable_filter(data-filter='enproceso_navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN - EN PROCESO','enproceso_navegacion')") EN PROCESO
                                 .circulo_conteo#enproceso_navegacion 0 
-                            span.clickable_filter(data-filter='pendientes_navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN - PENDIENTES','pendientes_navegacion')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN - SOLUCIONADO','pendientes_navegacion')") SOLUCIONADO
                                 .circulo_conteo#pendientes_navegacion 0 
-                            span.clickable_filter(data-filter='cerrados_navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN - CERRADOS','cerrados_navegacion')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_navegacion' onclick="setMetadataForBigTable('FALLA EN NAVEGACIÓN - CERRADOS/RECHAZADOS','cerrados_navegacion')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_navegacion 0 
                         .menu_item.clickable_filter(data-filter='recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS','recargas')") FALLA EN RECARGAS
                             span (
@@ -178,9 +178,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_recargas 0 
                             span.clickable_filter(data-filter='enproceso_recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS - EN PROCESO','enproceso_recargas')") EN PROCESO
                                 .circulo_conteo#enproceso_recargas 0 
-                            span.clickable_filter(data-filter='pendientes_recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS - PENDIENTES','pendientes_recargas')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS - SOLUCIONADO','pendientes_recargas')") SOLUCIONADO
                                 .circulo_conteo#pendientes_recargas 0 
-                            span.clickable_filter(data-filter='cerrados_recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS - CERRADOS','cerrados_recargas')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_recargas' onclick="setMetadataForBigTable('FALLA EN RECARGAS - CERRADOS/RECHAZADOS','cerrados_recargas')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_recargas 0 
                         .menu_item.clickable_filter(data-filter='llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS','llamadas')") LLAMADAS/SMS
                             span (
@@ -193,9 +193,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_llamadas 0 
                             span.clickable_filter(data-filter='enproceso_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - EN PROCESO','enproceso_llamadas')") EN PROCESO
                                 .circulo_conteo#enproceso_llamadas 0 
-                            span.clickable_filter(data-filter='pendientes_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - PENDIENTES','pendientes_llamadas')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - SOLUCIONADO','pendientes_llamadas')") SOLUCIONADO
                                 .circulo_conteo#pendientes_llamadas 0 
-                            span.clickable_filter(data-filter='cerrados_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - CERRADOS','cerrados_llamadas')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - CERRADOS/RECHAZADOS','cerrados_llamadas')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_llamadas 0 
                         .menu_item.clickable_filter(data-filter='promociones' onclick="setMetadataForBigTable('PROMOCIONES','promociones')") PROMOCIONES
                             span (
@@ -208,9 +208,9 @@ html(lang="en")
                                 .circulo_conteo#nuevos_promociones 0 
                             span.clickable_filter(data-filter='enproceso_promociones' onclick="setMetadataForBigTable('PROMOCIONES - EN PROCESO','enproceso_promociones')") EN PROCESO
                                 .circulo_conteo#enproceso_promociones 0 
-                            span.clickable_filter(data-filter='pendientes_promociones' onclick="setMetadataForBigTable('PROMOCIONES - PENDIENTES','pendientes_promociones')") PENDIENTE
+                            span.clickable_filter(data-filter='pendientes_promociones' onclick="setMetadataForBigTable('PROMOCIONES - SOLUCIONADO','pendientes_promociones')") SOLUCIONADO
                                 .circulo_conteo#pendientes_promociones 0 
-                            span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS','cerrados_promociones')") CERRADO
+                            span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS/RECHAZADOS','cerrados_promociones')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_promociones 0 
                         
                         

@@ -301,8 +301,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -315,8 +315,8 @@ module.exports = function(app,io){
 
                                 //siguiente query
 
-                                var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,estado,municipio,colonia,cp,direccion,desczona,equipomarca,equipomodelo,falla,descripcion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                                var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, estado, municipio, colonia, cp, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion];
+                                var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,direccion,desczona,equipomarca,equipomodelo,falla,descripcion,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion, estado, municipio, colonia, cp];
                                 query = mysql.format(query, inserts);
                                 pool.query(query, function (err, result) {
                                     if (err) {
@@ -373,6 +373,10 @@ module.exports = function(app,io){
         var nombreusuario = req.body.nombreusuario;
         var fechainiciofalla = req.body.fechainiciofalla;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'aclaraciones';
         var estatus = 'Nuevo';
@@ -397,8 +401,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado,  estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -463,6 +467,10 @@ module.exports = function(app,io){
         var nombreusuario = req.body.nombreusuario;
         var motivo = req.body.motivo;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'callback';
         var estatus = 'Nuevo';
@@ -487,8 +495,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -555,6 +563,10 @@ module.exports = function(app,io){
         var contacto = req.body.contacto;
         var nombreusuario = req.body.nombreusuario;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'general';
         var estatus = 'Nuevo';
@@ -581,8 +593,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -652,6 +664,11 @@ module.exports = function(app,io){
         var iccidfisica = req.body.iccidfisica;
         var fzaventa = req.body.fzaventa;
         var cac = req.body.cac;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
+
 
         var tipodefallareportada = 'iccid';
         var estatus = 'Nuevo';
@@ -677,8 +694,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -751,6 +768,10 @@ module.exports = function(app,io){
         var origen2 = req.body.origen2;
         var origen3 = req.body.origen3;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'llamadas';
         var estatus = 'Nuevo';
@@ -776,8 +797,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -848,6 +869,10 @@ module.exports = function(app,io){
         var tipored = req.body.tipored;
         var fechayhorainiciofalla = req.body.fechayhorainiciofalla;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'navegacion';
         var estatus = 'Nuevo';
@@ -873,8 +898,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -949,6 +974,10 @@ module.exports = function(app,io){
         var fechayhora3 = req.body.fechayhora3;
         var descripcionsituacion = req.body.descripcionsituacion;
         var contacto = req.body.contacto;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'recargas';
         var estatus = 'Nuevo';
@@ -974,8 +1003,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -1045,6 +1074,10 @@ module.exports = function(app,io){
         var fechainiciofalla = req.body.fechainiciofalla;
         var tipo = req.body.tipo;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'promociones';
         var estatus = 'Nuevo';
@@ -1070,8 +1103,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -1140,6 +1173,10 @@ module.exports = function(app,io){
         var mensajeerror = req.body.mensajeerror;
         var servicio = req.body.servicio;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
 
         var tipodefallareportada = 'servicios';
         var estatus = 'Nuevo';
@@ -1165,8 +1202,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono) VALUES(?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado];
+                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
+                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -1318,7 +1355,7 @@ module.exports = function(app,io){
     app.post('/get_detallesmetadatos', middleware.requireLogin, function (req, res) {
         var idmetadatos = req.body.idmetadatos;
 
-        var query = "SELECT m.enproceso_time,m.solucionado_time,m.rechazado_time,m.cerrado ,m.estatus,m.idmetadatos,m.creado,u.nombre,m.falla,m.bit,m.cpd,m.usd,m.reporsis FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
+        var query = "SELECT m.enproceso_time,m.solucionado_time,m.rechazado_time,m.cerrado ,m.estatus,m.idmetadatos,m.creado,u.nombre,m.falla,m.bit,m.cpd,m.usd,m.reporsis , m.estado, m.municipio, m.colonia, m.cp FROM metadatos m LEFT JOIN users u ON u.iduser = m.iduser WHERE idmetadatos = ? LIMIT 1";
         var inserts = [idmetadatos];
         query = mysql.format(query, inserts);
         connection.getConnection(function (err, conn) {

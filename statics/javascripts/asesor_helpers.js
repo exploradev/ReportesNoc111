@@ -26,26 +26,26 @@ $(document).ready(function () {
     });
 
     //HELPER PARA SELECT2 -------------------------------------------
-    $('#cobertura_estado').select2({
-        dropdownParent: $("#body_modal_capturacobertura"),
+    $('.global_select2_estado').select2({
+        dropdownParent: $("#container_modalformularios"),
         placeholder: "SELECCIONAR ESTADO",
         allowClear: false
     });
 
-    $('#cobertura_municipio').select2({
-        dropdownParent: $("#body_modal_capturacobertura"),
+    $('.global_select2_municipio').select2({
+        dropdownParent: $("#container_modalformularios"),
         placeholder: "SELECCIONAR MUNICIPIO",
         allowClear: false
     });
 
-    $('#cobertura_colonia').select2({
-        dropdownParent: $("#body_modal_capturacobertura"),
+    $('.global_select2_colonia').select2({
+        dropdownParent: $("#container_modalformularios"),
         placeholder: "SELECCIONAR COLONIA",
         allowClear: false
     });
 
-    $('#cobertura_cp').select2({
-        dropdownParent: $("#body_modal_capturacobertura"),
+    $('.global_select2_cp').select2({
+        dropdownParent: $("#container_modalformularios"),
         placeholder: "SELECCIONAR CODIGO POSTAL",
         allowClear: false
     });
@@ -108,49 +108,60 @@ $(document).ready(function () {
     
     //DETECTAR EL CHANGE EN EL SELECTOR DE ESTADO Y LLAMAR EL REFRESCO DE MUNICIPIO
     //OBTENER VALOR DEL CAMPO DE ESTADO
-    $('#cobertura_estado').change(function(){
+    $('.global_select2_estado').change(function(){
         var estado = $(this).val();
-        $('#cobertura_municipio').html('');
+        $('.global_select2_municipio').html('');
         $.post('/getMunicipio',{estado:estado},function(response){
             var injectThisHTML = '<option></option>';
             for(i = 0; i<response.length;i++){
                 injectThisHTML += "<option value='"+ response[i]['municipio'] +"'>"+ response[i]['municipio'] +"</option>";
             }
-            $('#cobertura_municipio').html(injectThisHTML);
+            $('.global_select2_municipio').html(injectThisHTML);
         });
         //se resetean a default los demas campos
-        $('#cobertura_colonia').html('');
-        $('#cobertura_cp').html('');
+        $('.global_select2_colonia').html('');
+        $('.global_select2_cp').html('');
     });
     //DETECTAR EL CHANGE EN EL SELECTOR DE MUNICIPIO Y LLAMAR EL REFRESCO DE COLONIA
     //OBTENER VALOR DEL CAMPO DE MUNICIPIO
-    $('#cobertura_municipio').change(function () {
+    $('.global_select2_municipio').change(function () {
         var municipio = $(this).val();
-        var estado = $('#cobertura_estado').val();
-        $('#cobertura_colonia').html('');
+        
+        
+        tipo = $(this).closest('.class_for_validation').attr('data-tiporeporte');
+        var estado = $('#'+tipo+"_estado").val();
+
+        
+        $('.global_select2_colonia').html('');
         $.post('/getColonia', { municipio: municipio, estado:estado }, function (response) {
             var injectThisHTML = '<option></option>';
             for (i = 0; i < response.length; i++) {
                 injectThisHTML += "<option value='" + response[i]['colonia'] + "'>" + response[i]['colonia'] + "</option>";
             }
-            $('#cobertura_colonia').html(injectThisHTML);
+            $('.global_select2_colonia').html(injectThisHTML);
         });
         //se resetean a default los demas campos
-        $('#cobertura_cp').html('');
+        $('.global_select2_cp').html('');
     });
     //DETECTAR EL CHANGE EN EL SELECTOR DE COLONIA Y LLAMAR REFRESCO DE CODIGO POSTAL
     //OBTENER EL VALOR DEL CAMPO DE COLONIA
-    $('#cobertura_colonia').change(function () {
+    $('.global_select2_colonia').change(function () {
         var colonia = $(this).val();
-        var estado = $('#cobertura_estado').val();
-        var municipio = $('#cobertura_municipio').val();
-        $('#cobertura_cp').html('');
+
+        tipo = $(this).closest('.class_for_validation').attr('data-tiporeporte');
+        var estado = $('#' + tipo + "_estado").val();
+
+        tipo = $(this).closest('.class_for_validation').attr('data-tiporeporte');
+        var municipio = $('#' + tipo + "_municipio").val();
+
+        
+        $('.global_select2_cp').html('');
         $.post('/getCP', { colonia: colonia, estado: estado, municipio: municipio }, function (response) {
             var injectThisHTML = '<option></option>';
             for (i = 0; i < response.length; i++) {
                 injectThisHTML += "<option value='" + response[i]['cp'] + "'>" + response[i]['cp'] + "</option>";
             }
-            $('#cobertura_cp').html(injectThisHTML);
+            $('.global_select2_cp').html(injectThisHTML);
         });
     });//fin de evento de cobertura colonia
 

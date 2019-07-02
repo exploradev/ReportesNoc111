@@ -9,8 +9,14 @@ $(document).ready(function(){
 
         //RESETEO DE CAMPOS
         
-        $('.inputsasesor').val('').trigger('change');
+        //$('.inputsasesor').val('').trigger('change');
+        $('.inputsasesor').val('');
         
+        //$('.global_select2_cp').val('').trigger('change');
+        //$('.global_select2_colonia').val('').trigger('change');
+        //$('.global_select2_municipio').val('').trigger('change');
+        $('.global_select2_estado').val('').trigger('change');
+
         $('#telefono_afectado_aclaraciones').html("");
         $('#telefono_afectado_callback').html("");
         $('#telefono_afectado_general').html("");
@@ -308,7 +314,11 @@ $(document).ready(function(){
                 nombreusuario: parametro_ajax[0],
                 contacto: parametro_ajax[1],
                 fechainiciofalla: parametro_ajax[2],
-                descripcionsituacion: parametro_ajax[3]
+                descripcionsituacion: parametro_ajax[3],
+                estado: parametro_ajax[4],
+                municipio: parametro_ajax[5],
+                colonia: parametro_ajax[6],
+                cp: parametro_ajax[7]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -389,7 +399,11 @@ $(document).ready(function(){
                 nombreusuario: parametro_ajax[0],
                 contacto: parametro_ajax[1],
                 motivo: parametro_ajax[2],
-                descripcionsituacion: parametro_ajax[3]
+                descripcionsituacion: parametro_ajax[3],
+                estado: parametro_ajax[4],
+                municipio: parametro_ajax[5],
+                colonia: parametro_ajax[6],
+                cp: parametro_ajax[7]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -469,7 +483,11 @@ $(document).ready(function(){
 
                 nombreusuario: parametro_ajax[0],
                 contacto: parametro_ajax[1],
-                descripcionsituacion: parametro_ajax[2]
+                descripcionsituacion: parametro_ajax[2],
+                estado: parametro_ajax[3],
+                municipio: parametro_ajax[4],
+                colonia: parametro_ajax[5],
+                cp: parametro_ajax[6]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -552,7 +570,11 @@ $(document).ready(function(){
                 iccidvirtual: parametro_ajax[2],
                 iccidfisica: parametro_ajax[3],
                 fzaventa: parametro_ajax[4],
-                cac: parametro_ajax[5]
+                cac: parametro_ajax[5],
+                estado: parametro_ajax[6],
+                municipio: parametro_ajax[7],
+                colonia: parametro_ajax[8],
+                cp: parametro_ajax[9]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -638,7 +660,11 @@ $(document).ready(function(){
                 origen1: parametro_ajax[5],
                 origen2: parametro_ajax[6],
                 origen3: parametro_ajax[7],
-                descripcionsituacion: parametro_ajax[8]
+                descripcionsituacion: parametro_ajax[8],
+                estado: parametro_ajax[9],
+                municipio: parametro_ajax[10],
+                colonia: parametro_ajax[11],
+                cp: parametro_ajax[12]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -722,7 +748,11 @@ $(document).ready(function(){
                 pruebasbasicas: parametro_ajax[3],
                 tipored: parametro_ajax[4],
                 fechayhorainiciofalla: parametro_ajax[5],
-                descripcionsituacion: parametro_ajax[6]
+                descripcionsituacion: parametro_ajax[6],
+                estado: parametro_ajax[7],
+                municipio: parametro_ajax[8],
+                colonia: parametro_ajax[9],
+                cp: parametro_ajax[10]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -810,7 +840,11 @@ $(document).ready(function(){
                 metodocompra3: parametro_ajax[7],
                 fechayhora3: parametro_ajax[8],
                 descripcionsituacion: parametro_ajax[9],
-                contacto: parametro_ajax[10]
+                contacto: parametro_ajax[10],
+                estado: parametro_ajax[11],
+                municipio: parametro_ajax[12],
+                colonia: parametro_ajax[13],
+                cp: parametro_ajax[14]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -893,7 +927,11 @@ $(document).ready(function(){
                 promocion: parametro_ajax[2],
                 fechainiciofalla: parametro_ajax[3],
                 tipo: parametro_ajax[4],
-                descripcionsituacion: parametro_ajax[5]
+                descripcionsituacion: parametro_ajax[5],
+                estado: parametro_ajax[6],
+                municipio: parametro_ajax[7],
+                colonia: parametro_ajax[8],
+                cp: parametro_ajax[9]
 
             }, function (response) {
                 if (response == 'Correcto') {
@@ -975,7 +1013,11 @@ $(document).ready(function(){
                 contacto: parametro_ajax[1],
                 mensajeerror: parametro_ajax[2],
                 servicio: parametro_ajax[3],
-                descripcionsituacion: parametro_ajax[4]
+                descripcionsituacion: parametro_ajax[4],
+                estado: parametro_ajax[5],
+                municipio: parametro_ajax[6],
+                colonia: parametro_ajax[7],
+                cp: parametro_ajax[8]
 
             }, function (response) {
                 if (response == 'Correcto') {

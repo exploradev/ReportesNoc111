@@ -170,6 +170,8 @@
                 }
                 $('#detalles_metadatospanel_asesor').html(response[0]["nombre"]);
                 $('#detalles_metadatospanel_creado').html(moment(response[0]["creado"]).format('DD/MM/YYYY HH:mm'));
+                    var zona = response[0]["municipio"] + "," + response[0]["estado"];
+                    $('#detalles_metadatospanel_zona').html(zona);
             });
 
             $.post('/get_detallescaptura', {

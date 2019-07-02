@@ -6,7 +6,18 @@ $(document).ready(function(){
     
     //al tener abierto algun modal lo cierro con esc
     $(window).keyup(function (e) {
-        if (e.keyCode === 27) $('.closebuttonn').trigger('click');
+        if (e.keyCode === 27){
+            $('#asesor_modal_seleccionartiporeporte').css('display', 'none');
+            $('#asesor_modal_formularios').css('display', 'none');
+            $('#asesor_modal_reportesdisponibles').css('display', 'none');
+            $('#asesor_modal_detallesdecaptura').css('display', 'none');
+            $('#asesor_modal_fallasmasivas').css('display', 'none');
+            $('#asesor_modal_reportessupervisor').css('display', 'none');
+
+            $('#overlay-back').css('display', 'none');
+            $('body').removeClass('modal-open');
+            reset_all();
+        }
     });
 
     $('#input_buscador').keyup(function (e) {

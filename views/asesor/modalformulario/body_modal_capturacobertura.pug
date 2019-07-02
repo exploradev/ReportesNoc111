@@ -11,7 +11,7 @@
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
     
-    .campodetalle_cobertura.class_for_validation.tres
+    .campodetalle_cobertura.class_for_validation
         p.titulocampo NOMBRE DEL USUARIO
         input.inputsasesor.inputs_cobertura.tipodato_libreestandar#cobertura_nombreusuario(type="text" placeholder='Jon Doe')
         span.successimage(style='display: none') 
@@ -27,13 +27,30 @@
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
     
-    .campodetalle_cobertura.class_for_validation.cinco
+    .campodetalle_cobertura.class_for_validation
         p.titulocampo LUGAR DE NACIMIENTO
         input.inputsasesor.inputs_cobertura.tipodato_libreestandar#cobertura_lugarnacimiento(type="text" placeholder='Mérida Yucatán')
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 
             img(src="../assets/error.png")
+
+    .campodetalle_cobertura.class_for_validation
+        p.titulocampo SERVICIO AFECTADO
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_servicioafectado.select_ordinario
+            option(disabled selected)
+            option(value="Voz/SMS") Voz/SMS
+            option(value="Datos") Datos
+            option(value="Ambas") Ambas
+
+    .campodetalle_cobertura.class_for_validation
+        p.titulocampo TECNOLOGÍA AFECTADA
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_tecnologiaafectada.select_ordinario
+            option(disabled selected)
+            option(value="2G") 2G
+            option(value="3G") 3G
+            option(value="4G") 4G
+            option(value="VOLTE") VOLTE
     
     .campodetalle_cobertura.class_for_validation(data-tiporeporte="cobertura")
         p.titulocampo ESTADO
@@ -115,7 +132,7 @@
     
     .campodetalle_cobertura.class_for_validation
         p.titulocampo FALLA
-        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_falla
+        select.inputsasesor.inputs_cobertura.tipodato_select#cobertura_falla.select_ordinario
             option(disabled selected)
             option(value="Cobertura") COBERTURA
             option(value="Calidad en el servicio") CALIDAD EN EL SERVICIO

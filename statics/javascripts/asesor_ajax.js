@@ -11,6 +11,7 @@ $(document).ready(function(){
         
         //$('.inputsasesor').val('').trigger('change');
         $('.inputsasesor').val('');
+        $('.select_ordinario').val('').trigger('change');
         
         //$('.global_select2_cp').val('').trigger('change');
         //$('.global_select2_colonia').val('').trigger('change');
@@ -224,17 +225,21 @@ $(document).ready(function(){
                 nombreusuario: parametro_ajax[1],
                 fechanaciemiento: parametro_ajax[2],
                 lugarnacimiento: parametro_ajax[3],
-                estado: parametro_ajax[4],
-                municipio: parametro_ajax[5],
-                colonia: parametro_ajax[6],
-                cp: parametro_ajax[7],
-                direccioncliente: parametro_ajax[8],
-                descripcionzona: parametro_ajax[9],
-                marcaequipo: parametro_ajax[10],
-                modeloequipo: parametro_ajax[11],
-                fechainiciofalla: parametro_ajax[12],
-                falla: parametro_ajax[13],
-                descripcionsituacion: parametro_ajax[14]
+                //nuevos aca
+                servicio: parametro_ajax[4],
+                tecnologia: parametro_ajax[5],
+                //--
+                estado: parametro_ajax[6],
+                municipio: parametro_ajax[7],
+                colonia: parametro_ajax[8],
+                cp: parametro_ajax[9],
+                direccioncliente: parametro_ajax[10],
+                descripcionzona: parametro_ajax[11],
+                marcaequipo: parametro_ajax[12],
+                modeloequipo: parametro_ajax[13],
+                fechainiciofalla: parametro_ajax[14],
+                falla: parametro_ajax[15],
+                descripcionsituacion: parametro_ajax[16]
             },function(response){
                 if(response=='Correcto'){
                     alert("Todo correcto");

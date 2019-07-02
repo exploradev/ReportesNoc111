@@ -705,6 +705,8 @@ $(document).ready(function(){
         $('#detalle_cobertura_fechainiciofalla').html(response[0]["iniciofalla"]);
         $('#detalle_cobertura_falla').html(response[0]["falla"]);
         $('#detalle_cobertura_descripcion').html(response[0]["descripcion"]);
+        $('#detalle_cobertura_servicio').html(response[0]["servicio"]);
+        $('#detalle_cobertura_tecnologia').html(response[0]["tecnologia"]);
     }
 
     filldetalles_general = function (response) {

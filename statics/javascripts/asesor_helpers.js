@@ -56,6 +56,18 @@ $(document).ready(function () {
         allowClear: false
     });
 
+    $('#cobertura_tecnologiaafectada').select2({
+        dropdownParent: $("#body_modal_capturacobertura"),
+        placeholder: "SELECCIONAR TECNOLOGÍA",
+        allowClear: false
+    });
+
+    $('#cobertura_servicioafectado').select2({
+        dropdownParent: $("#body_modal_capturacobertura"),
+        placeholder: "SELECCIONAR SERVICIO",
+        allowClear: false
+    });
+
     $('#iccid_cac').select2({
         dropdownParent: $("#body_modal_capturaiccid"),
         placeholder: "SELECCIONAR CAC",
@@ -77,6 +89,12 @@ $(document).ready(function () {
     $('#llamadas_tipored').select2({
         dropdownParent: $("#body_modal_capturallamadas"),
         placeholder: "SELECCIONAR TIPO DE RED",
+        allowClear: false
+    });
+
+    $('#llamadas_servicioafectado').select2({
+        dropdownParent: $("#body_modal_capturallamadas"),
+        placeholder: "SELECCIONAR SERVICIO",
         allowClear: false
     });
 

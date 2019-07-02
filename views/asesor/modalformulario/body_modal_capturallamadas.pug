@@ -29,7 +29,7 @@
 
     .campodetalle_llamadas.class_for_validation
         p.titulocampo AFECTACIÓN
-        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_afectacion
+        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_afectacion.select_ordinario
             option(disabled selected)
             option(value="SMS") SMS
             option(value="Llamadas salientes") Llamadas salientes
@@ -41,7 +41,7 @@
 
     .campodetalle_llamadas.class_for_validation
         p.titulocampo TIPO DE RED
-        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_tipored
+        select.inputsasesor.inputs_llamadas.tipodato_select#llamadas_tipored.select_ordinario
             option(disabled selected)
             option(value="Volte") Volte
             option(value="4.5G") 4.5G
@@ -49,6 +49,13 @@
             option(value="3G") 3G
             option(value="2G") 2G
             option(value="Edge") Edge
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    
+            
         span.successimage(style='display: none') 
             img(src="../assets/success.png")
         span.errorimage(style='display: none') 

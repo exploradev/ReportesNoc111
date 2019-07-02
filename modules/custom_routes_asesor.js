@@ -276,6 +276,9 @@ module.exports = function(app,io){
         var fechainiciofalla = req.body.fechainiciofalla;
         var falla = req.body.falla;
         var descripcionsituacion = req.body.descripcionsituacion;
+        var tecnologia = req.body.tecnologia;
+        var servicio = req.body.servicio;
+        
         
         var tipodefallareportada = 'cobertura';
         var estatus = 'Nuevo';
@@ -315,8 +318,8 @@ module.exports = function(app,io){
 
                                 //siguiente query
 
-                                var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,direccion,desczona,equipomarca,equipomodelo,falla,descripcion,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                                var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion, estado, municipio, colonia, cp];
+                                var query = "INSERT INTO cobertura(idmetadatos,telefono,contacto,usuario,fechanacimiento,lugarnacimiento,iniciofalla,direccion,desczona,equipomarca,equipomodelo,falla,descripcion,estado,municipio,colonia,cp,tecnologia,servicio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, contacto, nombreusuario, fechanaciemiento, lugarnacimiento, fechainiciofalla, direccioncliente, descripcionzona, marcaequipo, modeloequipo, falla, descripcionsituacion, estado, municipio, colonia, cp,tecnologia,servicio];
                                 query = mysql.format(query, inserts);
                                 pool.query(query, function (err, result) {
                                     if (err) {

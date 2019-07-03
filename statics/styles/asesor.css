@@ -886,7 +886,7 @@ textarea.inputsasesorforsup {
 .campodetalle_super {
   margin-top: 20px; }
 
-#btn_nuevoreportesupervisor {
+#btn_nuevoreportesupervisor, #btn_modalchecklist {
   border: 1px solid #3F4658;
   background-color: #454C5F;
   margin-left: 5px;
@@ -895,8 +895,80 @@ textarea.inputsasesorforsup {
   border-radius: 3px;
   color: white;
   font-size: 60%; }
-  #btn_nuevoreportesupervisor:hover {
+  #btn_nuevoreportesupervisor:hover, #btn_modalchecklist:hover {
     background-color: #3F4658;
     border: none; }
+
+#modal_checklist {
+  min-height: 480px;
+  max-height: 480px;
+  width: 600px;
+  background-color: white; }
+
+#body_checklist {
+  padding: 20px;
+  font-size: 85%; }
+
+#header_checklist {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  padding: 23px 0 5px 0;
+  font-size: 115%;
+  font-weight: bold;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-shadow: 0px 1px 6px -2px rgba(0, 0, 0, 0.75);
+  color: #2B3748; }
+
+#select_checklist {
+  display: flex;
+  flex-direction: column; }
+  #select_checklist select {
+    width: 55%; }
+  #select_checklist label {
+    font-size: 80%;
+    font-weight: bold; }
+
+#titlesection_checklist {
+  font-size: 105%;
+  font-weight: bold; }
+
+#bodycontent_checklist {
+  font-size: 85%;
+  font-weight: bold;
+  height: 225px; }
+
+.checklist_inputcontainer {
+  display: flex;
+  align-items: baseline; }
+  .checklist_inputcontainer input {
+    margin-right: 10px; }
+  .checklist_inputcontainer input, .checklist_inputcontainer label {
+    cursor: pointer; }
+
+#footer_checklist {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: flex-end; }
+  #footer_checklist button {
+    margin-top: 15px;
+    border: 1px solid #3F4658;
+    border-radius: 5px;
+    background-color: #3F4658;
+    color: white;
+    width: 100px;
+    height: 35px; }
+    #footer_checklist button:hover {
+      background-color: #4B5367;
+      color: white; }
+
+.aux_checklist {
+  margin-top: 15px; }
+
+.myFont {
+  font-size: 80%; }
 
 /*# sourceMappingURL=asesor.css.map */

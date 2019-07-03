@@ -1,0 +1,100 @@
+#modal_checklist.container_modal(style="display:none")
+    #header_checklist
+        span CHECKLIST
+        span 
+            img.closebuttonn.close_checklist(src="../assets/closebuttonn.png")
+    #body_checklist
+        #subtitle_checklist.aux_checklist
+            .well
+                p Pasos a comprobar antes de levantar un reporte a los NOC
+        #select_checklist.aux_checklist
+            label TIPO DE FALLA
+            select#selectinput_checklist
+                option(value="navegacion" data-image='../assets/svg/navegacion.svg') Falla en navegación
+                option(value="llamadas" data-image='../assets/svg/llamadas.svg') Llamadas/SMS
+                option(value="aclaracion" data-image='../assets/svg/aclaraciones.svg') Aclaración de saldo
+                option(value="cobertura" data-image='../assets/svg/cobertura.svg') Calidad en el servicio/Cobertura
+                option(value="callback" data-image='../assets/svg/callback.svg') Callback
+                option(value="iccid" data-image='../assets/svg/iccid.svg') Cambio de ICCID
+        #titlesection_checklist.aux_checklist
+            p CHECKLIST
+        #bodycontent_checklist
+            form
+                #navegacion_checklist.hidecheckboxes
+                    .checklist_inputcontainer
+                        input#navegacion1.input_checklist(type="checkbox", name="none") 
+                        label(for="navegacion1") GPRS activado
+                    .checklist_inputcontainer
+                        input#navegacion2.input_checklist(type="checkbox", name="none") 
+                        label(for="navegacion2") Datos móviles encendidos
+                    .checklist_inputcontainer
+                        input#navegacion3.input_checklist(type="checkbox", name="none") 
+                        label(for="navegacion3") CSD - 28 activado
+                    .checklist_inputcontainer
+                        input#navegacion4.input_checklist(type="checkbox", name="none") 
+                        label(for="navegacion4") Verificar que el límite de uso de datos desde el movil se encuentre deshabilitado
+                    .checklist_inputcontainer
+                        input#navegacion5.input_checklist(type="checkbox", name="none") 
+                        label(for="navegacion5") Verificar que cuente con saldo o MB disponibles para navegar  
+                #llamadas_checklist.hidecheckboxes(style="display:none")
+                    .checklist_inputcontainer
+                        input#llamadas1.input_checklist(type="checkbox", name="none") 
+                        label(for="llamadas1") CSD - 28 activado
+                    .checklist_inputcontainer
+                        input#llamadas2.input_checklist(type="checkbox", name="none") 
+                        label(for="llamadas2") Validar algun bloqueo de número
+                    .checklist_inputcontainer
+                        input#llamadas3.input_checklist(type="checkbox", name="none") 
+                        label(for="llamadas3") Verificar cómo se esta haciendo la marcacion (10 digitos y dentro de MEX-EUA-CAN)      
+                #aclaracion_checklist.hidecheckboxes(style="display:none")
+                    .checklist_inputcontainer
+                        input#aclaracion1.input_checklist(type="checkbox", name="none") 
+                        label(for="aclaracion1") Verificar la última recarga abonada
+                    .checklist_inputcontainer
+                        input#aclaracion2.input_checklist(type="checkbox", name="none") 
+                        label(for="aclaracion2") Validar cobros de algún servicio solicitado (Adelanta saldo, contestone)
+                    .checklist_inputcontainer
+                        input#aclaracion3.input_checklist(type="checkbox", name="none") 
+                        label(for="aclaracion3") Validar agregadores (Terceros)
+                    .checklist_inputcontainer
+                        input#aclaracion4.input_checklist(type="checkbox", name="none") 
+                        label(for="aclaracion4") Verificar el historico de llamadas, por conexiones
+                    .checklist_inputcontainer
+                        input#aclaracion5.input_checklist(type="checkbox", name="none") 
+                        label(for="aclaracion5") Recordar al usuario que como asesor, puedes visualizar las conexiones, mas no indicar concisamente en que lo realizó, e informarle brevemente la manera de validarlo en su línea, si necesita apoyo canalizar a CAC 
+                #cobertura_checklist.hidecheckboxes(style="display:none")
+                    .checklist_inputcontainer
+                        input#cobertura1.input_checklist(type="checkbox", name="none") 
+                        label(for="cobertura1") Sondear cual es la falla
+                    .checklist_inputcontainer
+                        input#cobertura2.input_checklist(type="checkbox", name="none") 
+                        label(for="cobertura2") Sondear si sólo le sucede a su equipo
+                    .checklist_inputcontainer
+                        input#cobertura3.input_checklist(type="checkbox", name="none") 
+                        label(for="cobertura3") Solicitar 3 número de ejemplo
+                    .checklist_inputcontainer
+                        input#cobertura4.input_checklist(type="checkbox", name="none") 
+                        label(for="cobertura4") Validar que sea una zona afectada (No solo un cliente)
+                #callback_checklist.hidecheckboxes(style="display:none")
+                    .checklist_inputcontainer
+                        input#callback1.input_checklist(type="checkbox", name="none") 
+                        label(for="callback1") Validar que corresponda a uno de los dos escenarios el tramite a enviar: Aclaracion de saldo o Pruebas basicas
+                    .checklist_inputcontainer
+                        input#callback2.input_checklist(type="checkbox", name="none") 
+                        label(for="callback2") Anexar todos los detalles en descripcion de la situación
+                    .checklist_inputcontainer
+                        input#callback3.input_checklist(type="checkbox", name="none") 
+                        label(for="callback3") Dar un tiempo de regreso de llamada entre 30 minutos a 1 hora
+                #iccid_checklist.hidecheckboxes(style="display:none")
+                    .checklist_inputcontainer
+                        input#iccid1.input_checklist(type="checkbox", name="none") 
+                        label(for="iccid1") Validar que el número sea de region 8
+                    .checklist_inputcontainer
+                        input#iccid2.input_checklist(type="checkbox", name="none") 
+                        label(for="iccid2") Corroborar que el ICCID físico (El que brinda el usuario) esté en estatus INICIAL
+                    .checklist_inputcontainer
+                        input#iccid3.input_checklist(type="checkbox", name="none") 
+                        label(for="iccid3") Verificar que el número haya sido portado por una fuerza de venta Muévete(28-48-58), DATS o cambaceo
+                    
+                footer#footer_checklist.aux_checklist
+                    button(type="reset") Limpiar

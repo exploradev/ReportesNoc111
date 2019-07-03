@@ -13,10 +13,12 @@ $(document).ready(function(){
             $('#asesor_modal_detallesdecaptura').css('display', 'none');
             $('#asesor_modal_fallasmasivas').css('display', 'none');
             $('#asesor_modal_reportessupervisor').css('display', 'none');
+            $('#modal_checklist').css('display', 'none');
 
             $('#overlay-back').css('display', 'none');
             $('body').removeClass('modal-open');
             reset_all();
+            
         }
     });
 
@@ -43,6 +45,13 @@ $(document).ready(function(){
         reset_all();
     });
 
+    //CLICK EN BOTONES DE NUEVO REPORTE
+    $('#btn_modalchecklist').click(function () {
+        $('#modal_checklist').css('display', 'block');
+        $('#overlay-back').css('display', 'block');
+        $('body').addClass('modal-open');
+    });
+
 
     //CLICK EN BOTONES DE CIERRES DE MODAL
     $('.closebuttonn, .btn_cancelarcaptura').click(function () {
@@ -57,6 +66,17 @@ $(document).ready(function(){
         $('body').removeClass('modal-open');
         reset_all();
     });
+
+    $('.close_checklist').click(function () {
+        $('#modal_checklist').css('display', 'none');
+        
+
+        $('#overlay-back').css('display', 'none');
+        $('body').removeClass('modal-open');
+        
+    });
+
+    
 
     //REGRESO A MODAL ANTERIOR AL CLICKEAR
     $('#regresar_modaldetalles').click(function(){

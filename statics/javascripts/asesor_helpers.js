@@ -25,7 +25,70 @@ $(document).ready(function () {
         
     });
 
+    //----------------------------------------------------------
+    //MOSTRAR LOS CAMPOS DE CHECKLIST AL CHANGE DEL SELECT
+    $('#selectinput_checklist').change(function () { 
+        var seleccion = $(this).val();
+        switch(seleccion){
+            case 'navegacion':
+                $('.hidecheckboxes').hide();
+                $('#navegacion_checklist').show();
+                break;
+            case 'llamadas':
+                $('.hidecheckboxes').hide();
+                $('#llamadas_checklist').show();
+                break;
+            case 'aclaracion':
+                $('.hidecheckboxes').hide();
+                $('#aclaracion_checklist').show();
+                break;
+            case 'cobertura':
+                $('.hidecheckboxes').hide();
+                $('#cobertura_checklist').show();
+                break;
+            case 'callback':
+                $('.hidecheckboxes').hide();
+                $('#callback_checklist').show();
+                break;
+            case 'iccid':
+                $('.hidecheckboxes').hide();
+                $('#iccid_checklist').show();
+                break;
+        }
+    });
+
     //HELPER PARA SELECT2 -------------------------------------------
+
+    
+
+    function formatState(opt) {
+        if (!opt.id) {
+            return opt.text.toLowerCase();
+        }
+
+        var optimage = $(opt.element).attr('data-image');
+        console.log(optimage)
+        if (!optimage) {
+            return opt.text.toLowerCase();
+        } else {
+            var $opt = $(
+                '<span><img src="' + optimage + '" width="15px" /> ' + opt.text.toUpperCase() + '</span>'
+            );
+            return $opt;
+        }
+    };
+
+    
+    $('#selectinput_checklist').select2({
+        dropdownParent: $("#modal_checklist"),
+        placeholder: "Tipo de falla",
+        allowClear: false,
+        dropdownCssClass: "myFont",
+        templateResult: formatState,
+        templateSelection: formatState,
+        width: '55%',
+    });
+
     $('.global_select2_estado').select2({
         dropdownParent: $("#container_modalformularios"),
         placeholder: "SELECCIONAR ESTADO",

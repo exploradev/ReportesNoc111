@@ -255,297 +255,393 @@ $(document).ready(function () {
         var lista_relojes = [];
 
         var filtro = $(this).data('filter');
-        var mios = $("input[name=mios]:checked").val();
-        if(mios == 'show'){
+        if (filtro !='cerradosrechazados'){
+
+            //OCULTO BUSCADORES AUXILIARES
+            $('.container_onlynumber').hide();
+            $('#main_searchbox').show();
             
-            var iduser = $('body').data('iduser');
-            
-            $.post('/get_maintabledata_propios', { filtro: filtro,iduser:iduser }, function (response) {
-                var table_body = [];
-                for (i = 0; i < response.length; i++) {
-                    table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
 
-                    table_body += '<td>';
-                    table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
-                    table_body += '</td>';
+            var mios = $("input[name=mios]:checked").val();
+            if (mios == 'show') {
 
-                    table_body += '<td>';
-                    table_body += response[i]["telefono"];
-                    table_body += '</td>';
+                var iduser = $('body').data('iduser');
 
-                    if (response[i]["ultseguimiento"] == null) {
+                $.post('/get_maintabledata_propios', { filtro: filtro, iduser: iduser }, function (response) {
+                    var table_body = [];
+                    for (i = 0; i < response.length; i++) {
+                        table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
+
                         table_body += '<td>';
-                        table_body += "N/A"
+                        table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
                         table_body += '</td>';
-                    } else {
+
                         table_body += '<td>';
-                        table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                        table_body += response[i]["telefono"];
                         table_body += '</td>';
-                    }
 
-                    table_body += '<td>';
-                    if (response[i]["falla"] == 'aclaraciones') {
-                        table_body += "Aclaraciones";
-                    } else if (response[i]["falla"] == 'callback') {
-                        table_body += "Callback";
-                    } else if (response[i]["falla"] == 'general') {
-                        table_body += "Afectación general";
-                    } else if (response[i]["falla"] == 'cobertura') {
-                        table_body += "Calidad en el servicio/Cobertura";
-                    } else if (response[i]["falla"] == 'iccid') {
-                        table_body += "Cambio de ICCID";
-                    } else if (response[i]["falla"] == 'llamadas') {
-                        table_body += "Falla en llamadas/SMS";
-                    } else if (response[i]["falla"] == 'navegacion') {
-                        table_body += "Falla en navegación";
-                    } else if (response[i]["falla"] == 'recargas') {
-                        table_body += "Recargas";
-                    } else if (response[i]["falla"] == 'promociones') {
-                        table_body += "Promociones";
-                    } else if (response[i]["falla"] == 'servicios') {
-                        table_body += "Alta o baja de servicios";
-                    } else {
-                        table_body += "N/A"
-                    }
-                    table_body += '</td>';
-
-                    
-
-
-                    if (response[i]["propietario"] == null) {
-                        table_body += '<td>';
-                        table_body += "N/A"
-                        table_body += '</td>';
-                    } else {
-                        table_body += '<td>';
-                        table_body += response[i]["propietario"];
-                        table_body += '</td>';
-                    }
-
-                    table_body += '<td>';
-                    table_body += response[i]["estatus"];
-                    table_body += '</td>';
-
-                    //BLOQUE QUE HACE RENDER DEL TIEMPO
-                    var idreporte = response[i]["idmetadatos"];
-                    var ultimoestatus = response[i]["estatus"];
-                    if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
-                        table_body += '<td>';
-                        table_body += "--"
-                        table_body += '</td>';
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "Nuevo") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
-
-                        table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
-                        table_body += "--";
-                        table_body += '</td>';
-                        var row = {
-                            ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
+                        if (response[i]["ultseguimiento"] == null) {
+                            table_body += '<td>';
+                            table_body += "N/A"
+                            table_body += '</td>';
+                        } else {
+                            table_body += '<td>';
+                            table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                            table_body += '</td>';
                         }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "En proceso") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_enproceso_" + idreporte).empty().remove();
-                        table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
-                        table_body += "--";
+
+                        table_body += '<td>';
+                        if (response[i]["falla"] == 'aclaraciones') {
+                            table_body += "Aclaraciones";
+                        } else if (response[i]["falla"] == 'callback') {
+                            table_body += "Callback";
+                        } else if (response[i]["falla"] == 'general') {
+                            table_body += "Afectación general";
+                        } else if (response[i]["falla"] == 'cobertura') {
+                            table_body += "Calidad en el servicio/Cobertura";
+                        } else if (response[i]["falla"] == 'iccid') {
+                            table_body += "Cambio de ICCID";
+                        } else if (response[i]["falla"] == 'llamadas') {
+                            table_body += "Falla en llamadas/SMS";
+                        } else if (response[i]["falla"] == 'navegacion') {
+                            table_body += "Falla en navegación";
+                        } else if (response[i]["falla"] == 'recargas') {
+                            table_body += "Recargas";
+                        } else if (response[i]["falla"] == 'promociones') {
+                            table_body += "Promociones";
+                        } else if (response[i]["falla"] == 'servicios') {
+                            table_body += "Alta o baja de servicios";
+                        } else {
+                            table_body += "N/A"
+                        }
                         table_body += '</td>';
 
-                        var row = {
-                            ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
+
+
+
+                        if (response[i]["propietario"] == null) {
+                            table_body += '<td>';
+                            table_body += "N/A"
+                            table_body += '</td>';
+                        } else {
+                            table_body += '<td>';
+                            table_body += response[i]["propietario"];
+                            table_body += '</td>';
                         }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "Solucionado") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_solucionado_" + idreporte).empty().remove();
-                        table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
-                        table_body += "--";
+
+                        table_body += '<td>';
+                        table_body += response[i]["estatus"];
                         table_body += '</td>';
 
-                        var row = {
-                            ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
+                        //BLOQUE QUE HACE RENDER DEL TIEMPO
+                        var idreporte = response[i]["idmetadatos"];
+                        var ultimoestatus = response[i]["estatus"];
+                        if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
+                            table_body += '<td>';
+                            table_body += "--"
+                            table_body += '</td>';
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "Nuevo") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
+
+                            table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+                            var row = {
+                                ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "En proceso") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_enproceso_" + idreporte).empty().remove();
+                            table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+
+                            var row = {
+                                ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "Solucionado") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_solucionado_" + idreporte).empty().remove();
+                            table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+
+                            var row = {
+                                ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
                         }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
+
+
+                        table_body += '</tr>';
                     }
-                    //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
-                    
+                    $('#tbody_maintable').html(table_body);
+                    //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+                    lista_relojes.forEach(element => {
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    });
 
-                    table_body += '</tr>';
-                }
-                $('#tbody_maintable').html(table_body);
-                //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
-                lista_relojes.forEach(element => {
-                    clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                });
-
-                lista_relojes.forEach(element => {
-                    for (key in element) {
-                        if (element.hasOwnProperty(key)) {
-                            if (element[key]) {
-                                $("#" + key).empty();
-                                construirRelojEn(key, element[key]);
+                    lista_relojes.forEach(element => {
+                        for (key in element) {
+                            if (element.hasOwnProperty(key)) {
+                                if (element[key]) {
+                                    $("#" + key).empty();
+                                    construirRelojEn(key, element[key]);
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
-        // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
-            });
+                    // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+                });
+            } else {
+
+                $.post('/get_maintabledata', { filtro: filtro }, function (response) {
+                    var table_body = [];
+                    for (i = 0; i < response.length; i++) {
+                        table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
+
+                        table_body += '<td>';
+                        table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
+                        table_body += '</td>';
+
+
+
+                        table_body += '<td>';
+                        table_body += response[i]["telefono"];
+                        table_body += '</td>';
+
+                        if (response[i]["ultseguimiento"] == null) {
+                            table_body += '<td>';
+                            table_body += "N/A"
+                            table_body += '</td>';
+                        } else {
+                            table_body += '<td>';
+                            table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                            table_body += '</td>';
+                        }
+
+                        table_body += '<td>';
+                        if (response[i]["falla"] == 'aclaraciones') {
+                            table_body += "Aclaraciones";
+                        } else if (response[i]["falla"] == 'callback') {
+                            table_body += "Callback";
+                        } else if (response[i]["falla"] == 'general') {
+                            table_body += "Afectación general";
+                        } else if (response[i]["falla"] == 'cobertura') {
+                            table_body += "Calidad en el servicio/Cobertura";
+                        } else if (response[i]["falla"] == 'iccid') {
+                            table_body += "Cambio de ICCID";
+                        } else if (response[i]["falla"] == 'llamadas') {
+                            table_body += "Falla en llamadas/SMS";
+                        } else if (response[i]["falla"] == 'navegacion') {
+                            table_body += "Falla en navegación";
+                        } else if (response[i]["falla"] == 'recargas') {
+                            table_body += "Recargas";
+                        } else if (response[i]["falla"] == 'promociones') {
+                            table_body += "Promociones";
+                        } else if (response[i]["falla"] == 'servicios') {
+                            table_body += "Alta o baja de servicios";
+                        } else {
+                            table_body += "N/A"
+                        }
+                        table_body += '</td>';
+
+
+
+                        if (response[i]["propietario"] == null) {
+                            table_body += '<td>';
+                            table_body += "N/A"
+                            table_body += '</td>';
+                        } else {
+                            table_body += '<td>';
+                            table_body += response[i]["propietario"];
+                            table_body += '</td>';
+                        }
+
+                        table_body += '<td>';
+                        table_body += response[i]["estatus"];
+                        table_body += '</td>';
+
+                        //BLOQUE QUE HACE RENDER DEL TIEMPO
+                        var idreporte = response[i]["idmetadatos"];
+                        var ultimoestatus = response[i]["estatus"];
+                        if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
+                            table_body += '<td>';
+                            table_body += "--"
+                            table_body += '</td>';
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "Nuevo") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
+
+                            table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+                            var row = {
+                                ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "En proceso") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_enproceso_" + idreporte).empty().remove();
+                            table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+
+                            var row = {
+                                ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        } else if (ultimoestatus == "Solucionado") {
+                            var numero_random = Math.random() * (999999 - 000000) + 000000;
+                            numero_random = parseInt(numero_random);
+                            $("#clock_solucionado_" + idreporte).empty().remove();
+                            table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
+                            table_body += "--";
+                            table_body += '</td>';
+
+                            var row = {
+                                ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
+                            }
+                            lista_relojes.push(row);
+                            clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                        }
+                        //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
+
+
+                        table_body += '</tr>';
+                    }
+                    $('#tbody_maintable').html(table_body);
+                    //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+                    lista_relojes.forEach(element => {
+                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
+                    });
+
+                    lista_relojes.forEach(element => {
+                        for (key in element) {
+                            if (element.hasOwnProperty(key)) {
+                                if (element[key]) {
+                                    $("#" + key).empty();
+                                    construirRelojEn(key, element[key]);
+                                }
+                            }
+                        }
+                    });
+
+                    // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
+
+
+
+                });
+            }
         }else{
-            
-            $.post('/get_maintabledata', { filtro: filtro }, function (response) {
-                var table_body = [];
-                for (i = 0; i < response.length; i++) {
-                    table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
-
-                    table_body += '<td>';
-                    table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
-                    table_body += '</td>';
-
-                    
-
-                    table_body += '<td>';
-                    table_body += response[i]["telefono"];
-                    table_body += '</td>';
-
-                    if (response[i]["ultseguimiento"] == null) {
-                        table_body += '<td>';
-                        table_body += "N/A"
-                        table_body += '</td>';
-                    } else {
-                        table_body += '<td>';
-                        table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
-                        table_body += '</td>';
-                    }
-
-                    table_body += '<td>';
-                    if (response[i]["falla"] == 'aclaraciones') {
-                        table_body += "Aclaraciones";
-                    } else if (response[i]["falla"] == 'callback') {
-                        table_body += "Callback";
-                    } else if (response[i]["falla"] == 'general') {
-                        table_body += "Afectación general";
-                    } else if (response[i]["falla"] == 'cobertura') {
-                        table_body += "Calidad en el servicio/Cobertura";
-                    } else if (response[i]["falla"] == 'iccid') {
-                        table_body += "Cambio de ICCID";
-                    } else if (response[i]["falla"] == 'llamadas') {
-                        table_body += "Falla en llamadas/SMS";
-                    } else if (response[i]["falla"] == 'navegacion') {
-                        table_body += "Falla en navegación";
-                    } else if (response[i]["falla"] == 'recargas') {
-                        table_body += "Recargas";
-                    } else if (response[i]["falla"] == 'promociones') {
-                        table_body += "Promociones";
-                    } else if (response[i]["falla"] == 'servicios') {
-                        table_body += "Alta o baja de servicios";
-                    } else {
-                        table_body += "N/A"
-                    }
-                    table_body += '</td>';
-
-                    
-
-                    if (response[i]["propietario"] == null) {
-                        table_body += '<td>';
-                        table_body += "N/A"
-                        table_body += '</td>';
-                    } else {
-                        table_body += '<td>';
-                        table_body += response[i]["propietario"];
-                        table_body += '</td>';
-                    }
-
-                    table_body += '<td>';
-                    table_body += response[i]["estatus"];
-                    table_body += '</td>';
-
-                    //BLOQUE QUE HACE RENDER DEL TIEMPO
-                    var idreporte = response[i]["idmetadatos"];
-                    var ultimoestatus = response[i]["estatus"];
-                    if (ultimoestatus == "Cerrado" || ultimoestatus == "Rechazado") {
-                        table_body += '<td>';
-                        table_body += "--"
-                        table_body += '</td>';
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "Nuevo") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_nuevo_" + idreporte + numero_random).empty().remove();
-
-                        table_body += '<td id="clock_nuevo_' + idreporte + numero_random + '">';
-                        table_body += "--";
-                        table_body += '</td>';
-                        var row = {
-                            ["clock_nuevo_" + idreporte + numero_random]: response[i]["creado"]
-                        }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "En proceso") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_enproceso_" + idreporte).empty().remove();
-                        table_body += '<td id="clock_enproceso_' + idreporte + numero_random + '">';
-                        table_body += "--";
-                        table_body += '</td>';
-
-                        var row = {
-                            ["clock_enproceso_" + idreporte + numero_random]: response[i]["enproceso_time"]
-                        }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    } else if (ultimoestatus == "Solucionado") {
-                        var numero_random = Math.random() * (999999 - 000000) + 000000;
-                        numero_random = parseInt(numero_random);
-                        $("#clock_solucionado_" + idreporte).empty().remove();
-                        table_body += '<td id="clock_solucionado_' + idreporte + numero_random + '">';
-                        table_body += "--";
-                        table_body += '</td>';
-
-                        var row = {
-                            ["clock_solucionado_" + idreporte + numero_random]: response[i]["solucionado_time"]
-                        }
-                        lista_relojes.push(row);
-                        clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                    }
-                    //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
-                    
-
-                    table_body += '</tr>';
-                }
-                $('#tbody_maintable').html(table_body);
-                //BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
-                lista_relojes.forEach(element => {
-                    clearInterval(clockInterval_rows); //reseteo el contador de la ventana actual
-                });
-
-                lista_relojes.forEach(element => {
-                    for (key in element) {
-                        if (element.hasOwnProperty(key)) {
-                            if (element[key]) {
-                                $("#" + key).empty();
-                                construirRelojEn(key, element[key]);
-                            }
-                        }
-                    }
-                });
-
-                // FIN DE BUCLE PARA ESCRIBIR RELOJES EN IDs CREADOS
-
-                
-                
-            });
+            console.log("Mostrar Errores");
+            $('#tbody_maintable').html("");
+            $('#main_searchbox').hide();
+            $('.container_onlynumber').show();
         }
-        
-        
+    });
 
+    //BUSCAR NUMEROS INDIVIDUALES CON ESTATUS CERRADO O RECHAZADO
+    $("#btn_onlynumber").click(function () { 
+        var buscarnumero = $('#searchbox_onlynumber').val();
+        $.post('/get_maintabledata', { filtro: buscarnumero }, function (response) {
+            var table_body = [];
+            for (i = 0; i < response.length; i++) {
+                table_body += "<tr id='row" + response[i]["idmetadatos"] + "' class='rowdetallesdisponibles' data-idmetadatos='" + response[i]["idmetadatos"] + "' data-tipofalla='" + response[i]["falla"] + "'>";
+
+                table_body += '<td>';
+                table_body += moment(response[i]["creado"]).format('DD/MM/YYYY HH:mm');
+                table_body += '</td>';
+
+
+
+                table_body += '<td>';
+                table_body += response[i]["telefono"];
+                table_body += '</td>';
+
+                if (response[i]["ultseguimiento"] == null) {
+                    table_body += '<td>';
+                    table_body += "N/A"
+                    table_body += '</td>';
+                } else {
+                    table_body += '<td>';
+                    table_body += moment(response[i]["ultseguimiento"]).format('DD/MM/YYYY HH:mm');
+                    table_body += '</td>';
+                }
+
+                table_body += '<td>';
+                if (response[i]["falla"] == 'aclaraciones') {
+                    table_body += "Aclaraciones";
+                } else if (response[i]["falla"] == 'callback') {
+                    table_body += "Callback";
+                } else if (response[i]["falla"] == 'general') {
+                    table_body += "Afectación general";
+                } else if (response[i]["falla"] == 'cobertura') {
+                    table_body += "Calidad en el servicio/Cobertura";
+                } else if (response[i]["falla"] == 'iccid') {
+                    table_body += "Cambio de ICCID";
+                } else if (response[i]["falla"] == 'llamadas') {
+                    table_body += "Falla en llamadas/SMS";
+                } else if (response[i]["falla"] == 'navegacion') {
+                    table_body += "Falla en navegación";
+                } else if (response[i]["falla"] == 'recargas') {
+                    table_body += "Recargas";
+                } else if (response[i]["falla"] == 'promociones') {
+                    table_body += "Promociones";
+                } else if (response[i]["falla"] == 'servicios') {
+                    table_body += "Alta o baja de servicios";
+                } else {
+                    table_body += "N/A"
+                }
+                table_body += '</td>';
+
+
+
+                if (response[i]["propietario"] == null) {
+                    table_body += '<td>';
+                    table_body += "N/A"
+                    table_body += '</td>';
+                } else {
+                    table_body += '<td>';
+                    table_body += response[i]["propietario"];
+                    table_body += '</td>';
+                }
+
+                table_body += '<td>';
+                table_body += response[i]["estatus"];
+                table_body += '</td>';
+
+                //BLOQUE QUE HACE RENDER DEL TIEMPO
+               
+                table_body += '<td>';
+                table_body += "--"
+                table_body += '</td>';
+                
+                //FIN DEL BLOQUE QUE HACE RENDER DEL TIEMPO
+
+
+                table_body += '</tr>';
+            }
+            $('#tbody_maintable').html(table_body);
+        });
+        
     });
 
     //POR DEFAULT SE LLENA LA TABLA CON TODOS LOS REPORTES

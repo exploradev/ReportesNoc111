@@ -353,6 +353,13 @@ module.exports = function(app,io){
                 var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus IN ('Cerrado','Rechazado') AND month(ultseguimiento) = month(now()) AND m.falla = 'promociones' order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
                 break;
 
+            default:
+                var query = "select m.enproceso_time, m.rechazado_time, m.solucionado_time, m.cerrado, m.creado, m.idmetadatos, u.nombre as asesor, m.telefono, m.ultseguimiento, m.falla, m.estatus, us.nombre as propietario from metadatos m left join users u on m.iduser = u.iduser left join users us on m.propietario = us.iduser where m.estatus IN ('Cerrado','Rechazado') AND m.telefono = ? order by (	case		        when m.estatus = 'En proceso'  then m.enproceso_time             when m.estatus = 'Nuevo' then m.creado        when m.estatus = 'Solucionado' then m.solucionado_time    end) asc";
+                var inserts = [filtro];
+                query = mysql.format(query,inserts);
+                break;
+                
+
         }
 
         connection.getConnection(function (err, conn) {

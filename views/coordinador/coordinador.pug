@@ -209,6 +209,18 @@ html(lang="en")
                                 .circulo_conteo#pendientes_promociones 0 
                             span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS/RECHAZADOS','cerrados_promociones')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_promociones 0 
+                        .submenu_item(style="display:none")
+                            span.clickable_filter(data-filter='abiertos_promociones' onclick="setMetadataForBigTable('PROMOCIONES - ABIERTOS','abiertos_promociones')") ABIERTOS
+                                .circulo_conteo#abiertos_promociones 0 
+                            span.clickable_filter(data-filter='nuevos_promociones' onclick="setMetadataForBigTable('PROMOCIONES - NUEVOS','nuevos_promociones')") NUEVOS
+                                .circulo_conteo#nuevos_promociones 0 
+                            span.clickable_filter(data-filter='enproceso_promociones' onclick="setMetadataForBigTable('PROMOCIONES - EN PROCESO','enproceso_promociones')") EN PROCESO
+                                .circulo_conteo#enproceso_promociones 0 
+                            span.clickable_filter(data-filter='pendientes_promociones' onclick="setMetadataForBigTable('PROMOCIONES - SOLUCIONADO','pendientes_promociones')") SOLUCIONADO
+                                .circulo_conteo#pendientes_promociones 0 
+                            span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS/RECHAZADOS','cerrados_promociones')") CERRADO / RECHAZADO
+                                .circulo_conteo#cerrados_promociones 0 
+                        .menu_item.clickable_filter(data-filter='cerradosrechazados' onclick="setMetadataForBigTable('CERRADOS/RECHAZADOS','cerradosrechazados')") CERRADOS / RECHAZADOS
                         
                         
                 #tabla_principal.hideallthis(style="display:none")
@@ -216,6 +228,10 @@ html(lang="en")
                         span
                             span#tiporeporte_header FALLAS
                         input#main_searchbox(type="text" placeholder="BUSCAR...")
+                        .container_onlynumber(style="display:none")
+                            input#searchbox_onlynumber(type="text" placeholder="BUSCAR NUMERO")
+                            button#btn_onlynumber
+                                img(src="../assets/buscar.png" style="height: 15px")
                     table
                         thead
                             tr

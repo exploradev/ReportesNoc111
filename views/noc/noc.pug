@@ -212,13 +212,17 @@ html(lang="en")
                                 .circulo_conteo#pendientes_promociones 0 
                             span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS/RECHAZADOS','cerrados_promociones')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_promociones 0 
-                        
+                        .menu_item.clickable_filter(data-filter='cerradosrechazados' onclick="setMetadataForBigTable('CERRADOS/RECHAZADOS','cerradosrechazados')") CERRADOS / RECHAZADOS
                         
                 #tabla_principal
                     #tablaheader
                         span
                             span#tiporeporte_header FALLAS
                         input#main_searchbox(type="text" placeholder="BUSCAR...")
+                        .container_onlynumber(style="display:none")
+                            input#searchbox_onlynumber(type="text" placeholder="BUSCAR NUMERO")
+                            button#btn_onlynumber
+                                img(src="../assets/buscar.png" style="height: 15px")
                     table
                         thead
                             tr

@@ -131,7 +131,7 @@ module.exports = function(app,io){
         if (hours > 12 && hours < 15){
             //buscar el id del que tenga menos registros de los noc vespertinos directo de db y asignarselo
             //comienza la query de consulta
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
             connection.getConnection(function(err,conn){
                 conn.query(query, function (error, results, field) {
                     if (error) throw error;

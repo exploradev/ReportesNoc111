@@ -295,7 +295,7 @@ module.exports = function(app,io){
         */
 
         //DEFINO LA QUERY PARA CREAR LA TABLA
-        var query_head = "CREATE TABLE ?? (id int(11) NOT NULL AUTO_INCREMENT,asesor varchar(200) DEFAULT NULL, creado timestamp NULL DEFAULT CURRENT_TIMESTAMP,";
+        var query_head = "CREATE TABLE ?? (id int(11) NOT NULL AUTO_INCREMENT,asesor varchar(200) DEFAULT NULL,ipaddr varchar(45) DEFAULT NULL, creado timestamp NULL DEFAULT CURRENT_TIMESTAMP,";
         var query_body = "";
         var query_footer = " PRIMARY KEY (id)) ENGINE = InnoDB DEFAULT CHARSET = utf8";
 
@@ -511,7 +511,7 @@ module.exports = function(app,io){
                             res.send(error.sqlMessage);
                             console.log(error);
                         } else {
-
+                            console.log()
                             //COMIENZA CONSTRUCCION DE QUERY INSERCION ///////////////////////////////////////////////////////////////////////////
                             Object.keys(field).forEach(function (key) {
                                 var row = field[key];
@@ -523,11 +523,13 @@ module.exports = function(app,io){
                             //SE INSERTAN LOS DATOS
                             //INSERT INTO nombre_tabla(names_array) VALUES(parametros)
                             parametros.splice(0,1);
+                            
+                            parametros.unshift(req.connection.remoteAddress)
                             console.log(parametros);
-                            var query_header = "INSERT INTO " + nombre_tabla+"(asesor";
+                            var query_header = "INSERT INTO " + nombre_tabla+"(ipaddr,asesor";
                             //------------------------------------------------------
                             var query_body1 = "";
-                            for(i=3;i<names_array.length;i++){
+                            for(i=4;i<names_array.length;i++){
                                 query_body1 += "," + names_array[i];
                             }
                             //------------------------------------------------------

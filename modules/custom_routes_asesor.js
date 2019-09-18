@@ -256,7 +256,7 @@ module.exports = function(app,io){
 
     //COBERTURA OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_cobertura', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -304,8 +304,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr, estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -367,7 +367,7 @@ module.exports = function(app,io){
 
     //ACLARACIONES OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_aclaracion', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -404,8 +404,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado,  estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado,  estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -460,7 +460,7 @@ module.exports = function(app,io){
 
     //CALLBACK OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_callback', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -498,8 +498,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -557,7 +557,7 @@ module.exports = function(app,io){
 
     //GENERAL OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_general', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -596,8 +596,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr, estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -655,7 +655,7 @@ module.exports = function(app,io){
 
     //ICCIDOK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_iccid', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -697,8 +697,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -756,7 +756,7 @@ module.exports = function(app,io){
 
     //LLAMADAS / SMS OK DOBLE CAPA ANTI DUPLICADOS
     app.post('/guardar_llamadas', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -800,8 +800,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -859,7 +859,7 @@ module.exports = function(app,io){
 
     //FALLAS EN NAVEGACIÓN
     app.post('/guardar_navegacion', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -901,8 +901,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -960,7 +960,7 @@ module.exports = function(app,io){
 
     //FALLAS EN RECARGAS
     app.post('/guardar_recargas', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -1006,8 +1006,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -1065,7 +1065,7 @@ module.exports = function(app,io){
 
     //FALLAS EN PROMOCIONES
     app.post('/guardar_promociones', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -1106,8 +1106,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {
@@ -1165,7 +1165,7 @@ module.exports = function(app,io){
 
     //FALLAS EN SERVICIOS
     app.post('/guardar_servicios', middleware.requireLogin, function (req, res) {
-
+        let ipaddr = req.connection.remoteAddress
         //se reciben los parametros del lado del cliente
 
         var iduser = req.body.iduser;
@@ -1205,8 +1205,8 @@ module.exports = function(app,io){
                     connection.getConnection(function (err, pool) {
                         pool.beginTransaction(function (err) {
                             if (err) throw err;
-                            var query = "INSERT INTO metadatos(estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?)";
-                            var inserts = [estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
                             query = mysql.format(query, inserts);
 
                             pool.query(query, function (err, result) {

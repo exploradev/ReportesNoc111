@@ -45,7 +45,7 @@ $(document).ready(function () {
     $("#btn_actualizarrepsup").click(function () { 
         valselect = $("#estatusrepsuper").val();
         if (valselect != "") {
-            if (valselect == "Cerrado") {
+            
                 comentarios = $('#textarearepsup').val();
                 if (comentarios != "") {
                     //preparo datos de envio con cierre
@@ -58,8 +58,21 @@ $(document).ready(function () {
                         function (response) {
                             if (response == "Correcto") {
                                 alert("Actualizado correctamente");
-                                $('.closebuttonn').trigger('click');
+                                //$('.closebuttonn').trigger('click');
                                 getTablePreview();
+                                //------------------------
+                                //AJAX DE DETALLES DE PERFIL
+                                    $.post('/getDetailsSupervisor',{idsupervision:idreporte},function(response){
+                                        console.table(response);
+                                        
+                                        for(i=0;i<response.length;i++){
+                                            
+
+                                            $("#comentario_cierre").html(response[i]["comentario"]);
+                                            
+                                        }
+                                    });
+                                //------------------------
                             } else {
                                 alert("Error: " + response)
                             }
@@ -68,24 +81,7 @@ $(document).ready(function () {
                 } else {
                     alert('Ingresar comentarios de cierre')
                 }
-            }else{
-                //preparo datos de envio sin cierre
-                idreporte = $('#detalles_supervisor_id').html()
-                supervisor = $('body').data('iduser');
-                estatus = $('#estatusrepsuper').val();
-                comentarios = "";
-
-                $.post("/updateDetailsSupervisor", { idreporte: idreporte, supervisor: supervisor, estatus: estatus, comentarios: comentarios },
-                    function (response) {
-                        if (response == "Correcto") {
-                            alert("Actualizado correctamente");
-                            $('.closebuttonn').trigger('click');
-                            getTablePreview();
-                        } else {
-                            alert("Error: " + response)
-                        }
-                    });
-            }
+            
             
         }else{
             alert("Selecciona un estatus nuevo")
@@ -111,15 +107,15 @@ $(document).ready(function () {
     });
 
     //EVENTO PARA MOSTRAR TEXTAREA DE COMENTARIO DE CIERRE AL VALUE "CERRADO"
-    $("#estatusrepsuper").change(function () { 
-        var value = $(this).val();
+    // $("#estatusrepsuper").change(function () { 
+    //     var value = $(this).val();
 
-        if (value=="Cerrado"){
-            $("#hideshow_textarea").show();
-        }else{
-            $("#hideshow_textarea").hide();
-        }
-    });
+    //     if (value=="Cerrado"){
+    //         $("#hideshow_textarea").show();
+    //     }else{
+    //         $("#hideshow_textarea").hide();
+    //     }
+    // });
 
     getTablePreview = function(){
         $.get('/getPreviewTableSuper',function(response){

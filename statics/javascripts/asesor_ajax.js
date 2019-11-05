@@ -1162,20 +1162,22 @@ $(document).ready(function(){
         //validar que campo no este vacio
         let numero = $('#numero_referido_tmk').val();
         let nombre = $('#asesorname').html();
+        let observaciones = $('#observaciones_referido_tmk').val();
         if (numero != ""){
             if (isNaN(numero) || numero.length != 10){
                 alert("Ingresa un número telefonico a 10 dígitos")
             }else{
-                $.post('/set_referido',{numero:numero,nombre:nombre},function(response){
+                $.post('/set_referido',{observaciones:observaciones,numero:numero,nombre:nombre},function(response){
                     if(response == "ok"){
                         $('#numero_referido_tmk').val("");
+                        $('#observaciones_referido_tmk').val("");
                         alert("Guardado correctamente")
                     }else{
                         alert("Error: "+ response);
                     }
                 });
             }
-        }else{alert("Ingresar número")}
+        }else{alert("Ingresar número como mínimo")}
     });
 
     //vista de modal de tmk

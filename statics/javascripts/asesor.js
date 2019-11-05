@@ -14,7 +14,7 @@ $(document).ready(function(){
             $('#asesor_modal_fallasmasivas').css('display', 'none');
             $('#asesor_modal_reportessupervisor').css('display', 'none');
             $('#modal_checklist').css('display', 'none');
-
+            $('#modal_referidos').hide();
             $('#overlay-back').css('display', 'none');
             $('body').removeClass('modal-open');
             reset_all();

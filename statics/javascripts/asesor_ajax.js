@@ -1155,4 +1155,75 @@ $(document).ready(function(){
     //al dar click al boton de atras se deben resetear los campos del modal de detalle
     //al dar esc se cierran todos los modales y se resetea todo
 
+
+
+    //CODIGO PARA ENVIAR REFERIDOS A TELEMARKETING
+    $('#btn_sendreferido').click(function(){
+        //validar que campo no este vacio
+        let numero = $('#numero_referido_tmk').val();
+        let nombre = $('#asesorname').html();
+        if (numero != ""){
+            if (isNaN(numero) || numero.length != 10){
+                alert("Ingresa un número telefonico a 10 dígitos")
+            }else{
+                $.post('/set_referido',{numero:numero,nombre:nombre},function(response){
+                    if(response == "ok"){
+                        $('#numero_referido_tmk').val("");
+                        alert("Guardado correctamente")
+                    }else{
+                        alert("Error: "+ response);
+                    }
+                });
+            }
+        }else{alert("Ingresar número")}
+    });
+
+    //vista de modal de tmk
+
+    $('#btn_modalreferidos').click(function(){
+        $('#modal_referidos').show();
+        $('#overlay-back').show();
+    });
+
+
+    $('.close_referidos').click(function(){
+        $('#modal_referidos').hide();
+        $('#overlay-back').hide();
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });

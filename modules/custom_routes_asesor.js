@@ -1,6 +1,7 @@
 middleware = require('./middlewares');
 var mysql = require('mysql');
 var connection = require('./db');
+var connectionTMK = require('./db_tmk');
 var moment = require('moment');
 
 
@@ -1417,13 +1418,29 @@ module.exports = function(app,io){
             });
             conn.release();
         });
-
-
-        
-
-
     });
     
+    //ENVIA REFERIDOS A LA BASE DE DATOS DE TELEMARKETING
+    //OJO CON LA CONEXION
+    app.post('/set_referido',middleware.requireLogin,function(req,res){
+        console.log(req.body.nombre)
+        console.log(req.body.numero)
+
+        let query = "INSERT INTO refered SET asesor = ?, telefono = ?";
+        let inserts = [req.body.nombre,req.body.numero];
+        query = mysql.format(query,inserts);
+        connectionTMK.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error){
+                    res.send(error.sqlMessage)
+                }else{
+                    res.send("ok");
+                }
+            });
+            conn.release();
+        });
+    });
+
     
 
     

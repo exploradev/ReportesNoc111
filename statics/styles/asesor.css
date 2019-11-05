@@ -886,7 +886,7 @@ textarea.inputsasesorforsup {
 .campodetalle_super {
   margin-top: 20px; }
 
-#btn_nuevoreportesupervisor, #btn_modalchecklist {
+#btn_nuevoreportesupervisor, #btn_modalchecklist, #btn_modalreferidos {
   border: 1px solid #3F4658;
   background-color: #454C5F;
   margin-left: 5px;
@@ -895,21 +895,21 @@ textarea.inputsasesorforsup {
   border-radius: 3px;
   color: white;
   font-size: 60%; }
-  #btn_nuevoreportesupervisor:hover, #btn_modalchecklist:hover {
+  #btn_nuevoreportesupervisor:hover, #btn_modalchecklist:hover, #btn_modalreferidos:hover {
     background-color: #3F4658;
     border: none; }
 
-#modal_checklist {
+#modal_checklist, #modal_referidos {
   min-height: 480px;
   max-height: 480px;
   width: 600px;
   background-color: white; }
 
-#body_checklist {
+#body_checklist, #body_referidos {
   padding: 20px;
   font-size: 85%; }
 
-#header_checklist {
+#header_checklist, #header_referidos {
   display: flex;
   justify-content: space-between;
   height: 50px;
@@ -921,39 +921,39 @@ textarea.inputsasesorforsup {
   box-shadow: 0px 1px 6px -2px rgba(0, 0, 0, 0.75);
   color: #2B3748; }
 
-#select_checklist {
+#select_checklist, #select_referidos {
   display: flex;
   flex-direction: column; }
-  #select_checklist select {
+  #select_checklist select, #select_referidos select {
     width: 55%; }
-  #select_checklist label {
+  #select_checklist label, #select_referidos label {
     font-size: 80%;
     font-weight: bold; }
 
-#titlesection_checklist {
+#titlesection_checklist, #titlesection_referidos {
   font-size: 105%;
   font-weight: bold; }
 
-#bodycontent_checklist {
+#bodycontent_checklist, #bodycontent_referidos {
   font-size: 85%;
   font-weight: bold;
   height: 225px; }
 
-.checklist_inputcontainer {
+.referidos_inputcontainer {
   display: flex;
   align-items: baseline; }
-  .checklist_inputcontainer input {
+  .referidos_inputcontainer input {
     margin-right: 10px; }
-  .checklist_inputcontainer input, .checklist_inputcontainer label {
+  .referidos_inputcontainer input, .referidos_inputcontainer label {
     cursor: pointer; }
 
-#footer_checklist {
+#footer_checklist, #footer_referidos {
   position: absolute;
   bottom: 15px;
   right: 15px;
   display: flex;
   justify-content: flex-end; }
-  #footer_checklist button {
+  #footer_checklist button, #footer_checklist #btn_sendreferido, #footer_referidos button, #footer_referidos #btn_sendreferido {
     margin-top: 15px;
     border: 1px solid #3F4658;
     border-radius: 5px;
@@ -961,9 +961,21 @@ textarea.inputsasesorforsup {
     color: white;
     width: 100px;
     height: 35px; }
-    #footer_checklist button:hover {
+    #footer_checklist button:hover, #footer_checklist #btn_sendreferido:hover, #footer_referidos button:hover, #footer_referidos #btn_sendreferido:hover {
       background-color: #4B5367;
       color: white; }
+
+#btn_sendreferido {
+  margin-top: 15px;
+  border: 1px solid #3F4658;
+  border-radius: 5px;
+  background-color: #3F4658;
+  color: white;
+  width: 100px;
+  height: 35px; }
+  #btn_sendreferido:hover {
+    background-color: #4B5367;
+    color: white; }
 
 .aux_checklist {
   margin-top: 15px; }

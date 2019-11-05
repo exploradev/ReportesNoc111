@@ -971,7 +971,7 @@ textarea.inputsasesorforsup
 .campodetalle_super
     margin-top: 20px
 
-#btn_nuevoreportesupervisor, #btn_modalchecklist
+#btn_nuevoreportesupervisor, #btn_modalchecklist, #btn_modalreferidos
     border: 1px solid #3F4658
     background-color: #454C5F
     margin-left: 5px
@@ -987,15 +987,15 @@ textarea.inputsasesorforsup
 
 
 //CHECKLIST ESTILOS ACA
-#modal_checklist
+#modal_checklist, #modal_referidos
     min-height: 480px 
     max-height: 480px 
     width: 600px
     background-color: white
-#body_checklist
+#body_checklist, #body_referidos
     padding: 20px
     font-size: 85%
-#header_checklist
+#header_checklist,#header_referidos
     display: flex
     justify-content: space-between
     height: 50px
@@ -1006,10 +1006,10 @@ textarea.inputsasesorforsup
     padding-right: 15px
     box-shadow: 0px 1px 6px -2px rgba(0,0,0,0.75)
     color: #2B3748
-#subtitle_checklist
+#subtitle_checklist, #subtitle_referidos
     //color: #616A72
     //font-weight: bold
-#select_checklist
+#select_checklist, #select_referidos
     display: flex
     flex-direction: column
     select
@@ -1018,27 +1018,27 @@ textarea.inputsasesorforsup
         font-size: 80%
         font-weight: bold
     
-#titlesection_checklist
+#titlesection_checklist, #titlesection_referidos
     font-size: 105%
     font-weight: bold
-#bodycontent_checklist
+#bodycontent_checklist, #bodycontent_referidos
     font-size: 85%
     font-weight: bold
     height: 225px
-.checklist_inputcontainer
+.referidos_inputcontainer
     input
         margin-right: 10px
     input,label
         cursor: pointer
     display: flex
     align-items: baseline
-#footer_checklist
+#footer_checklist, #footer_referidos
     position: absolute
     bottom: 15px
     right: 15px
     display: flex
     justify-content: flex-end
-    button
+    button, #btn_sendreferido
         margin-top: 15px
         
         border: 1px solid #3F4658
@@ -1051,6 +1051,18 @@ textarea.inputsasesorforsup
             background-color: #4B5367
             color: white
 
+#btn_sendreferido
+    margin-top: 15px
+    
+    border: 1px solid #3F4658
+    border-radius: 5px
+    background-color: #3F4658
+    color: white
+    width: 100px
+    height: 35px
+    &:hover
+        background-color: #4B5367
+        color: white
 
 .aux_checklist
     margin-top: 15px

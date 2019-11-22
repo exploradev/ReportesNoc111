@@ -109,7 +109,13 @@ module.exports = function(app,io){
     });
 
     app.post('/referidos_ultimomes',middleware.requireLogin,function(req,res){
-        let query = "SELECT * FROM refered WHERE month(creado) = month(now()) and year(creado) = year(now())";
+        let query = `SELECT * FROM refered WHERE 
+            (month(creado) = month(now()) and
+            year(creado) = year(now()))  
+            OR
+            (YEAR(creado) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND
+            MONTH(creado) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH))
+            `;
         
         connectionTMK.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {

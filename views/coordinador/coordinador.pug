@@ -248,6 +248,7 @@ html(lang="en")
                     #tablaheader
                         span
                             span#tiporeporte_header REPORTES SUPERVISOR
+
                         input#main_searchbox_supervisor(type="text" placeholder="BUSCAR...")
                     table
                         thead
@@ -263,6 +264,8 @@ html(lang="en")
                             
                 #dashboard.hideallthis(style="display:none")
                     p REPORTES SUPERVISOR
+                    span#btn_download_referidos Reporte referidos del mes 
+                                img(src="/assets/download.png" style="height:15px")
                     #conteo_repsupervisor.container_grafica
                         .container_estatus
                             p.titulo_estatus Nuevos

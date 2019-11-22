@@ -1518,4 +1518,10 @@ tbody td, thead th {
     #rightside table tbody {
       color: #4B5367; }
 
+#btn_download_referidos {
+  color: white !important;
+  font-size: 90% !important; }
+  #btn_download_referidos:hover {
+    cursor: pointer; }
+
 /*# sourceMappingURL=coordinador.css.map */

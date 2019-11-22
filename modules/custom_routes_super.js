@@ -1,6 +1,7 @@
 middleware = require('./middlewares');
 var mysql = require('mysql');
 var connection = require('./db');
+var connectionTMK = require('./db_tmk');
 var moment = require('moment');
 
 
@@ -101,6 +102,21 @@ module.exports = function(app,io){
                 } else {
                     res.send("Correcto");
                     io.emit('new', 'nuevo_seguimiento_super');
+                }
+            });
+            conn.release();
+        });
+    });
+
+    app.post('/referidos_ultimomes',middleware.requireLogin,function(req,res){
+        let query = "SELECT * FROM refered WHERE month(creado) = month(now()) and year(creado) = year(now())";
+        
+        connectionTMK.getConnection(function (err, conn) {
+            conn.query(query, function (error, results, field) {
+                if (error){
+                    res.send(error.sqlMessage)
+                }else{
+                    res.send(results);
                 }
             });
             conn.release();

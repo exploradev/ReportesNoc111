@@ -4,7 +4,7 @@ $(document).ready(function () {
 //-----------------------------------------------------------------------
 //-------------------------------WEBSOCKETS------------------------------
 //-----------------------------------------------------------------------
-    socket = io.connect('http://192.168.3.62:2264');
+    socket = io.connect('http://'+location.host);
 
     socket.on('default_handshake', function (msg) {
         //REPORTE A SERVER AL CARGAR

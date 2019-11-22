@@ -983,4 +983,7 @@ textarea.inputsasesorforsup {
 .myFont {
   font-size: 80%; }
 
+.hidethisradios + img {
+  cursor: pointer; }
+
 /*# sourceMappingURL=asesor.css.map */

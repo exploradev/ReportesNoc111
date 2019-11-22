@@ -7,7 +7,7 @@ $(document).ready(function(){
         //-----------------------------------------------------------------------
         //-------------------------------WEBSOCKETS------------------------------
         //-----------------------------------------------------------------------
-        socket = io.connect('http://192.168.3.62:2264');
+        socket = io.connect('http://'+location.host);
         //var socket = io.connect('http://localhost:2264');
         
         socket.on('new', function (msg) {

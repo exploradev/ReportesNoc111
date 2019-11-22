@@ -1163,14 +1163,21 @@ $(document).ready(function(){
         let numero = $('#numero_referido_tmk').val();
         let nombre = $('#asesorname').html();
         let observaciones = $('#observaciones_referido_tmk').val();
+        let estatus = $('.hidethisradios:checked').val();
+        console.log(estatus)
         if (numero != ""){
             if (isNaN(numero) || numero.length != 10){
                 alert("Ingresa un número telefonico a 10 dígitos")
+            }else if(estatus == "" || estatus == undefined){
+                alert("Selecciona un estatus, validando previamente en el integrador")
+            }else if(estatus == "rojo"){
+                alert("No es posible enviar un numero en lista negra")
             }else{
                 $.post('/set_referido',{observaciones:observaciones,numero:numero,nombre:nombre},function(response){
                     if(response == "ok"){
                         $('#numero_referido_tmk').val("");
                         $('#observaciones_referido_tmk').val("");
+                        $('.hidethisradios:checked').prop("checked",false);
                         alert("Guardado correctamente")
                     }else{
                         alert("Error: "+ response);
@@ -1191,6 +1198,13 @@ $(document).ready(function(){
     $('.close_referidos').click(function(){
         $('#modal_referidos').hide();
         $('#overlay-back').hide();
+    });
+
+    $('.hidethisradios').change(function(){
+        let value = $(this).val()
+        if(value == "rojo"){
+            alert("No es posible enviar este número ya que esta dado de alta en lista negra")
+        }
     });
 
 

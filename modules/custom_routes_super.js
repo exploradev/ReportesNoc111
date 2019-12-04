@@ -109,7 +109,7 @@ module.exports = function(app,io){
     });
 
     app.post('/referidos_ultimomes',middleware.requireLogin,function(req,res){
-        let query = `SELECT id, DATE_FORMAT(creado, '%d-%b-%y %H:%m:%s') as creado, asesor, telefono,status,observaciones FROM refered WHERE 
+        let query = `SELECT id, DATE_FORMAT(creado, '%d-%b-%y %H:%i:%s') as creado, asesor, telefono,status,observaciones FROM refered WHERE 
             (month(creado) = month(now()) and
             year(creado) = year(now()))  
             OR

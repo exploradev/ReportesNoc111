@@ -193,6 +193,13 @@ module.exports = function(app,io){
                 conn.query(query, function (error, results, field) {
                     if (error) throw error;
                     results.forEach(element => {
+                        if (element.cerrado) {
+                            element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                             
+                        }
+
+
+
                         if (element.creado) {
                             element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
 
@@ -200,9 +207,7 @@ module.exports = function(app,io){
                         if (element.ultseguimiento) {
                             element.ultseguimiento = moment(element.ultseguimiento).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
                         }
-                        if (element.cerrado) {
-                            element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
-                        }
+
 
                         if (element.iccidvirtual) {
                             element.iccidvirtual = "'" + element.iccidvirtual;
@@ -233,6 +238,11 @@ module.exports = function(app,io){
                     results.forEach(element => {
                         if (element.creado) {
                             element.creado = moment(element.creado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                        }
+
+                        if (element.cerrado) {
+                            element.cerrado = moment(element.cerrado).format('DD[/]MM[/]YYYY[ ]HH[:]mm[:]ss');
+                             
                         }
                     });
                     res.send(results);

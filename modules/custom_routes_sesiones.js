@@ -16,11 +16,11 @@ module.exports = function (app, io) {
 
     //DASHBOARD -----------------------------------------------------------------------
     app.get('/dashboard', middleware.requireLogin, function (req, res) {
-        if ((req.session.profile === 6) || (req.session.profile === 3)) {
+        if ((req.sessiondsc.profile === 6) || (req.sessiondsc.profile === 3)) {
             res.render('dashboard', {
-                name: req.session.name,
-                campaign: req.session.campaign,
-                iduser: req.session.iduser
+                name: req.sessiondsc.name,
+                campaign: req.sessiondsc.campaign,
+                iduser: req.sessiondsc.iduser
             });
         } else {
             res.redirect('/');
@@ -36,10 +36,10 @@ module.exports = function (app, io) {
     
 
     app.get('/coordinador', middleware.requireLogin, function (req, res) {
-        if (req.session.profile === 'coordinador') {
+        if (req.sessiondsc.profile === 'coordinador') {
             res.render('coordinador/coordinador', {
-                name: req.session.name,
-                iduser: req.session.iduser
+                name: req.sessiondsc.name,
+                iduser: req.sessiondsc.iduser
             });
         } else {
             res.redirect('/supervisor');
@@ -47,10 +47,10 @@ module.exports = function (app, io) {
     });
 
     app.get('/supervisor', middleware.requireLogin, function (req, res) {
-        if (req.session.profile === 'supervisor') {
+        if (req.sessiondsc.profile === 'supervisor') {
             res.render('supervisor/supervisor', {
-                name: req.session.name,
-                iduser: req.session.iduser
+                name: req.sessiondsc.name,
+                iduser: req.sessiondsc.iduser
             });
         } else {
             res.redirect('/noc');
@@ -58,10 +58,10 @@ module.exports = function (app, io) {
     });
 
     app.get('/noc', middleware.requireLogin, function (req, res) {
-        if (req.session.profile === 'noc') {
+        if (req.sessiondsc.profile === 'noc') {
             res.render('noc/noc', {
-                name: req.session.name,
-                iduser: req.session.iduser
+                name: req.sessiondsc.name,
+                iduser: req.sessiondsc.iduser
             });
         } else {
             res.redirect('/asesor');
@@ -69,10 +69,10 @@ module.exports = function (app, io) {
     });
 
     app.get('/asesor', middleware.requireLogin, function (req, res) {
-        if (req.session.profile === 'asesor') {
+        if (req.sessiondsc.profile === 'asesor') {
             res.render('asesor/asesor', {
-                name: req.session.name,
-                iduser: req.session.iduser
+                name: req.sessiondsc.name,
+                iduser: req.sessiondsc.iduser
             });
         } else {
             res.redirect('/coordinador');
@@ -118,25 +118,25 @@ module.exports = function (app, io) {
                 var mysql_name = result.nombre;
                 
                 if ((mysql_password === password) && (estatus == 'activo')) {
-                    req.session.user = mysql_username;
-                    req.session.profile = mysql_profile;
-                    req.session.iduser = mysql_id;
-                    req.session.name = mysql_name;
+                    req.sessiondsc.user = mysql_username;
+                    req.sessiondsc.profile = mysql_profile;
+                    req.sessiondsc.iduser = mysql_id;
+                    req.sessiondsc.name = mysql_name;
 
 
 
-                    if (req.session.profile == 'asesor') { //asesor
+                    if (req.sessiondsc.profile == 'asesor') { //asesor
                         res.send('asesor');
-                        timestamp_lastlogin(req.session.iduser);
-                    } else if (req.session.profile == 'noc') { //analista
+                        timestamp_lastlogin(req.sessiondsc.iduser);
+                    } else if (req.sessiondsc.profile == 'noc') { //analista
                         res.send('noc');
-                        timestamp_lastlogin(req.session.iduser);
-                    } else if (req.session.profile == 'supervisor') { //supervisor
+                        timestamp_lastlogin(req.sessiondsc.iduser);
+                    } else if (req.sessiondsc.profile == 'supervisor') { //supervisor
                         res.send('supervisor');
-                        timestamp_lastlogin(req.session.iduser);
-                    } else if (req.session.profile == 'coordinador') { //cerrador
+                        timestamp_lastlogin(req.sessiondsc.iduser);
+                    } else if (req.sessiondsc.profile == 'coordinador') { //cerrador
                         res.send('coordinador');
-                        timestamp_lastlogin(req.session.iduser);
+                        timestamp_lastlogin(req.sessiondsc.iduser);
                     } 
                 } else {
                     res.send('error');
@@ -151,7 +151,7 @@ module.exports = function (app, io) {
 
         function timestamp_lastlogin(iduser) {
             var query = "UPDATE users SET ultimologin = now() WHERE iduser = ?";
-            var inserts = [req.session.iduser];
+            var inserts = [req.sessiondsc.iduser];
             query = mysql.format(query,inserts);
             connection.getConnection(function(err,conn){
                 conn.query(query, function (error, results, field) {
@@ -165,7 +165,7 @@ module.exports = function (app, io) {
     });
 
     app.get('/logout', function (req, res) {
-        req.session.reset();
+        req.sessiondsc.reset();
         //capturasFromNodeJS = "";
         res.redirect('/');
 

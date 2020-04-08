@@ -70,7 +70,7 @@ module.exports = function(app,io){
 
 
     app.post('/getTotalReportes', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -82,7 +82,7 @@ module.exports = function(app,io){
     }); //fin del /getTotalReportes
 
     app.post('/getConteoDiarioAclaraciones', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'aclaraciones' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'aclaraciones' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -94,7 +94,7 @@ module.exports = function(app,io){
     }); //fin del /getTotalReportes
 
     app.post('/getConteoDiarioCallback', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'callback' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'callback' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -106,7 +106,7 @@ module.exports = function(app,io){
     }); //fin del /getTotalReportes
 
     app.post('/getConteoDiarioCobertura', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'cobertura' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'cobertura' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -119,7 +119,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioGeneral', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'general' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'general' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -132,7 +132,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioICCID', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'iccid' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'iccid' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -145,7 +145,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioLlamadas', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'llamadas' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'llamadas' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -158,7 +158,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioPromociones', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'promociones' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'promociones' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -171,7 +171,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioRecargas', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'recargas' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'recargas' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -184,7 +184,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioServicios', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'servicios' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'servicios' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;
@@ -197,7 +197,7 @@ module.exports = function(app,io){
 
 
     app.post('/getConteoDiarioNavegacion', middleware.requireLogin, function (req, res) {
-        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'navegacion' AND month(creado) = month(now()) group by day(creado) order by day(creado) ASC";
+        var query = "SELECT day(creado) as dia, count(falla) as fallas from metadatos where falla = 'navegacion' AND month(creado) = month(now()) and year(creado) = year(now()) group by day(creado) order by day(creado) ASC";
         connection.getConnection(function(err,conn){
             conn.query(query, function (error, results, field) {
                 if (error) throw error;

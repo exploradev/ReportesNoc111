@@ -158,7 +158,7 @@ module.exports = function(app,io){
 
         if(tipo == "global"){
             tipo = "vista_metadatos";
-            var query = "SELECT * from ?? where creado between ? and ?";
+            var query = "SELECT * from ?? where creado between date(?) and date(?)";
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts);
             
@@ -186,7 +186,7 @@ module.exports = function(app,io){
         } else if (tipo == 'users' || tipo == 'metadatos'){
             res.send("Error");
         }else if(tablas_estaticas.indexOf(tipo)!=-1){
-            var query = "SELECT * FROM ?? aux LEFT JOIN vista_metadatos v on v.idmetadatos = aux.idmetadatos where v.creado between ? and ?";
+            var query = "SELECT * FROM ?? aux LEFT JOIN vista_metadatos v on v.idmetadatos = aux.idmetadatos where v.creado between date(?) and date(?)";
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts)
             connection.getConnection(function(err,conn){
@@ -228,7 +228,7 @@ module.exports = function(app,io){
             });
             
         }else{
-            var query = "SELECT * from ?? where creado between ? and ?";
+            var query = "SELECT * from ?? where creado between date(?) and date(?)";
             
             var inserts = [tipo, desde, hasta];
             query = mysql.format(query, inserts)

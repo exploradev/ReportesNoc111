@@ -41,7 +41,7 @@ module.exports = function(app,io){
 
     //OBTENER PREVISUALIZACION DE TABLA
     app.get('/getPreviewTableSuper', middleware.requireLogin, function (req, res){
-        var query = "SELECT s.creado, s.idsupervision, u.nombre as asesor,s.numero,s.estatus,s.cerrado, us.nombre as propietario FROM supervision s LEFT JOIN users u on u.iduser = s.asesor LEFT JOIN users us on us.iduser = s.supervisor WHERE(s.estatus in ('Nuevo', 'En proceso')) OR(s.estatus = 'Cerrado' AND month(now()) = month(s.creado)) ORDER BY CREADO";
+        var query = "SELECT s.creado, s.idsupervision, u.nombre as asesor,s.numero,s.estatus,s.cerrado, us.nombre as propietario FROM supervision s LEFT JOIN users u on u.iduser = s.asesor LEFT JOIN users us on us.iduser = s.supervisor WHERE(s.estatus in ('Nuevo', 'En proceso')) OR(s.estatus = 'Cerrado' and year(s.creado) = year(now()) AND month(now()) = month(s.creado)) ORDER BY CREADO";
         connection.getConnection(function(err,conn){
             conn.query(query,function(error,results){
                 if(error){

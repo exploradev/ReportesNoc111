@@ -132,7 +132,7 @@ module.exports = function(app,io){
         if (hours > 12 && hours < 14){
             //buscar el id del que tenga menos registros de los noc vespertinos directo de db y asignarselo
             //comienza la query de consulta
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
             connection.getConnection(function(err,conn){
                 conn.query(query, function (error, results, field) {
                     if (error) throw error;
@@ -152,7 +152,7 @@ module.exports = function(app,io){
             
         }else if(hours > 19 && hours < 24){ //si la captura esta entre las 8 y 11 pm
             //buscar el id del que tenga menos registros de los noc matutinos directo de db y asignarselo
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
 
             connection.getConnection(function(err,conn){
                 conn.query(query, function (error, results, field) {
@@ -181,7 +181,7 @@ module.exports = function(app,io){
             
             //comienza la query de consulta
             //console.log(usuarios_conectados_ids);
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.iduser IN(?) AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.iduser IN(?) AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
             var inserts = [usuarios_conectados_ids];
             query = mysql.format(query,inserts);
             connection.getConnection(function(err,conn){
@@ -206,7 +206,7 @@ module.exports = function(app,io){
         }else{
             if(hours > 1 && hours < 13){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
                 //buscar el que tiene menos del turno matutino y asignarlo
-                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
                 connection.getConnection(function(err,conn){
                     conn.query(query, function (error, results, field) {
                         if (error) throw error;
@@ -226,7 +226,7 @@ module.exports = function(app,io){
                 
             }else if(hours > 14 && hours < 20){
                 //buscar el que tiene menos del turno vespertino y asignarlo
-                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now())  group by u.iduser order by capturas asc limit 1";
+                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
                 connection.getConnection(function(err,conn){
                     conn.query(query, function (error, results, field) {
                         if (error) throw error;
@@ -291,7 +291,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function(errors,connectit){
             
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado,tipodefallareportada];
             duplicidad = mysql.format(duplicidad,inserts_duplicidad);
 
@@ -391,7 +391,7 @@ module.exports = function(app,io){
         
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -485,7 +485,7 @@ module.exports = function(app,io){
         //VALIDAR SI LA INSERCION EXISTE, SINO NO HACERLA
         connection.getConnection(function(errors,connectit){
             
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado,tipodefallareportada];
             duplicidad = mysql.format(duplicidad,inserts_duplicidad);
 
@@ -582,7 +582,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -683,7 +683,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -786,7 +786,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -887,7 +887,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -992,7 +992,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -1092,7 +1092,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 
@@ -1191,7 +1191,7 @@ module.exports = function(app,io){
 
         connection.getConnection(function (errors, connectit) {
 
-            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
             var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
             duplicidad = mysql.format(duplicidad, inserts_duplicidad);
 

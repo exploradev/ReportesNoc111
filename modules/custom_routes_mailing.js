@@ -48,7 +48,7 @@ module.exports = function(app,io){
         }
     });
 
-    cron.schedule('0 8 * * 1', () => { 
+    cron.schedule('0 7 * * 1', () => { 
         if(envio_summary == 'SI'){
             run_summary();
         }
@@ -113,6 +113,30 @@ module.exports = function(app,io){
         const get_general = () => {
             return new Promise((resolve,reject)=>{
                 var query = `SELECT  falla,estatus ,count(*) as cantidad FROM Explora264.metadatos where date(creado) = date('${current_date}') group by falla,estatus order by falla desc;`;
+                //query = mysql.format(query,inserts);
+                connection.getConnection(function (err, conn) {
+                    conn.query(query, function (error, results, field) {
+                        if (error){
+                            reject(error.sqlMessage)
+                        }else{
+                            resolve(results)
+                            
+                        }
+                    });
+                    conn.release();
+                });
+            });
+        }
+
+        const get_estatus_mes = () => {
+            return new Promise((resolve,reject)=>{
+                var query = `SELECT 
+                                estatus , count(*) as cantidad
+                            FROM
+                                metadatos 
+                            WHERE 
+                                MONTH(creado) = MONTH(NOW())
+                            AND YEAR(creado) = YEAR(NOW()) group by estatus`;
                 //query = mysql.format(query,inserts);
                 connection.getConnection(function (err, conn) {
                     conn.query(query, function (error, results, field) {
@@ -213,14 +237,14 @@ module.exports = function(app,io){
             });
         }
 
-        const get_string = (estatus,falla,general,productividad) => {
+        const get_string = (estatus,falla,general,mes,productividad) => {
             return new Promise((resolve,reject)=>{
-                let parte1 = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> <title>Reporte *264</title> <meta name="viewport" content="width=device-width, initial-scale=1.0"/></head><body style="margin: 0; padding: 0;"> <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="font-family: Arial, sans-serif, 'Open Sans'"> <tr> <td bgcolor="#fff" style='font-weight:bold;text-align:center;padding: 30px'> SEGUIMIENTOS DEL DIA NOCS *264 Explora Comunicaciones </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 30px;color:white'> Por estatus <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Estatus</td><td>Cantidad</td></tr>`;
-                let parte2 = `</table> </td></tr><tr> <td bgcolor="#fff" style='padding: 30px;text-align:left'> Por tipo de falla <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Estatus</td><td>Cantidad</td></tr>`;
-                let parte3 = `</table> </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 30px;color:white'> General <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Falla</td><td>Estatus</td><td>Cantidad</td></tr>
-`;
-                let parte4 = ` </table> </td></tr><tr> <td bgcolor="#fff" style='text-align:left;padding: 30px'> Productividad <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Asesor</td><td>Nuevos</td><td>En proceso</td><td>Pendientes</td><td>Rechazados</td><td>Cerrados</td><td>Total</td></tr>`;
-                let parte5 = ` </table> </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 1px'> </td></tr></table></body></html>`;
+                let parte1 = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> <title>Reporte *264</title> <meta name="viewport" content="width=device-width, initial-scale=1.0"/></head><body style="margin: 0; padding: 0;"> <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="font-family: Arial, sans-serif, 'Open Sans'"> <tr> <td bgcolor="#fff" style='font-weight:bold;text-align:center;padding: 30px'> SEGUIMIENTOS DEL DIA NOCS *264 Explora Comunicaciones </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 30px;color:white'> Por estatus - Día actual <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Estatus</td><td>Cantidad</td></tr>`;
+                let parte2 = `</table> </td></tr><tr> <td bgcolor="#fff" style='padding: 30px;text-align:left'> Por tipo de falla - Día actual <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Estatus</td><td>Cantidad</td></tr>`;
+                let parte2_2 = `</table> </td></tr><tr> <td bgcolor="#3F4658" style='padding: 30px;text-align:left;color:white'> Por estatus - Mensual <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Estatus</td><td>Cantidad</td></tr>`;
+                let parte3 = `</table> </td></tr><tr> <td bgcolor="#fff" style='text-align:left;padding: 30px'> General - Día actual <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Falla</td><td>Estatus</td><td>Cantidad</td></tr>`;
+                let parte4 = ` </table> </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 30px;color:white'> Productividad - Mensual <table width='95%' align="center" border="1" cellpadding="0" cellspacing="0" style='font-size:13px;margin-top:10px'> <tr> <td>Asesor</td><td>Nuevos</td><td>En proceso</td><td>Pendientes</td><td>Rechazados</td><td>Cerrados</td><td>Total</td></tr>`;
+                let parte5 = ` </table> </td></tr><tr> <td bgcolor="#3F4658" style='text-align:left;padding: 1px;color:white'> </td></tr></table></body></html>`;
 
 
 
@@ -255,6 +279,16 @@ module.exports = function(app,io){
                 parte2 += aux_text;
 
                 aux_text = "";
+                for(row of mes){
+                    aux_text += `<tr>
+                                    <td>${row.estatus}</td>
+                                    <td>${row.cantidad}</td>
+                                </tr>`;
+                }
+
+                parte2_2 += aux_text;
+
+                aux_text = "";
                 for(row of general){
                     aux_text += `<tr>
                                     <td>${row.falla}</td>
@@ -281,7 +315,7 @@ module.exports = function(app,io){
                 parte4 += aux_text;
 
                 //CONCATENAMOS TODO
-                parte1 = parte1 + parte2 + parte3 + parte4 + parte5
+                parte1 = parte1 + parte2 + parte2_2 + parte3 + parte4 + parte5;
 
                 resolve(parte1)
             });
@@ -323,8 +357,9 @@ module.exports = function(app,io){
                 let estatus = await get_estatus();
                 let falla = await get_falla();
                 let general = await get_general();
+                let mes = await get_estatus_mes();
                 let productividad = await get_productividad();
-                let string_text = await get_string(estatus,falla,general,productividad);
+                let string_text = await get_string(estatus,falla,general,mes,productividad);
                 let response_send_mail = await send_mail(string_text);
                  //console.log(string_text) 
             }catch(err){
@@ -374,7 +409,7 @@ module.exports = function(app,io){
                 
                 //calcular fecha actual y restarle 1 para fecha final y restarle 6 para fecha inicial
                 let fecha_inicial = moment().subtract(6, "days").format('YYYY-MM-DD');
-                let fecha_final = moment().subtract(1, "days").format('YYYY-MM-DD');
+                let fecha_final = moment().format('YYYY-MM-DD');
 
                 let query = `
                     SELECT * from vista_metadatos where creado between date('${fecha_inicial}') and date('${fecha_final}');

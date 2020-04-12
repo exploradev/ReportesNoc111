@@ -11,8 +11,8 @@ module.exports = function(app,io){
 
 
 
-    let envio_email = 'NO';
-    let envio_summary = 'NO'
+    let envio_email = 'SI';
+    let envio_summary = 'SI'
     
 
 
@@ -333,7 +333,7 @@ module.exports = function(app,io){
 
                     var mailOptions = {
                       from: 'alertas.exploracom@gmail.com',
-                      to: 'eddie.aguilar@explora-mexico.com.mx',
+                      to: 'lisseth.kumul@mail.telcel.com, gena.escalante@telcel.com, jose.rivas@mail.telcel.com, eddie.aguilar@explora-mexico.com.mx',
                       subject: '[NOCS] - REPORTE',
                       html: buffer_response
                       
@@ -461,7 +461,7 @@ module.exports = function(app,io){
 
                     var mailOptions = {
                       from: 'alertas.exploracom@gmail.com',
-                      to: 'eddie.aguilar@explora-mexico.com.mx',
+                      to: 'lisseth.kumul@mail.telcel.com, gena.escalante@telcel.com, jose.rivas@mail.telcel.com, eddie.aguilar@explora-mexico.com.mx',
                       subject: '[NOCS] - REPORTE SEMANAL',
                       text: 'Reporte semanal *264 NOCS',
                       attachments: [{

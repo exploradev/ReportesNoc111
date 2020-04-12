@@ -41,6 +41,7 @@ require('./modules/custom_routes_noc')(app, io);
 require('./modules/custom_routes_dashboard')(app, io);
 require('./modules/custom_routes_sesiones')(app, io);
 require('./modules/custom_routes_websockets')(app, io);
+require('./modules/custom_routes_mailing')(app, io);
 require('./modules/custom_routes_asesor')(app,io);
 
 

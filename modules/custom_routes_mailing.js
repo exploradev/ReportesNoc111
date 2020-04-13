@@ -408,7 +408,7 @@ module.exports = function(app,io){
             return new Promise((resolve,reject)=>{
                 
                 //calcular fecha actual y restarle 1 para fecha final y restarle 6 para fecha inicial
-                let fecha_inicial = moment().subtract(6, "days").format('YYYY-MM-DD');
+                let fecha_inicial = moment().subtract(7, "days").format('YYYY-MM-DD');
                 let fecha_final = moment().format('YYYY-MM-DD');
 
                 let query = `

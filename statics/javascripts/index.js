@@ -36,6 +36,7 @@ $(document).ready(function(){
     //se encarga de hacer el login con los datos capturados por medio de post
     //funciona de error handler y de router
     function login(user, password) {
+        console.log("intentando login")
         $.post('/login', { user: user, password: password }, function (response) {
             if (response == 'asesor') {
                 location.href = '/asesor';

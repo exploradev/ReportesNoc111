@@ -32,6 +32,23 @@
                 img(src="../assets/mano-roja.png") 
             br
             br
+            label Procedencia
+            br
+            select#procedencia_referido_tmk(placeholder='Procedencia')
+                option 
+                option(value='*264') *264
+                option(value='*111') *111
+            br
+            br
+            label Tipo de trámite
+            br
+            select#tipotramite_referido_tmk(placeholder='Tipo de trámite')
+                option 
+                option(value='Línea nueva') Línea nueva
+                option(value='Migración') Migración
+                option(value='Renovación') Renovación
+            br
+            br
             textarea#observaciones_referido_tmk(rows="3" placeholder="Observaciones" style="width: 100%; padding: 10px")
             p
                 button#btn_sendreferido Enviar

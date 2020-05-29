@@ -1158,10 +1158,19 @@ $(document).ready(function(){
 
 
     //CODIGO PARA ENVIAR REFERIDOS A TELEMARKETING
+    //ajustes 29052020: Se agregan campo procedencia y tipo de tramite, obligatorios.
+
+    $('#procedencia_referido_tmk, #tipotramite_referido_tmk').select2({
+        width: '50%',
+        dropdownParent: $('#modal_referidos')
+    });
+
     $('#btn_sendreferido').click(function(){
         //validar que campo no este vacio
         let numero = $('#numero_referido_tmk').val();
         let nombre = $('#asesorname').html();
+        let procedencia = $('#procedencia_referido_tmk').val();
+        let tramite = $('#tipotramite_referido_tmk').val();
         let observaciones = $('#observaciones_referido_tmk').val();
         let estatus = $('.hidethisradios:checked').val();
         console.log(estatus)
@@ -1172,19 +1181,32 @@ $(document).ready(function(){
                 alert("Selecciona un estatus, validando previamente en el integrador")
             }else if(estatus == "rojo"){
                 alert("No es posible enviar un numero en lista negra")
+            }else if(procedencia == ""){
+                alert("Seleccionar procedencia")
+            }else if(tramite == ""){
+                alert("Seleccionar tipo de trámite")
             }else{
-                $.post('/set_referido',{observaciones:observaciones,numero:numero,nombre:nombre},function(response){
+                let payload = {
+                                observaciones:observaciones,
+                                numero:numero,
+                                nombre:nombre,
+                                procedencia:procedencia,
+                                tramite:tramite
+                            }
+                $.post('/set_referido',payload,function(response){
                     if(response == "ok"){
                         $('#numero_referido_tmk').val("");
                         $('#observaciones_referido_tmk').val("");
                         $('.hidethisradios:checked').prop("checked",false);
+                        $('#procedencia_referido_tmk').val("").trigger('change');
+                        $('#tipotramite_referido_tmk').val("").trigger('change');
                         alert("Guardado correctamente")
                     }else{
                         alert("Error: "+ response);
                     }
                 });
             }
-        }else{alert("Ingresar número como mínimo")}
+        }else{alert("Ingresar número a 10 dígitos")}
     });
 
     //vista de modal de tmk

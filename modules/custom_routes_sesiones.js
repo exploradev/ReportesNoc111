@@ -87,7 +87,7 @@ module.exports = function (app, io) {
         var password = req.body.password;
         var result = [];
 
-
+        console.log("intentando login backend")
 
         //connection.connect();
         var query = "SELECT * FROM ?? WHERE ?? = ? LIMIT 1";
@@ -107,6 +107,7 @@ module.exports = function (app, io) {
         
 
         function validate(rows) {
+             console.log('Validando rows') 
             result = rows;
             if (result != undefined) {
                 var mysql_username = result.username;
@@ -124,7 +125,7 @@ module.exports = function (app, io) {
                     req.sessiondsc.name = mysql_name;
 
 
-
+                     console.log('Intentando enviar response') 
                     if (req.sessiondsc.profile == 'asesor') { //asesor
                         res.send('asesor');
                         timestamp_lastlogin(req.sessiondsc.iduser);
@@ -137,7 +138,9 @@ module.exports = function (app, io) {
                     } else if (req.sessiondsc.profile == 'coordinador') { //cerrador
                         res.send('coordinador');
                         timestamp_lastlogin(req.sessiondsc.iduser);
-                    } 
+                    } else {
+                        res.send('Usuarios ok, pero la DB es inconsistente con algun dato:' + req.sessiondsc.profile)
+                    }
                 } else {
                     res.send('error');
                 }

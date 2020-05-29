@@ -1424,8 +1424,19 @@ module.exports = function(app,io){
     //OJO CON LA CONEXION
     app.post('/set_referido',middleware.requireLogin,function(req,res){
         
-        let query = "INSERT INTO refered SET asesor = ?, telefono = ?, observaciones = ?";
-        let inserts = [req.body.nombre,req.body.numero, req.body.observaciones];
+        let query = `INSERT INTO refered SET
+                     asesor = ?,
+                     telefono = ?,
+                     observaciones = ?,
+                     procedencia = ?,
+                     tramite = ? `
+                     ;
+        let inserts = [ req.body.nombre,
+                        req.body.numero,
+                        req.body.observaciones,
+                        req.body.procedencia,
+                        req.body.tramite
+                        ];
         query = mysql.format(query,inserts);
         connectionTMK.getConnection(function (err, conn) {
             conn.query(query, function (error, results, field) {

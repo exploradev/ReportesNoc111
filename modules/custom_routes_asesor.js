@@ -139,7 +139,7 @@ module.exports = function(app,io){
                     //console.log(results);
                     let propietario = results[0].propietario;
                     //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var query = "UPDATE metadatos SET propietario = ?, fecha_asignacion = now() WHERE idmetadatos = ?";
                     var inserts = [propietario, captura];
                     query = mysql.format(query, inserts);
                     conn.query(query, function (error, results, field) {
@@ -150,26 +150,29 @@ module.exports = function(app,io){
                 conn.release();
             });
             
-        }else if(hours > 19 && hours < 24){ //si la captura esta entre las 8 y 11 pm
+        }else if((hours > 19 && hours <= 24) || (hours >= 1 && hours < 7)){ //si la captura esta entre las 20 y 24 o 1am a 6am
             //buscar el id del que tenga menos registros de los noc matutinos directo de db y asignarselo
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
+            // let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
 
-            connection.getConnection(function(err,conn){
-                conn.query(query, function (error, results, field) {
-                    if (error) throw error;
-                    //console.log(results);
-                    let propietario = results[0].propietario;
-                    //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
-                    var inserts = [propietario, captura];
-                    query = mysql.format(query, inserts);
-                    conn.query(query, function (error, results, field) {
-                        if (error) throw error;
-                        console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                    }); //fin query de asignacion
-                }); //fin query de consulta
-                conn.release();
-            })
+            // connection.getConnection(function(err,conn){
+            //     conn.query(query, function (error, results, field) {
+            //         if (error) throw error;
+            //         //console.log(results);
+            //         let propietario = results[0].propietario;
+            //         //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
+            //         let query2= "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+            //         let inserts = [propietario, captura];
+            //         query2 = mysql.format(query2, inserts);
+            //         conn.query(query2, function (error, results, field) {
+            //             if (error) throw error;
+            //             console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+            //         }); //fin query de asignacion
+            //     }); //fin query de consulta
+            //     conn.release();
+            // })
+
+            //actualizacion del 13 febrero 2021
+            //NO ASIGNAR - EL SCRIPT CRON SE ENCARGA DE LOS NO ASIGNADOS DE 7AM a 20PM
             
         }else if(usuarios_conectados.length > 1){ //si hay conectados y la captura no esta entre los rangos anteriores
             //tratamiento de ids
@@ -191,7 +194,7 @@ module.exports = function(app,io){
                     let propietario = results[0].propietario;
 
                     //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                    var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                    var query = "UPDATE metadatos SET propietario = ?,fecha_asignacion = now() WHERE idmetadatos = ?";
                     var inserts = [propietario, captura];
                     query = mysql.format(query, inserts);
                     conn.query(query, function (error, results, field) {
@@ -203,49 +206,154 @@ module.exports = function(app,io){
             });
             
             //BUSCAR EL QUE TIENE MENOS DE LOS CONECTADOS
-        }else{
+        }else{ //SI NO HAY NOCS CONECTADOS
             if(hours > 1 && hours < 13){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
                 //buscar el que tiene menos del turno matutino y asignarlo
-                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
-                connection.getConnection(function(err,conn){
-                    conn.query(query, function (error, results, field) {
-                        if (error) throw error;
-                        //console.log(results);
-                        let propietario = results[0].propietario;
+
+                const obtener_conteo = () => {
+                    return new Promise((resolve,reject)=>{
+                        let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
+
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) reject(error)
+                                //console.log(results);
+                                resolve(results)
+                            }); //fin query de consulta
+                            conn.release();
+                        });
+                    });
+                }
+                 
+                const obtener_empleado_random = () => {
+                    return new Promise((resolve,reject)=>{
+                        let query = "SELECT u.iduser as propietario FROM users u WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' limit 1";
+
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) reject(error)
+                                //console.log(results);
+                                resolve(results)
+                            }); //fin query de consulta
+                            conn.release();
+                        });
+                    });
+                }
+
+                const realizar_actualizacion = (propietario) => {
+                    return new Promise((resolve,reject)=>{
+                        
                         //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                        var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                        var query = "UPDATE metadatos SET propietario = ?,fecha_asignacion = now() WHERE idmetadatos = ?";
                         var inserts = [propietario, captura];
                         query = mysql.format(query, inserts);
-                        conn.query(query, function (error, results, field) {
-                            if (error) throw error;
-                            console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                        }); //fin query de asignacion
-                    }); //fin query de consulta
-                    conn.release();
-                });
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) throw reject(error);
+                                console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                                resolve('ok');
+                            }); //fin query de asignacion
+                            conn.release();
+                        });
+                    });
+                }
+                 
+                const run = async () => {
+                   try{
+                        //buscar el que tiene menos del turno vespertino y asignarlo
+                        const noc_que_tiene_menos = await obtener_conteo();
+                        //validar si hay algun empleado en la respuesta, sino buscar un empleado aleatorio
+                        if(noc_que_tiene_menos.length > 0){
+                            let response_final = await realizar_actualizacion(noc_que_tiene_menos[0].propietario);
+                        }else{
+                            const noc_random = await obtener_empleado_random();
+                            let response_final = await realizar_actualizacion(noc_random[0].propietario);
+                        }
+                        
+                    }catch(err){
+                        
+                        console.log(err);
+                        
+                    }
+                }
+                run();
                 
             }else if(hours > 14 && hours < 20){
-                //buscar el que tiene menos del turno vespertino y asignarlo
-                var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
-                connection.getConnection(function(err,conn){
-                    conn.query(query, function (error, results, field) {
-                        if (error) throw error;
-                        //console.log(results);
-                        let propietario = results[0].propietario;
+                
+                
+                const obtener_conteo = () => {
+                    return new Promise((resolve,reject)=>{
+                        let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
+
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) reject(error)
+                                //console.log(results);
+                                resolve(results)
+                            }); //fin query de consulta
+                            conn.release();
+                        });
+                    });
+                }
+                 
+                const obtener_empleado_random = () => {
+                    return new Promise((resolve,reject)=>{
+                        let query = "SELECT u.iduser as propietario FROM users u WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' limit 1";
+
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) reject(error)
+                                //console.log(results);
+                                resolve(results)
+                            }); //fin query de consulta
+                            conn.release();
+                        });
+                    });
+                }
+
+                const realizar_actualizacion = (propietario) => {
+                    return new Promise((resolve,reject)=>{
+                        
                         //ejecuto segunda query en la que la asigno al noc que tenga menos capturas segun la consulta anteriormente realizada
-                        var query = "UPDATE metadatos SET propietario = ? WHERE idmetadatos = ?";
+                        var query = "UPDATE metadatos SET propietario = ?,fecha_asignacion = now() WHERE idmetadatos = ?";
                         var inserts = [propietario, captura];
                         query = mysql.format(query, inserts);
-                        conn.query(query, function (error, results, field) {
-                            if (error) throw error;
-                            console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
-                        }); //fin query de asignacion
-                    }); //fin query de consulta
-                    conn.release();
-                });
+                        connection.getConnection(function(err,conn){
+                            conn.query(query, function (error, results, field) {
+                                if (error) throw reject(error);
+                                console.log("Asignado correctamente a iduser: " + propietario + " - la captura: " + captura);
+                                resolve('ok');
+                            }); //fin query de asignacion
+                            conn.release();
+                        });
+                    });
+                }
+                 
+                const run = async () => {
+                   try{
+                        //buscar el que tiene menos del turno vespertino y asignarlo
+                        const noc_que_tiene_menos = await obtener_conteo();
+                        //validar si hay algun empleado en la respuesta, sino buscar un empleado aleatorio
+                        if(noc_que_tiene_menos.length > 0){
+                            let response_final = await realizar_actualizacion(noc_que_tiene_menos[0].propietario);
+                        }else{
+                            const noc_random = await obtener_empleado_random();
+                            let response_final = await realizar_actualizacion(noc_random[0].propietario);
+                        }
+                        
+                    }catch(err){
+                        
+                        console.log(err);
+                        
+                    }
+                }
+                run();
                 
-            }
-        }
+                
+                
+            }//fin del else interno
+        }//fin del algoritmo
+
         console.log(usuarios_conectados);
         console.log(captura);
 

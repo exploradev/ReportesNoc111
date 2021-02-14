@@ -358,12 +358,9 @@ html(lang="en")
                         span 
                             span USUARIOS
                         span#container_opciones_tablauser
-                            
-                            //span#container_mostrarinactivos
-                                input#mostrar_inactivos_u(type="checkbox", name="mostrar_inactivos_u")
-                                label MOSTRAR INACTIVOS
-                                
-                            
+                            .boolean_estatus(style='align-self: center;margin-right: 20px')
+                                label Activos/Inactivos
+                                    input#estatus_toggle(type='checkbox')
                             button#opciones_tabla
                                 img(src="../assets/nuevo_usuario.png")
                                 span Nuevo usuario

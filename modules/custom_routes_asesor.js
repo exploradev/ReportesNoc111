@@ -1370,6 +1370,106 @@ module.exports = function(app,io){
 
 
     });
+
+    //FALLAS EN INTERNET EN CASA
+    app.post('/guardar_internetencasa', middleware.requireLogin, function (req, res) {
+        let ipaddr = req.connection.remoteAddress
+        //se reciben los parametros del lado del cliente
+
+        var iduser = req.body.iduser;
+        var telefono_afectado = req.body.telefono_afectado;
+
+        var nombreusuario = req.body.nombreusuario;
+        var contacto = req.body.contacto;
+        var fecha = req.body.fecha;
+        var escenario = req.body.escenario;
+        var descripcion = req.body.descripcion;
+        var domicilio = req.body.domicilio;
+        var estado = req.body.estado;
+        var municipio = req.body.municipio;
+        var colonia = req.body.colonia;
+        var cp = req.body.cp;
+
+        var tipodefallareportada = 'internetencasa';
+        var estatus = 'Nuevo';
+
+
+
+        var last_id_inserted; //auxiliar para insertar id de la ultima query
+
+        connection.getConnection(function (errors, connectit) {
+
+            var duplicidad = "SELECT * FROM metadatos WHERE month(now()) = month(creado) AND year(creado) = year(now()) and telefono = ? and falla = ? and estatus <> 'Cerrado'";
+            var inserts_duplicidad = [telefono_afectado, tipodefallareportada];
+            duplicidad = mysql.format(duplicidad, inserts_duplicidad);
+
+            connectit.query(duplicidad, function (errorr, results) {
+                if (results.length > 0) {
+                    res.send("EXISTE REGISTRO DEL MISMO TIPO EN LA DB");
+                    console.log("Error al registrar nuevos datos, ya existe un registro similar");
+                } else {
+                    console.log("INGRESANDO TRANSACCION DE INSERCION UNICA");
+
+                    //se ejecuta la query con transacciones
+                    connection.getConnection(function (err, pool) {
+                        pool.beginTransaction(function (err) {
+                            if (err) throw err;
+                            var query = "INSERT INTO metadatos(ipaddr,estatus,iduser,falla,telefono,estado,municipio,colonia,cp) VALUES(?,?,?,?,?,?,?,?,?)";
+                            var inserts = [ipaddr,estatus, iduser, tipodefallareportada, telefono_afectado, estado, municipio, colonia, cp];
+                            query = mysql.format(query, inserts);
+
+                            pool.query(query, function (err, result) {
+                                if (err) {
+                                    pool.rollback(function () {
+                                        throw err;
+                                    });
+                                }
+                                last_id_inserted = result.insertId;
+
+                                //siguiente query
+
+                                var query = "INSERT INTO internetencasa(idmetadatos,telefono,usuario,contacto,fecha,descripcion,domicilio,escenario) VALUES(?,?,?,?,?,?,?,?)";
+                                var inserts = [last_id_inserted, telefono_afectado, nombreusuario, contacto, fecha, descripcion, domicilio,escenario];
+                                query = mysql.format(query, inserts);
+                                pool.query(query, function (err, result) {
+                                    if (err) {
+                                        pool.rollback(function () {
+                                            throw err;
+                                        });
+                                    }
+                                    //en el ultimo insert
+                                    pool.commit(function (err) {
+                                        if (err) {
+                                            pool.rollback(function () {
+                                                throw err;
+                                            });
+                                        }
+                                        console.log('Nuevo reporte de Servicios ID: ' + last_id_inserted);
+                                        asignacion_propietario(last_id_inserted);
+                                        res.send("Correcto");
+
+                                    });//fin del commit
+                                });//fin del query 2
+
+                            });//fin de la query 1
+                        }); //fin del begin transaction
+                        pool.release();
+                    }); //fin del get connection
+
+                }
+            });
+            connectit.release();
+        });
+
+        
+
+        //responder al cliente en caso de exito
+
+        //esponder al cliente en caso de fallo
+
+
+
+    });
     
     //--------------------------------------------------------------------
     
@@ -1447,6 +1547,9 @@ module.exports = function(app,io){
             case 'callback':
                 var query = "SELECT * FROM callback WHERE idmetadatos = ? LIMIT 1";
                 break;
+            case 'internetencasa':
+                var query = "SELECT * FROM internetencasa WHERE idmetadatos = ? LIMIT 1";
+                break;
         }
 
 
@@ -1497,6 +1600,22 @@ module.exports = function(app,io){
     });  
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //--------------------------------------------------------
     //BACKEND DE MODULO DE SUPERVISORES, REPORTES SUPERVISORES
     app.post('/guardar_repsupervisor', middleware.requireLogin, function (req, res) {
 

@@ -197,6 +197,8 @@ html(lang="en")
                                 .circulo_conteo#pendientes_llamadas 0 
                             span.clickable_filter(data-filter='cerrados_llamadas' onclick="setMetadataForBigTable('LLAMADAS/SMS - CERRADOS/RECHAZADOS','cerrados_llamadas')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_llamadas 0 
+                        
+                        
                         .menu_item.clickable_filter(data-filter='promociones' onclick="setMetadataForBigTable('PROMOCIONES','promociones')") PROMOCIONES
                             span (
                             span#conteo_promociones 0
@@ -212,6 +214,30 @@ html(lang="en")
                                 .circulo_conteo#pendientes_promociones 0 
                             span.clickable_filter(data-filter='cerrados_promociones' onclick="setMetadataForBigTable('PROMOCIONES - CERRADOS/RECHAZADOS','cerrados_promociones')") CERRADO / RECHAZADO
                                 .circulo_conteo#cerrados_promociones 0 
+
+                        //-----------------------------------------
+                        //-Ajuste 14/02/2021, se agrega nuevo tipo de falla
+                        .menu_item.clickable_filter(data-filter='internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA','internetencasa')") INTERNET EN CASA
+                            span (
+                            span#conteo_internetencasa 0
+                            span )
+                        .submenu_item(style="display:none")
+                            span.clickable_filter(data-filter='abiertos_internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA - ABIERTOS','abiertos_internetencasa')") ABIERTOS
+                                .circulo_conteo#abiertos_internetencasa 0 
+                            span.clickable_filter(data-filter='nuevos_internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA - NUEVOS','nuevos_internetencasa')") NUEVOS
+                                .circulo_conteo#nuevos_internetencasa 0 
+                            span.clickable_filter(data-filter='enproceso_internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA - EN PROCESO','enproceso_internetencasa')") EN PROCESO
+                                .circulo_conteo#enproceso_internetencasa 0 
+                            span.clickable_filter(data-filter='pendientes_internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA - SOLUCIONADO','pendientes_internetencasa')") SOLUCIONADO
+                                .circulo_conteo#pendientes_internetencasa 0 
+                            span.clickable_filter(data-filter='cerrados_internetencasa' onclick="setMetadataForBigTable('INTERNET EN CASA - CERRADOS/RECHAZADOS','cerrados_internetencasa')") CERRADO / RECHAZADO
+                                .circulo_conteo#cerrados_internetencasa 0 
+
+                        //-----------------------------------------
+
+
+
+
                         .menu_item.clickable_filter(data-filter='cerradosrechazados' onclick="setMetadataForBigTable('CERRADOS/RECHAZADOS','cerradosrechazados')") CERRADOS / RECHAZADOS
                         
                 #tabla_principal

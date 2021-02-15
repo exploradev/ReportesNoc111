@@ -1,0 +1,99 @@
+.gridsystem_internetencasa#body_modal_capturaineternetencasa(style='display:none;grid-template-columns: repeat(3,278px);grid-gap: 20px;')
+    .campodetalle_internetencasa.uno
+        p.titulocampo NÚMERO TELEFONICO
+        p.valorcampo#telefono_afectado_ineternetencasa --
+    
+    .campodetalle_internetencasa.class_for_validation
+        p.titulocampo NOMBRE DEL USUARIO
+        input.inputsasesor.inputs_internetencasa.tipodato_libreestandar#internetencasa_nombreusuario(type="text" placeholder='Jon Doe')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_internetencasa.class_for_validation
+        p.titulocampo NÚMERO DE CONTACTO
+        input.inputsasesor.inputs_internetencasa.tipodato_telefono#internetencasa_contacto(type="text" placeholder='9999000000')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_internetencasa.class_for_validation
+        p.titulocampo FECHA DEL INICIO DE LA FALLA
+        input.inputsasesor.inputs_internetencasa.tipodato_fecha.datetimepicker_notime#internetencasa_fechainiciofalla(type="text" placeholder='1991-04-22')
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_internetencasa.class_for_validation(data-tiporeporte="internetencasa")
+        p.titulocampo ESCENARIO
+        select.inputsasesor.inputs_internetencasa.tipodato_select#internetencasa_escenario.global_select2_escenario_internetencasa
+            option(disabled selected) SELECCIONAR ESCENARIO
+            option(value='Reseteo de cuenta de registro') Reseteo de cuenta de registro
+            option(value='Calidad en el servicio/Cobertura') Calidad en el servicio/Cobertura
+            option(value='Linea reciclada') Linea reciclada
+            option(value='Cambio de ubicación') Cambio de ubicación
+            option(value='Otra falla') Otra falla
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_internetencasa.class_for_validation
+        p.titulocampo DESCRIPCION DE LA SITUACIÓN
+        textarea.inputsasesor.inputs_internetencasa.tipodato_librelargo#internetencasa_descripcionsituacion(type="text")
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+    .campodetalle_internetencasa.class_for_validation
+        p.titulocampo DOMICILIO
+        textarea.inputsasesor.inputs_internetencasa.tipodato_librelargo#internetencasa_domicilio(type="text")
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+
+
+    //--------------------------------------------
+    .campodetalle_internetencasa.class_for_validation(data-tiporeporte="internetencasa")
+        p.titulocampo ESTADO
+        select.inputsasesor.inputs_internetencasa.tipodato_select#internetencasa_estado.global_select2_estado
+            option(disabled selected) SELECCIONAR ESTADO
+            option(value='CAMPECHE') CAMPECHE
+            option(value='CHIAPAS') CHIAPAS
+            option(value='QUINTANA ROO') QUINTANA ROO
+            option(value='TABASCO') TABASCO
+            option(value='YUCATAN') YUCATAN
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+            
+    .campodetalle_internetencasa.class_for_validation(data-tiporeporte="internetencasa")
+        p.titulocampo MUNICIPIO
+        select.inputsasesor.inputs_internetencasa.tipodato_select#internetencasa_municipio.global_select2_municipio
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+    
+    .campodetalle_internetencasa.class_for_validation(data-tiporeporte="internetencasa")
+        p.titulocampo COLONIA
+        select.inputsasesor.inputs_internetencasa.tipodato_select#internetencasa_colonia.global_select2_colonia
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+    
+    .campodetalle_internetencasa.class_for_validation(data-tiporeporte="internetencasa")
+        p.titulocampo CÓDIGO POSTAL
+        select.inputsasesor.inputs_internetencasa.tipodato_select#internetencasa_cp.global_select2_cp
+        span.successimage(style='display: none') 
+            img(src="../assets/success.png")
+        span.errorimage(style='display: none') 
+            img(src="../assets/error.png")
+

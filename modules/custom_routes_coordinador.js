@@ -163,6 +163,7 @@ module.exports = function (app, io) {
       "navegacion",
       "promociones",
       "recargas",
+      "internetencasa"
     ];
 
     if (tipo == "global") {

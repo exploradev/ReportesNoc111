@@ -184,7 +184,7 @@ $(document).ready(function () {
                                       '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>',
                                   },
                                   title: {
-                                    text: "REPORTES NOC *264",
+                                    text: "REPORTES NOC *111",
                                   },
                                   subtitle: {
                                     text: "Fallas por día",

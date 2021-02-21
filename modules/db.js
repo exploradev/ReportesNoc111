@@ -8,7 +8,7 @@ function connectDatabase() {
             host: 'localhost',
             user: 'explora264', password: '3.1415927',
             //user: 'root', password: 'root',
-            database: 'Explora264'
+            database: 'ReportesNoc111'
         });
     }
     return db;

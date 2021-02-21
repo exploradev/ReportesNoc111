@@ -76,7 +76,7 @@ module.exports = function(app,io){
 
         const get_falla = () => {
             return new Promise((resolve,reject)=>{
-                var query = `SELECT  falla ,count(*) as cantidad FROM Explora264.metadatos where date(creado) = date('${current_date}') group by falla order by falla desc;`;
+                var query = `SELECT  falla ,count(*) as cantidad FROM ReportesNoc111.metadatos where date(creado) = date('${current_date}') group by falla order by falla desc;`;
                 //query = mysql.format(query,inserts);
                 connection.getConnection(function (err, conn) {
                     conn.query(query, function (error, results, field) {
@@ -94,7 +94,7 @@ module.exports = function(app,io){
 
         const get_estatus = () => {
             return new Promise((resolve,reject)=>{
-                var query = `SELECT  estatus ,count(*) as cantidad FROM Explora264.metadatos where date(creado) = date('${current_date}') group by estatus order by estatus desc;`;
+                var query = `SELECT  estatus ,count(*) as cantidad FROM ReportesNoc111.metadatos where date(creado) = date('${current_date}') group by estatus order by estatus desc;`;
                 //query = mysql.format(query,inserts);
                 connection.getConnection(function (err, conn) {
                     conn.query(query, function (error, results, field) {
@@ -112,7 +112,7 @@ module.exports = function(app,io){
 
         const get_general = () => {
             return new Promise((resolve,reject)=>{
-                var query = `SELECT  falla,estatus ,count(*) as cantidad FROM Explora264.metadatos where date(creado) = date('${current_date}') group by falla,estatus order by falla desc;`;
+                var query = `SELECT  falla,estatus ,count(*) as cantidad FROM ReportesNoc111.metadatos where date(creado) = date('${current_date}') group by falla,estatus order by falla desc;`;
                 //query = mysql.format(query,inserts);
                 connection.getConnection(function (err, conn) {
                     conn.query(query, function (error, results, field) {

@@ -127,12 +127,14 @@ module.exports = function(app,io){
         //obtengo la hora
         var d = new Date();
         var hours = d.getHours();
+        var minutes = d.getMinutes();
 
-        //si la captura esta entre la 1 y 2pm
-        if (hours > 12 && hours < 14){
+        //si la captura esta entre la 1:30 y 2pm
+        if (hours > 12 && hours < 14 && minutes > 30){
+            console.log('Rango de hora condicionado por traslape, ASIGNADO A TURNO VESPERTINO')
             //buscar el id del que tenga menos registros de los noc vespertinos directo de db y asignarselo
             //comienza la query de consulta
-            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
+            var query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
             connection.getConnection(function(err,conn){
                 conn.query(query, function (error, results, field) {
                     if (error) throw error;
@@ -151,6 +153,7 @@ module.exports = function(app,io){
             });
             
         }else if((hours > 19 && hours <= 24) || (hours >= 1 && hours < 7)){ //si la captura esta entre las 20 y 24 o 1am a 6am
+            console.log('Rango de hora condicionado, LA ASIGNACION SERA PROGRAMADA PARA EL TURNO MATUTINO DEL DIA SIGUIENTE')
             //buscar el id del que tenga menos registros de los noc matutinos directo de db y asignarselo
             // let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now())  group by u.iduser order by capturas asc limit 1";
 
@@ -175,6 +178,7 @@ module.exports = function(app,io){
             //NO ASIGNAR - EL SCRIPT CRON SE ENCARGA DE LOS NO ASIGNADOS DE 7AM a 20PM
             
         }else if(usuarios_conectados.length > 1){ //si hay conectados y la captura no esta entre los rangos anteriores
+            console.log('ASIGNADO A NOCS CONECTADOS')
             //tratamiento de ids
             let usuarios_conectados_ids = [];
             usuarios_conectados.forEach((index)=>{
@@ -207,9 +211,9 @@ module.exports = function(app,io){
             
             //BUSCAR EL QUE TIENE MENOS DE LOS CONECTADOS
         }else{ //SI NO HAY NOCS CONECTADOS
-            if(hours > 1 && hours < 13){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
+            if((hours > 1 && hours < 14) || (hours < 14 && minutes < 31)){ //si no hay conexiones entre los rangos ni fuera de ellos entonces
                 //buscar el que tiene menos del turno matutino y asignarlo
-
+                console.log('No se encontro nadie conectado, ASIGNADO A TURNO MATUTINO')
                 const obtener_conteo = () => {
                     return new Promise((resolve,reject)=>{
                         let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'matutino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
@@ -278,9 +282,9 @@ module.exports = function(app,io){
                 }
                 run();
                 
-            }else if(hours > 14 && hours < 20){
+            }else if((hours > 12 && minutes > 30) || (hours > 13 && hours < 20)){
                 
-                
+                console.log('No se encontro nadie conectado, ASIGNADO A TURNO VESPERTINO')
                 const obtener_conteo = () => {
                     return new Promise((resolve,reject)=>{
                         let query = "SELECT u.iduser as propietario, ifnull(count(m.estatus),0) as capturas FROM metadatos m right JOIN users u on u.iduser = m.propietario WHERE u.rol = 'noc' AND u.estatus = 'activo' AND u.turno = 'vespertino' AND month(m.creado) = month(now()) AND year(m.creado) = year(now()) group by u.iduser order by capturas asc limit 1";
@@ -351,6 +355,8 @@ module.exports = function(app,io){
                 
                 
                 
+            }else{
+                console.log('HA OCURRIDO UN ERROR ASIGNANDO EL REPORTE')
             }//fin del else interno
         }//fin del algoritmo
 

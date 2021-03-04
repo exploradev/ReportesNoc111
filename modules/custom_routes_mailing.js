@@ -333,7 +333,7 @@ module.exports = function(app,io){
 
                     var mailOptions = {
                       from: 'alertas.exploracom@gmail.com',
-                      to: 'lisseth.kumul@mail.telcel.com, gena.escalante@telcel.com, jose.rivas@mail.telcel.com, eddie.aguilar@explora-mexico.com.mx',
+                      to: ' adrian.solana@mail.telcel.com, cintya.cutz@mail.telcel.com, daniel.couoh@mail.telcel.com, patricia.jurado@mail.telcel.com, marco.heredia@mail.telcel.com',
                       subject: '[NOCS] - REPORTE',
                       html: buffer_response
                       
@@ -461,7 +461,7 @@ module.exports = function(app,io){
 
                     var mailOptions = {
                       from: 'alertas.exploracom@gmail.com',
-                      to: 'lisseth.kumul@mail.telcel.com, gena.escalante@telcel.com, jose.rivas@mail.telcel.com, eddie.aguilar@explora-mexico.com.mx',
+                      to: ' adrian.solana@mail.telcel.com,cintya.cutz@mail.telcel.com,daniel.couoh@mail.telcel.com,patricia.jurado@mail.telcel.com,marco.heredia@mail.telcel.com',
                       subject: '[NOCS] - REPORTE SEMANAL',
                       text: 'Reporte semanal *111 NOCS',
                       attachments: [{
